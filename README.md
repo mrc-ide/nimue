@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/mrc-ide/nimue/workflows/R-CMD-check/badge.svg)](https://github.com/mrc-ide/nimue/actions)
 <!-- badges: end -->
 
 The goal of nimue is to …
