@@ -31,6 +31,9 @@ if you intend to publish results using `nimue`.
 
 The goal of nimue is to …
 
+Nimue is named after the [Lady of the
+Lake](https://en.wikipedia.org/wiki/Lady_of_the_Lake)
+
 ## Installation
 
 You can install the released version of nimue from
