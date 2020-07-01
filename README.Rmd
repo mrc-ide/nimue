@@ -16,8 +16,19 @@ knitr::opts_chunk$set(
 # nimue
 
 <!-- badges: start -->
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R build status](https://github.com/mrc-ide/nimue/workflows/R-CMD-check/badge.svg)](https://github.com/mrc-ide/nimue/actions)
 <!-- badges: end -->
+
+## IMPORTANT NOTES
+
+:warning: This code is released with no support. Please submit any questions or bugs as [issues](https://github.com/mrc-ide/nimue/issues) and we will try to address them as quickly as possible.
+
+:warning: This model is in active development and so parameter name and behaviours, and output file formats will change without notice.
+
+:warning: The model is stochastic. Multiple runs with different seeds should be undertaken to see average behaviour.
+
+:warning: As with any mathematical model, it is easy to misconfigure inputs and therefore get meaningless outputs. Please contact the authors if you intend to publish results using `nimue`.
 
 The goal of nimue is to ...
 
