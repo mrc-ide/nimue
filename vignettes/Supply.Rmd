@@ -1,0 +1,76 @@
+---
+title: "Supply"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Supply}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, echo = TRUE, results = "hide", warning = FALSE, message = FALSE}
+library(nimue)
+library(ggplot2)
+library(dplyr)
+```
+
+We can model a scale-up of supply capacity for vaccines
+
+### No initial supply constraint
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and no vaccine supply constraint
+constant <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = 100000,
+  dur_V = 5000,
+  vaccine_efficacy_disease = rep(0, 17),
+  vaccine_efficacy_infection = rep(0.9, 17)
+)
+# Format the output selecting vaccines and deaths (note these are output per timestep)
+o1 <- format(constant, compartments = NULL,
+               summaries = c("deaths", "vaccines")) %>%
+  mutate(Name = "Constant")
+
+```
+
+### Initial supply constraint
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and initial vaccine supply constraints
+increasing <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = seq(0, 100000, length.out = 100),
+  tt_vaccine = seq(0, 100, length.out = 100),
+  dur_V = 5000,
+  vaccine_efficacy_disease = rep(0, 17),
+  vaccine_efficacy_infection = rep(0.9, 17)
+)
+# Format the output selecting vaccines and deaths (note these are output per timestep)
+o2 <- format(increasing, compartments = NULL,
+             summaries = c("deaths", "vaccines")) %>%
+  mutate(Name = "Increasing")
+
+```
+
+### Plot
+```{r, echo = TRUE, fig.width = 7, fig.height = 3, fig.align = "center"}
+# Create plot data.frame
+pd <- bind_rows(o1, o2)
+# Plot outputs
+ggplot(pd, aes(x = t, y = value, col = Name)) +
+  geom_line(size = 1) +
+  facet_wrap(~ compartment, scales = "free_y") +
+  ylab("Time") +
+  theme_bw()
+```

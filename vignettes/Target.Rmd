@@ -1,0 +1,119 @@
+---
+title: "Target"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Target}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, echo = TRUE, results = "hide", warning = FALSE, message = FALSE}
+library(nimue)
+library(ggplot2)
+library(dplyr)
+```
+
+Available vaccines can be targeted to any combination of the 17 5-year age groups.
+
+### Target all age groups
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and no age-targeted vaccination
+target_all <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = 10000,
+  dur_V = 5000,
+  vaccine_efficacy_disease = rep(0, 17),
+  vaccine_efficacy_infection = rep(0.9, 17),
+  vaccination_target = rep(1, 17)
+)
+# Format the output selecting vaccines and deaths (note these are output per timestep)
+# We also keep age straification here
+out1age <- format(target_all, reduce_age = FALSE, compartments = NULL,
+               summaries = c("deaths", "vaccines")) %>%
+  mutate(Name = "Target all")
+
+```
+
+
+### Target 60+ year olds
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and vaccination targeted at 60+
+target_older <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = 10000,
+  dur_V = 5000,
+  vaccine_efficacy_disease = rep(0, 17),
+  vaccine_efficacy_infection = rep(0.9, 17),
+  vaccination_target = c(rep(0, 12), rep(1, 5))
+)
+# Format the output selecting vaccines and deaths (note these are output per timestep)
+# We also keep age straification here
+out2age <- format(target_older, reduce_age = FALSE, compartments = NULL,
+               summaries = c("deaths", "vaccines")) %>%
+  mutate(Name = "Target 60+")
+
+```
+
+### Target under 60 year olds
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and vaccination targeted at under 60
+target_younger <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = 10000,
+  dur_V = 5000,
+  vaccine_efficacy_disease = rep(0, 17),
+  vaccine_efficacy_infection = rep(0.9, 17),
+  vaccination_target = c(rep(1, 12), rep(0, 5))
+)
+# Format the output selecting vaccines and deaths (note these are output per timestep)
+# We also keep age straification here
+out3age <- format(target_younger, reduce_age = FALSE, compartments = NULL,
+               summaries = c("deaths", "vaccines")) %>%
+  mutate(Name = "Target under 60")
+
+```
+
+### Plot
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 3, fig.align = "center"}
+# Create plot data.frame
+pd <- bind_rows(out1age, out2age, out3age)
+pdage <- pd %>%
+  filter(compartment == "vaccines") %>%
+  group_by(age_group, Name) %>%
+  summarise(value = sum(value))
+# Plot outputs
+ggplot(pdage, aes(x = age_group, y = value, fill = Name)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap( ~ Name) +
+  ylab("N fully vaccinated individuals") +
+  xlab("Age group") +
+  theme_bw(base_size = 8) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+### Impact
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+# Examine total deaths within the time period for each strategy
+pd %>%
+  filter(compartment == "deaths") %>%
+  group_by(Name) %>%
+  summarise(value = sum(value))
+```

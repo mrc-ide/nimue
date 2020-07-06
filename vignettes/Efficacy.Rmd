@@ -1,0 +1,93 @@
+---
+title: "Efficacy"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Efficacy}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, echo = TRUE, results = "hide", warning = FALSE, message = FALSE}
+library(nimue)
+library(ggplot2)
+library(dplyr)
+```
+
+We can parameterise the mode of action of the vaccine to be infection-blocking, anti-disease or both.
+
+### No vaccine
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and no vaccination
+no_vaccine <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = 0
+)
+# Format the output selecting infection and deaths (note these are output per timestep)
+out1 <- format(no_vaccine, compartments = NULL, summaries = c("infections", "deaths")) %>%
+  mutate(Name = "No vaccine")
+
+```
+
+### Infection-blocking vaccine
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and infection-blocking vaccine
+infection_blocking <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = 200000,
+  dur_V = 5000,
+  vaccine_efficacy_disease = rep(0, 17),
+  vaccine_efficacy_infection = rep(0.9, 17)
+)
+# Format the output selecting infection and deaths
+out2 <- format(infection_blocking, compartments = NULL, summaries = c("infections", "deaths")) %>%
+  mutate(Name = "Infection")
+
+```
+
+### Anti-disease vaccine
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population and anti-disease vaccine
+disease_blocking <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
+  framework = "deterministic",
+  max_vaccine = 200000,
+  dur_V = 5000,
+  vaccine_efficacy_disease = rep(0.9, 17),
+  vaccine_efficacy_infection = rep(0, 17)
+)
+# Format the output selecting infection and deaths
+out3 <- format(disease_blocking, compartments = NULL, summaries = c("infections", "deaths")) %>%
+  mutate(Name = "Disease")
+
+```
+
+
+### Plot
+```{r, echo = TRUE, fig.width = 7, fig.height = 3, fig.align = "center"}
+# Create plot data.frame
+pd <- bind_rows(out1, out2, out3) %>%
+  filter(round(t, 3) %% 1 == 0) %>%
+  mutate(compartment = case_when(compartment == "deaths" ~ "Mortality",
+                                 compartment == "infections" ~ "Infection"))
+# Plot outputs
+ggplot(pd, aes(x = t, y = value, group = Name, col = Name)) +
+  geom_line(size = 1) +
+  facet_wrap(~ compartment, scale = "free_y", ncol = 2) +
+  xlim(0, 200) +
+  theme_bw()
+```
