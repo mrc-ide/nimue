@@ -55,6 +55,7 @@ sto_out <- format(sto_run, compartments = c("S", "E", "IMild", "ICase", "R", "D"
 ```
 
 ### Plot
+
 ```{r, echo = TRUE, fig.width = 7, fig.height = 4, fig.align = "center"}
 # Create plot data.frame
 pd <- bind_rows(det_out, sto_out) %>%
