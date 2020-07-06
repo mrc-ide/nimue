@@ -24,4 +24,5 @@ Imports:
 Depends: R (>= 3.1.0)
 Remotes:
     mrc-ide/dde,
-    mrc-ide/odin
+    mrc-ide/odin,
+    mrc-ide/squire
