@@ -74,6 +74,15 @@ format <- function(x,
     output$date <- as.Date(output$time + as.Date(date_0),
                            format = "%Y-%m-%d")
   }
+
+  # Add age-groups if present
+  if("age_index" %in% names(output)){
+    ag <- c(paste0(seq(0, 75, 5), "-", seq(5, 80, 5)), "80+")
+    output$age_group = factor(ag[output$age_index], levels = ag)
+    output <- output  %>%
+      dplyr::select(-age_index)
+  }
+
   return(output)
 }
 
