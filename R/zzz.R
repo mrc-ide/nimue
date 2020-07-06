@@ -1,4 +1,4 @@
-##' @useDynLib squire
+##' @useDynLib nimue
 ##' @importFrom odin odin
 ##' @importFrom dde difeq
 ##' @importFrom magrittr %>%
