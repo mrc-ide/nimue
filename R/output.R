@@ -80,7 +80,7 @@ format <- function(x,
     ag <- c(paste0(seq(0, 75, 5), "-", seq(5, 80, 5)), "80+")
     output$age_group = factor(ag[output$age_index], levels = ag)
     output <- output  %>%
-      dplyr::select(-age_index)
+      dplyr::select(-.data$age_index)
   }
 
   return(output)

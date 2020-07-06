@@ -31,7 +31,7 @@ probs <- default_probs()
 #' Return the default vaccine parameters for modelling
 #' @return list of default vaccine parameters
 default_vaccine_pars <- function() {
-  list(dur_R = 365,
+  list(dur_R = Inf,
        vaccination_target = rep(1, 17),
        dur_V = 365,
        vaccine_efficacy_infection = rep(0.95, 17),

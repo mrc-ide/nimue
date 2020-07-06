@@ -104,8 +104,8 @@ test_that("Age targeting works", {
 
   # Check individuals in youngest age group reaching V
   age_v <- format(m1, "V", NULL, reduce_age = FALSE)
-  expect_gt(sum(dplyr::filter(age_v, age_index == 1)$value), 0)
-  expect_equal(sum(dplyr::filter(age_v, age_index != 1)$value), 0)
+  expect_gt(sum(dplyr::filter(age_v, age_group == "0-5")$value), 0)
+  expect_equal(sum(dplyr::filter(age_v, age_group != "0-5")$value), 0)
 })
 
 test_that("Time-varying works", {
