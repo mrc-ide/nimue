@@ -3093,7 +3093,15 @@ void vaccine_deterministic_rhs(vaccine_deterministic_internal* internal, double 
   double current_free_hosp = hosp_bed_capacity - hosp_occ + internal->gamma_get_ox_die * odin_sum1(IOxGetDie2, 0, internal->dim_IOxGetDie2) + internal->gamma_get_ox_survive * odin_sum1(IOxGetLive2, 0, internal->dim_IOxGetLive2) + internal->gamma_rec * odin_sum1(IRec2, 0, internal->dim_IRec2) - internal->gamma_get_mv_survive * odin_sum1(IMVGetLive2, 0, internal->dim_IMVGetLive2);
   double current_free_ICUs = ICU_bed_capacity - ICU_occ + internal->gamma_get_mv_survive * odin_sum1(IMVGetLive2, 0, internal->dim_IMVGetLive2) + internal->gamma_get_mv_die * odin_sum1(IMVGetDie2, 0, internal->dim_IMVGetDie2);
   cinterpolate_eval(t, internal->interpolate_m, internal->m);
-  double vr = mv / (double) odin_sum1(internal->vr_temp, 0, internal->dim_vr_temp);
+  double vr_den = (odin_sum1(internal->vr_temp, 0, internal->dim_vr_temp) <= mv ? mv : odin_sum1(internal->vr_temp, 0, internal->dim_vr_temp));
+  for (int i = 1; i <= internal->dim_s_ij_1; ++i) {
+    for (int j = 1; j <= internal->dim_s_ij_2; ++j) {
+      internal->s_ij[i - 1 + internal->dim_s_ij_1 * (j - 1)] = internal->m[internal->dim_m_1 * (j - 1) + i - 1] * internal->temp[j - 1];
+    }
+  }
+  double total_number_get_hosp = (current_free_hosp <= 0 ? 0 : ((current_free_hosp - total_number_requiring_ox >= 0 ? total_number_requiring_ox : (current_free_hosp))));
+  double total_number_get_IMV = (current_free_ICUs <= 0 ? 0 : ((current_free_ICUs - total_number_requiring_IMV >= 0 ? total_number_requiring_IMV : (current_free_ICUs))));
+  double vr = mv / (double) vr_den;
   for (int i = 1; i <= internal->dim_R1; ++i) {
     dstatedt[internal->offset_variable_R1 + i - 1] = (internal->gamma_rec * IRec2[i - 1]) + (internal->gamma_IMild * IMild[i - 1]) + (internal->gamma_get_ox_survive * IOxGetLive2[i - 1]) + (internal->gamma_not_get_ox_survive * IOxNotGetLive2[i - 1]) + (internal->gamma_not_get_mv_survive * IMVNotGetLive2[i - 1]) - (internal->gamma_R * R1[i - 1]) - (vr * internal->vaccination_target[i - 1] * R1[i - 1]);
   }
@@ -3106,13 +3114,6 @@ void vaccine_deterministic_rhs(vaccine_deterministic_internal* internal, double 
   for (int i = 1; i <= internal->dim_vaccinated; ++i) {
     dstatedt[internal->offset_variable_vaccinated + i - 1] = (vr * internal->vaccination_target[i - 1] * S[i - 1]) + (vr * internal->vaccination_target[i - 1] * R2[i - 1]) + (vr * internal->vaccination_target[i - 1] * R1[i - 1]);
   }
-  for (int i = 1; i <= internal->dim_s_ij_1; ++i) {
-    for (int j = 1; j <= internal->dim_s_ij_2; ++j) {
-      internal->s_ij[i - 1 + internal->dim_s_ij_1 * (j - 1)] = internal->m[internal->dim_m_1 * (j - 1) + i - 1] * internal->temp[j - 1];
-    }
-  }
-  double total_number_get_hosp = (current_free_hosp <= 0 ? 0 : ((current_free_hosp - total_number_requiring_ox >= 0 ? total_number_requiring_ox : (current_free_hosp))));
-  double total_number_get_IMV = (current_free_ICUs <= 0 ? 0 : ((current_free_ICUs - total_number_requiring_IMV >= 0 ? total_number_requiring_IMV : (current_free_ICUs))));
   for (int i = 1; i <= internal->dim_lambda; ++i) {
     internal->lambda[i - 1] = beta * odin_sum2(internal->s_ij, i - 1, i, 0, internal->dim_s_ij_2, internal->dim_s_ij_1);
   }

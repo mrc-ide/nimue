@@ -190,7 +190,9 @@ dim(max_vaccine) <- length(tt_vaccine)
 
 vr_temp[] <- S[i] * vaccination_target[i] + R1[i] * vaccination_target[i] + R2[i] * vaccination_target[i]
 dim(vr_temp) <- N_age
-vr <- mv / sum(vr_temp) # Vaccination rate to achieve capacity given number in S or R
+# Catch so max vaccination rate does not -> infinity as S and R -> 0
+vr_den <- if(sum(vr_temp) <= mv) mv else sum(vr_temp)
+vr <- mv / vr_den # Vaccination rate to achieve capacity given number in S or R
 ################################################################################
 ################################################################################
 
