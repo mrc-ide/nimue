@@ -17,7 +17,7 @@
 #'       }
 #' @param reduce_age Collapse age-dimension, calculating the total in the
 #'   compartment.
-#' @param date_0 Date of time 0, if specified a date column will be added
+#' @param date_0 Date of time 0 (e.g. "2020-03-01"), if specified a date column will be added
 #'
 #' @return Formatted long data.frame
 #' @export
@@ -71,7 +71,7 @@ format <- function(x,
   # Add date
   if(!is.null(date_0)){
     assert_date(date_0)
-    output$date <- as.Date(output$time + as.Date(date_0),
+    output$date <- as.Date(output$t + as.Date(date_0),
                            format = "%Y-%m-%d")
   }
 
