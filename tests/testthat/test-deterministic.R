@@ -134,3 +134,23 @@ test_that("Time-varying works", {
   expect_gt(sum(dplyr::filter(t_v, t >= 100, t <200)$value), 0)
   expect_equal(sum(dplyr::filter(t_v, t >= 201)$value), 0)
 })
+
+test_that("Shortcut works", {
+  pop <- get_population("Angola")
+  mm <- get_mixing_matrix("Angola")
+
+  # Vaccine model time varying
+  m1 <- run(
+    time_period = 2,
+    population = pop$n,
+    contact_matrix_set = mm,
+    seed = 1,
+    framework = "d",
+    dt = 1,
+    replicates = 1,
+    seeding_cases = 20
+  )
+
+  expect_identical(m1$parameters$framework, "deterministic")
+})
+
