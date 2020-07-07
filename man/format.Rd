@@ -33,7 +33,7 @@ format(
 \item{reduce_age}{Collapse age-dimension, calculating the total in the
 compartment.}
 
-\item{date_0}{Date of time 0, if specified a date column will be added}
+\item{date_0}{Date of time 0 (e.g. "2020-03-01"), if specified a date column will be added}
 }
 \value{
 Formatted long data.frame
