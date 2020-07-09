@@ -229,7 +229,8 @@ test_that("Efficacy against infection works", {
     seeding_cases = 20,
     time_period = 100,
     max_vaccine = 1000000,
-    vaccine_efficacy_infection = rep(0.5, 17)
+    vaccine_efficacy_infection = rep(0.5, 17),
+    vaccine_efficacy_disease = rep(0, 17)
   )
   # Vaccine 100% efficacy against infection
   m3 <- run(
@@ -244,7 +245,8 @@ test_that("Efficacy against infection works", {
     seeding_cases = 20,
     time_period = 100,
     max_vaccine = 1000000,
-    vaccine_efficacy_infection = rep(1, 17)
+    vaccine_efficacy_infection = rep(1, 17),
+    vaccine_efficacy_disease = rep(0, 17)
   )
 
   i1 <- sum(format(m1, NULL, "infections")$value)
@@ -285,7 +287,8 @@ test_that("Efficacy against disease works", {
     seeding_cases = 20,
     time_period = 100,
     max_vaccine = 1000000,
-    vaccine_efficacy_disease = rep(0.5, 17)
+    vaccine_efficacy_disease = rep(0.5, 17),
+    vaccine_efficacy_infection = rep(0, 17)
   )
   # Vaccine 100% efficacy against disease
   m3 <- run(
@@ -300,7 +303,8 @@ test_that("Efficacy against disease works", {
     seeding_cases = 20,
     time_period = 100,
     max_vaccine = 1000000,
-    vaccine_efficacy_disease = rep(1, 17)
+    vaccine_efficacy_disease = rep(1, 17),
+    vaccine_efficacy_infection = rep(0, 17)
   )
 
   i1 <- sum(format(m1, NULL, "deaths")$value)
