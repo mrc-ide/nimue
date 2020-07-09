@@ -29,7 +29,6 @@ We can model a scale-up of supply capacity for vaccines
 constant <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = 100000,
   dur_V = 5000,
   vaccine_efficacy_disease = rep(0, 17),
@@ -49,7 +48,6 @@ o1 <- format(constant, compartments = NULL,
 increasing <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = seq(0, 100000, length.out = 100),
   tt_vaccine = seq(0, 100, length.out = 100),
   dur_V = 5000,

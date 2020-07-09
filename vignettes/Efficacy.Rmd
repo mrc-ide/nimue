@@ -29,7 +29,6 @@ We can parameterise the mode of action of the vaccine to be infection-blocking, 
 no_vaccine <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = 0
 )
 # Format the output selecting infection and deaths (note these are output per timestep)
@@ -45,7 +44,6 @@ out1 <- format(no_vaccine, compartments = NULL, summaries = c("infections", "dea
 infection_blocking <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = 200000,
   dur_V = 5000,
   vaccine_efficacy_disease = rep(0, 17),
@@ -64,7 +62,6 @@ out2 <- format(infection_blocking, compartments = NULL, summaries = c("infection
 disease_blocking <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = 200000,
   dur_V = 5000,
   vaccine_efficacy_disease = rep(0.9, 17),
