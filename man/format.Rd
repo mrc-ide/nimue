@@ -6,10 +6,10 @@
 \usage{
 format(
   x,
-  compartments = c("S", "E", "IMild", "ICase", "IICU", "IHospital", "IRec", "R", "D",
-    "V", "EVac", "SVac", "RVac"),
+  compartments = c("S", "E", "IMild", "ICase", "IICU", "IHospital", "IRec", "R", "D"),
   summaries = c("N", "hospital_demand", "hospital_occupancy", "ICU_demand",
-    "ICU_occupancy", "vaccines", "infections", "deaths"),
+    "ICU_occupancy", "vaccines", "unvaccinated", "vaccinated", "priorvaccinated",
+    "infections", "deaths"),
   reduce_age = TRUE,
   date_0 = NULL
 )

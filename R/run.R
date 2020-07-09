@@ -18,7 +18,6 @@
 #' @param replicates  Number of replicates. Default = 10
 #' @param seeding_cases Initial number of cases seeding the epidemic
 #' @param seed Random seed used for simulations. Deafult = runif(1, 0, 10000)
-#' @param init Data.frame of initial conditions. Default = NULL
 #' @param prob_hosp probability of hospitalisation by age.
 #'   Default = c(0.001127564, 0.000960857, 0.001774408, 0.003628171,
 #'   0.008100662, 0.015590734, 0.024597885, 0.035377529,
@@ -78,7 +77,6 @@
 #' @param max_vaccine The maximum number of individuals who can be vaccinated per day.
 #' @param tt_vaccine Time change points for vaccine capacity (\code{max_vaccine}).
 #' @param dur_vaccine_delay Mean duration of period from vaccination to vaccine protection.
-#' @param framework Model framework to run: stochastic or deterministic.
 #'
 #' @return Simulation output
 #' @export
@@ -99,7 +97,6 @@ run <- function(
   time_period = 365,
   dt = 0.1,
   replicates = 10,
-  init = NULL,
   seed = stats::runif(1, 0, 100000000),
 
   # parameters
@@ -145,17 +142,8 @@ run <- function(
   tt_hosp_beds = 0,
   tt_ICU_beds = 0,
 
-  seeding_cases = NULL,
-  framework = "deterministic"
+  seeding_cases = 20
 ) {
-
-  # Deal with framework shortcuts
-  if(framework == "d"){
-    framework <- "deterministic"
-  }
-  if(framework == "s"){
-    framework <- "stochastic"
-  }
 
   # Grab function arguments
   args <- as.list(environment())
@@ -171,7 +159,6 @@ run <- function(
                              beta_set = beta_set,
                              time_period = time_period,
                              dt = dt,
-                             init = init,
                              seeding_cases = seeding_cases,
                              prob_hosp = prob_hosp,
                              prob_severe = prob_severe,
@@ -203,28 +190,19 @@ run <- function(
                              vaccine_efficacy_disease = vaccine_efficacy_disease,
                              max_vaccine = max_vaccine,
                              tt_vaccine = tt_vaccine ,
-                             dur_vaccine_delay = dur_vaccine_delay,
-                             framework = framework)
+                             dur_vaccine_delay = dur_vaccine_delay)
 
   # Set model type
-  if(framework == "deterministic"){
-    replicates <- 1
-    mod_gen = vaccine_deterministic
-  } else {
-    mod_gen = vaccine_stochastic
-  }
+  replicates <- 1
+  mod_gen = vaccine
 
   # Running the Model
   mod <- mod_gen(user = pars, unused_user_action = "ignore")
-  if(framework == "deterministic"){
-    t <- seq(from = dt, to = time_period, by = dt)
-  } else {
-    t <- round(seq(from = 1, to = time_period/dt))
-  }
+  t <- seq(from = dt, to = time_period, by = dt)
   results <- mod$run(t, replicate = replicates)
 
   # coerce to array
-  results <- array(results, dim = c(dim(results),1), dimnames = dimnames(results))
+  results <- array(results, dim = c(dim(results), 1), dimnames = dimnames(results))
 
   # Summarise inputs
   parameters <- args

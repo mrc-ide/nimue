@@ -29,7 +29,6 @@ Available vaccines can be targeted to any combination of the 17 5-year age group
 target_all <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = 10000,
   dur_V = 5000,
   vaccine_efficacy_disease = rep(0, 17),
@@ -52,7 +51,6 @@ out1age <- format(target_all, reduce_age = FALSE, compartments = NULL,
 target_older <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = 10000,
   dur_V = 5000,
   vaccine_efficacy_disease = rep(0, 17),
@@ -74,7 +72,6 @@ out2age <- format(target_older, reduce_age = FALSE, compartments = NULL,
 target_younger <- run(
   population = squire::get_population(country = "United Kingdom")$n,
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
   max_vaccine = 10000,
   dur_V = 5000,
   vaccine_efficacy_disease = rep(0, 17),

@@ -24,12 +24,11 @@
 format <- function(x,
                    compartments = c("S", "E",
                                     "IMild", "ICase", "IICU", "IHospital",
-                                    "IRec", "R", "D",
-                                    "V", "EVac", "SVac", "RVac"),
+                                    "IRec", "R", "D"),
                    summaries = c("N",
                                  "hospital_demand","hospital_occupancy",
                                  "ICU_demand", "ICU_occupancy",
-                                 "vaccines",
+                                 "vaccines", "unvaccinated", "vaccinated", "priorvaccinated",
                                  "infections", "deaths"),
                    reduce_age = TRUE,
                    date_0 = NULL){
@@ -44,17 +43,14 @@ format <- function(x,
   }
 
   # Get columns indices of variables
-  index <-  odin_index(x$model)
+  index <- odin_index(x$model)
   if(!all(compartments %in% names(index))){
     stop("Some compartments specified not output by model")
   }
 
   # Extract time
-  if(x$parameters$framework == "deterministic"){
-    time <- x$output[,index$t,1]
-  } else {
-    time <- x$output[,index$t,1] * x$parameters$dt
-  }
+  time <- x$output[,index$t,1]
+
   # N replicates
   replicates = dim(x$output)[3]
   # Format over each replicate
@@ -99,8 +95,15 @@ format_internal <- function(x, compartments, summaries, reduce_age, index, time,
   get <- c(compartments, summaries)
   get <- get[get %in% names(index)]
   i_select <- index[get]
+  # Select outputs, collapsing over vaccine dimension where required
   o <- lapply(i_select, function(x, y){
-    y[,x,replicate]
+    if(is.matrix(x)){
+      apply(x, 1, function(a, b){
+        rowSums(b[,a,replicate])
+      }, b = y)
+    } else {
+      y[,x,replicate]
+    }
   }, y = x$output)
 
   # Collapse age

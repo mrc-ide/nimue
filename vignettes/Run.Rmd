@@ -28,47 +28,20 @@ Run the model using the `run()` function. Details on specification of the model 
 # Run the determinstic model with an example population
 det_run <- run(
   population = squire::get_population(country = "United Kingdom")$n,
-  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "deterministic",
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom")
 )
 # Format the output selecting specific compartments and summaries
-det_out <- format(det_run, compartments = c("S", "E", "IMild", "ICase", "R", "D", "V"),
-                  summaries = "vaccines") %>%
-  mutate(Name = "Deterministic")
+det_out <- format(det_run, compartments = c("S", "E", "IMild", "ICase", "R", "D"),
+                  summaries = c("vaccines", "unvaccinated", "vaccinated", "priorvaccinated"))
 ```
 
-
-### Stochastic 
-
-```{r, echo = TRUE}
-# Run 10 iterations of the stochastic model with an example population
-sto_run <- run(
-  population = squire::get_population(country = "United Kingdom")$n,
-  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  framework = "stochastic",
-  replicates = 10
-)
-# Format the output selecting specific compartments and summaries
-sto_out <- format(sto_run, compartments = c("S", "E", "IMild", "ICase", "R", "D", "V"),
-                  summaries = "vaccines") %>%
-  mutate(Name = "Stochastic")
-```
 
 ### Plot
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 4, fig.align = "center"}
-# Create plot data.frame
-pd <- bind_rows(det_out, sto_out) %>%
-  # Sub-sample time steps
-  filter(round(t, 3) %% 1 == 0) %>%
-  mutate(Name = factor(Name, levels = c("Stochastic", "Deterministic")))
+```{r, echo = TRUE, fig.width = 7, fig.height = 3, fig.align = "center"}
 # Plot outputs
-ggplot(pd, aes(x = t, y = value, group = interaction(replicate, Name),
-               col = Name, alpha = Name)) +
+ggplot(det_out, aes(x = t, y = value)) +
   geom_line(size = 1) +
-  scale_colour_manual(values = c("deeppink", "dodgerblue")) +
-  scale_alpha_manual(values = c(0.25, 1)) +
-  facet_wrap(~ compartment, scale = "free_y", ncol = 4) +
-  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+  facet_wrap(~ compartment, scale = "free_y", ncol = 5) +
   theme_bw(base_size = 8)
 ```

@@ -64,8 +64,7 @@ parameters <- function(
   # Initial state, duration, reps
   time_period = 365,
   dt = 0.1,
-  init = NULL,
-  seeding_cases = NULL,
+  seeding_cases,
 
   # Parameters
   # Probabilities
@@ -108,16 +107,14 @@ parameters <- function(
   hosp_bed_capacity,
   ICU_bed_capacity,
   tt_hosp_beds,
-  tt_ICU_beds,
-
-  framework
+  tt_ICU_beds
 
 ) {
 
   # Handle country population args
   cpm <- squire:::parse_country_population_mixing_matrix(country = country,
-                                                population = population,
-                                                contact_matrix_set = contact_matrix_set)
+                                                         population = population,
+                                                         contact_matrix_set = contact_matrix_set)
   country <- cpm$country
   population <- cpm$population
   contact_matrix_set <- cpm$contact_matrix_set
@@ -161,12 +158,7 @@ parameters <- function(
   # ----------------------------------------------------------------------------
 
   # Initialise initial conditions
-  if (!is.null(seeding_cases)) {
-    assert_int(seeding_cases)
-    mod_init <- init(init, population, seeding_cases)
-  } else {
-    mod_init <- init(init, population)
-  }
+  mod_init <- init(population, seeding_cases)
 
   # Convert contact matrices to input matrices
   matrices_set <- squire:::matrix_set_explicit(contact_matrix_set, population)
@@ -235,10 +227,6 @@ parameters <- function(
   assert_greq(prob_severe_death_no_treatment, 0)
   assert_greq(p_dist, 0)
 
-  if(!framework %in% c("deterministic", "stochastic")){
-    stop("Framework must be specified as one of: deterministic, d, stochastic or s")
-  }
-
 
   # Convert and Generate Parameters As Required
   # ----------------------------------------------------------------------------
@@ -258,109 +246,75 @@ parameters <- function(
   gamma_rec = 2 * 1/dur_rec
   gamma_R <- 2 * 1/dur_R
   gamma_V <- 2 * 1/dur_V
-  gamma_SVac <- 2 * 1 / dur_vaccine_delay
-  gamma_RVac <- 2 * 1 / dur_vaccine_delay
+  gamma_vaccine_delay <- 2 * 1 / dur_vaccine_delay
 
   if (is.null(beta_set)) {
     baseline_matrix <- squire:::process_contact_matrix_scaled_age(contact_matrix_set[[1]], population)
     beta_set <- squire::beta_est_explicit(dur_IMild = dur_IMild,
-                                  dur_ICase = dur_ICase,
-                                  prob_hosp = prob_hosp,
-                                  mixing_matrix = baseline_matrix,
-                                  R0 = R0)
+                                          dur_ICase = dur_ICase,
+                                          prob_hosp = prob_hosp,
+                                          mixing_matrix = baseline_matrix,
+                                          R0 = R0)
   }
 
   # normalise to sum to 1
+  p_dist <- matrix(rep(p_dist, 6), nrow = 17, ncol = 6)
   p_dist <- p_dist/mean(p_dist)
 
   # Format vaccine-specific parameters
   vaccine_efficacy_infection = 1 - vaccine_efficacy_infection
   prob_hosp_vaccine = (1 - vaccine_efficacy_disease) * prob_hosp
 
-  # Collate Parameters Into List
-  pars <- list(N_age = length(population),
-               S_0 = mod_init$S,
-               E1_0 = mod_init$E1,
-               E2_0 = mod_init$E2,
-               IMild_0 = mod_init$IMild,
-               ICase1_0 = mod_init$ICase1,
-               ICase2_0 = mod_init$ICase2,
-               IOxGetLive1_0 = mod_init$IOxGetLive1,
-               IOxGetLive2_0 = mod_init$IOxGetLive2,
-               IOxGetDie1_0 = mod_init$IOxGetDie1,
-               IOxGetDie2_0 = mod_init$IOxGetDie2,
-               IOxNotGetLive1_0 = mod_init$IOxNotGetLive1,
-               IOxNotGetLive2_0 = mod_init$IOxNotGetLive2,
-               IOxNotGetDie1_0 = mod_init$IOxNotGetDie1,
-               IOxNotGetDie2_0 = mod_init$IOxNotGetDie2,
-               IMVGetLive1_0 = mod_init$IMVGetLive1,
-               IMVGetLive2_0 = mod_init$IMVGetLive2,
-               IMVGetDie1_0 = mod_init$IMVGetDie1,
-               IMVGetDie2_0 = mod_init$IMVGetDie2,
-               IMVNotGetLive1_0 = mod_init$IMVNotGetLive1,
-               IMVNotGetLive2_0 = mod_init$IMVNotGetLive2,
-               IMVNotGetDie1_0 = mod_init$IMVNotGetDie1,
-               IMVNotGetDie2_0 = mod_init$IMVNotGetDie2,
-               IRec1_0 = mod_init$IRec1,
-               IRec2_0 = mod_init$IRec2,
-               R1_0 = mod_init$R1,
-               R2_0 = mod_init$R2,
-               D_0 = mod_init$D,
-               V1_0 = mod_init$V1,
-               V2_0 = mod_init$V2,
-               EVac1_0 = mod_init$EVac1,
-               EVac2_0 = mod_init$EVac2,
-               SVac1_0 = mod_init$SVac1,
-               SVac2_0 = mod_init$SVac2,
-               RVac1_0 = mod_init$RVac1,
-               RVac2_0 = mod_init$RVac2,
-               gamma_E = gamma_E,
-               gamma_IMild = gamma_IMild,
-               gamma_ICase = gamma_ICase,
-               gamma_get_ox_survive = gamma_get_ox_survive,
-               gamma_get_ox_die = gamma_get_ox_die,
-               gamma_not_get_ox_survive = gamma_not_get_ox_survive,
-               gamma_not_get_ox_die = gamma_not_get_ox_die,
-               gamma_get_mv_survive = gamma_get_mv_survive,
-               gamma_get_mv_die = gamma_get_mv_die,
-               gamma_not_get_mv_survive = gamma_not_get_mv_survive,
-               gamma_not_get_mv_die = gamma_not_get_mv_die,
-               gamma_rec = gamma_rec,
-               gamma_R = gamma_R,
-               gamma_V = gamma_V,
-               prob_hosp = prob_hosp,
-               prob_severe = prob_severe,
-               prob_non_severe_death_treatment = prob_non_severe_death_treatment,
-               prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
-               prob_severe_death_treatment = prob_severe_death_treatment,
-               prob_severe_death_no_treatment = prob_severe_death_no_treatment,
-               p_dist = p_dist,
-               hosp_beds = hosp_bed_capacity,
-               ICU_beds = ICU_bed_capacity,
-               tt_hosp_beds = tt_hosp_beds,
-               tt_ICU_beds = tt_ICU_beds,
-               tt_matrix = tt_contact_matrix,
-               mix_mat_set = matrices_set,
-               tt_beta = tt_R0,
-               beta_set = beta_set,
-               dt = dt,
-               population = population,
-               contact_matrix_set = contact_matrix_set,
-               vaccination_target = vaccination_target,
-               max_vaccine = max_vaccine,
-               vaccine_efficacy_infection = vaccine_efficacy_infection,
-               prob_hosp_vaccine = prob_hosp_vaccine,
-               tt_vaccine = tt_vaccine,
-               gamma_SVac = gamma_SVac,
-               gamma_RVac = gamma_RVac)
+  # age X vaccine efficacy parameters
+  prob_hosp <- matrix(c(prob_hosp, prob_hosp, prob_hosp,
+                        prob_hosp_vaccine, prob_hosp_vaccine,
+                        prob_hosp), nrow = 17, ncol = 6)
+  vaccine_efficacy_infection <- matrix(c(rep(1, 17 * 3),
+                                         vaccine_efficacy_infection, vaccine_efficacy_infection,
+                                         rep(1, 17)), nrow = 17, ncol = 6)
+  gamma_vaccine <- c(0, gamma_vaccine_delay, gamma_vaccine_delay, gamma_V, gamma_V, 0)
 
-  # Modify time-dependent pars if stochastic framework
-  if(framework == "stochastic"){
-    tt_vars <- c("tt_vaccine", "tt_beta", "tt_matrix", "tt_ICU_beds", "tt_hosp_beds")
-    for(i in seq_along(tt_vars)){
-      pars[[tt_vars[i]]] <- pars[[tt_vars[i]]] / dt
-    }
-  }
+
+  # Collate Parameters Into List
+  pars <- c(mod_init,
+            list(N_age = length(population),
+                 gamma_E = gamma_E,
+                 gamma_IMild = gamma_IMild,
+                 gamma_ICase = gamma_ICase,
+                 gamma_get_ox_survive = gamma_get_ox_survive,
+                 gamma_get_ox_die = gamma_get_ox_die,
+                 gamma_not_get_ox_survive = gamma_not_get_ox_survive,
+                 gamma_not_get_ox_die = gamma_not_get_ox_die,
+                 gamma_get_mv_survive = gamma_get_mv_survive,
+                 gamma_get_mv_die = gamma_get_mv_die,
+                 gamma_not_get_mv_survive = gamma_not_get_mv_survive,
+                 gamma_not_get_mv_die = gamma_not_get_mv_die,
+                 gamma_rec = gamma_rec,
+                 gamma_R = gamma_R,
+                 prob_hosp = prob_hosp,
+                 prob_severe = prob_severe,
+                 prob_non_severe_death_treatment = prob_non_severe_death_treatment,
+                 prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
+                 prob_severe_death_treatment = prob_severe_death_treatment,
+                 prob_severe_death_no_treatment = prob_severe_death_no_treatment,
+                 p_dist = p_dist,
+                 hosp_beds = hosp_bed_capacity,
+                 ICU_beds = ICU_bed_capacity,
+                 tt_hosp_beds = tt_hosp_beds,
+                 tt_ICU_beds = tt_ICU_beds,
+                 tt_matrix = tt_contact_matrix,
+                 mix_mat_set = matrices_set,
+                 tt_beta = tt_R0,
+                 beta_set = beta_set,
+                 dt = dt,
+                 population = population,
+                 contact_matrix_set = contact_matrix_set,
+                 vaccination_target = vaccination_target,
+                 max_vaccine = max_vaccine,
+                 tt_vaccine = tt_vaccine,
+                 vaccine_efficacy_infection = vaccine_efficacy_infection,
+                 N_vaccine = 6,
+                 gamma_vaccine = gamma_vaccine))
 
   class(pars) <- c("vaccine_parameters", "nimue_parameters")
 

@@ -4,11 +4,9 @@
 \alias{init}
 \title{Check and set up initial values for vaccine model}
 \usage{
-init(init, population, seeding_cases = 20)
+init(population, seeding_cases)
 }
 \arguments{
-\item{init}{Data.frame of initial conditions. Default = NULL}
-
 \item{population}{Population vector (for each age group). Default = NULL,
 which will cause population to be sourced from \code{country}}
 
