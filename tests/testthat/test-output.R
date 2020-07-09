@@ -12,7 +12,6 @@ test_that("output works", {
     population = pop$n,
     contact_matrix_set = mm,
     seed = 1,
-    framework = "d",
     dt = 1,
     replicates = 1,
     seeding_cases = 20
