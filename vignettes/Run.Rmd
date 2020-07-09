@@ -31,21 +31,17 @@ det_run <- run(
   contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom")
 )
 # Format the output selecting specific compartments and summaries
-det_out <- format(det_run, compartments = c("S", "E", "IMild", "ICase", "R", "D", "V"),
+det_out <- format(det_run, compartments = c("S", "E", "IMild", "ICase", "R", "D"),
                   summaries = c("vaccines", "unvaccinated", "vaccinated", "priorvaccinated"))
 ```
 
 
 ### Plot
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 4, fig.align = "center"}
-# Create plot data.frame
-pd <- bind_rows(det_out, sto_out) %>%
-  # Sub-sample time steps
-  filter(round(t, 3) %% 1 == 0)
+```{r, echo = TRUE, fig.width = 7, fig.height = 3, fig.align = "center"}
 # Plot outputs
-ggplot(pd, aes(x = t, y = value)) +
+ggplot(det_out, aes(x = t, y = value)) +
   geom_line(size = 1) +
-  facet_wrap(~ compartment, scale = "free_y", ncol = 4) +
+  facet_wrap(~ compartment, scale = "free_y", ncol = 5) +
   theme_bw(base_size = 8)
 ```
