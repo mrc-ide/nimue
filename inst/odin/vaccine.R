@@ -6,8 +6,8 @@
 dt <- user() # Specified timestep
 N_age <- user()
 N_vaccine <- user()
-time <- t
-output(time) <- TRUE
+#time <- t
+#output(time) <- TRUE
 ################################################################################
 
 ### S: susceptible #############################################################
@@ -20,9 +20,6 @@ initial(S[,]) <- S_0[i,j]
 deriv(S[,1]) <- (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (vr * vaccination_target[i] * S[i,j])
 deriv(S[,2]) <- (vr * vaccination_target[i] * S[i,j-1]) + (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (gamma_vaccine[j] * S[i,j])
 deriv(S[,3:N_vaccine]) <- (gamma_vaccine[j-1] * S[i,j-1]) + (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (gamma_vaccine[j] * S[i,j])
-
-output(Sout[]) <- sum(S[i,])
-dim(Sout) <- N_age
 ################################################################################
 
 ### E (E1 & E2): Latent ########################################################
@@ -520,6 +517,34 @@ Vlag[] <- delay(V[i], dt)
 dim(Vlag) <- N_age
 output(vaccines[]) <- V[i] - Vlag[i]
 dim(vaccines) <- N_age
+
+# Unvaccinated
+output(unvaccinated[]) <- sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(ICase1[i,1]) + sum(ICase2[i,1]) +
+  sum(IMVGetLive1[i,1]) + sum(IMVGetLive2[i,1]) +
+  sum(IMVGetDie1[i,1]) + sum(IMVGetDie2[i,1]) + sum(IMVNotGetLive1[i,1]) + sum(IMVNotGetLive2[i,1]) + sum(IMVNotGetDie1[i,1]) + sum(IMVNotGetDie2[i,1]) +
+  sum(IOxGetLive1[i,1]) + sum(IOxGetLive2[i,1]) + sum(IOxGetDie1[i,1]) + sum(IOxGetDie2[i,1]) + sum(IOxNotGetLive1[i,1]) + sum(IOxNotGetLive2[i,1]) +
+  sum(IOxNotGetDie1[i,1]) + sum(IOxNotGetDie2[i,1]) +
+  sum(IRec1[i,1]) + sum(IRec2[i,1]) +
+  sum(R1[i,1]) + sum(R2[i,1]) + sum(D[i,1])
+dim(unvaccinated) <- N_age
+# Vaccinated
+output(vaccinated[]) <- sum(S[i,2:5]) + sum(E1[i,2:5]) + sum(E2[i,2:5]) + sum(IMild[i,2:5]) + sum(ICase1[i,2:5]) + sum(ICase2[i,2:5]) +
+  sum(IMVGetLive1[i,2:5]) + sum(IMVGetLive2[i,2:5]) +
+  sum(IMVGetDie1[i,2:5]) + sum(IMVGetDie2[i,2:5]) + sum(IMVNotGetLive1[i,2:5]) + sum(IMVNotGetLive2[i,2:5]) + sum(IMVNotGetDie1[i,2:5]) + sum(IMVNotGetDie2[i,2:5]) +
+  sum(IOxGetLive1[i,2:5]) + sum(IOxGetLive2[i,2:5]) + sum(IOxGetDie1[i,2:5]) + sum(IOxGetDie2[i,2:5]) + sum(IOxNotGetLive1[i,2:5]) + sum(IOxNotGetLive2[i,2:5]) +
+  sum(IOxNotGetDie1[i,2:5]) + sum(IOxNotGetDie2[i,2:5]) +
+  sum(IRec1[i,2:5]) + sum(IRec2[i,2:5]) +
+  sum(R1[i,2:5]) + sum(R2[i,2:5]) + sum(D[i,2:5])
+dim(vaccinated) <- N_age
+# Previously vaccinated
+output(priorvaccinated[]) <- sum(S[i,6]) + sum(E1[i,6]) + sum(E2[i,6]) + sum(IMild[i,6]) + sum(ICase1[i,6]) + sum(ICase2[i,6]) +
+  sum(IMVGetLive1[i,6]) + sum(IMVGetLive2[i,6]) +
+  sum(IMVGetDie1[i,6]) + sum(IMVGetDie2[i,6]) + sum(IMVNotGetLive1[i,6]) + sum(IMVNotGetLive2[i,6]) + sum(IMVNotGetDie1[i,6]) + sum(IMVNotGetDie2[i,6]) +
+  sum(IOxGetLive1[i,6]) + sum(IOxGetLive2[i,6]) + sum(IOxGetDie1[i,6]) + sum(IOxGetDie2[i,6]) + sum(IOxNotGetLive1[i,6]) + sum(IOxNotGetLive2[i,6]) +
+  sum(IOxNotGetDie1[i,6]) + sum(IOxNotGetDie2[i,6]) +
+  sum(IRec1[i,6]) + sum(IRec2[i,6]) +
+  sum(R1[i,6]) + sum(R2[i,6]) + sum(D[i,6])
+dim(priorvaccinated) <- N_age
 
 # Population size
 output(N[]) <- sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICase1[i,]) + sum(ICase2[i,]) +

@@ -28,7 +28,7 @@ format <- function(x,
                    summaries = c("N",
                                  "hospital_demand","hospital_occupancy",
                                  "ICU_demand", "ICU_occupancy",
-                                 "vaccines",
+                                 "vaccines", "unvaccinated", "vaccinated", "priorvaccinated",
                                  "infections", "deaths"),
                    reduce_age = TRUE,
                    date_0 = NULL){
