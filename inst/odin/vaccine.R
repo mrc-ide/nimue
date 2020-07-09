@@ -47,8 +47,8 @@ deriv(E2[,1]) <- (gamma_E * E1[i,j]) - (gamma_E * E2[i,j]) - (vr * vaccination_t
 deriv(E2[,2]) <- (vr * vaccination_target[i] * E2[i,j-1]) + (gamma_E * E1[i,j]) - (gamma_E * E2[i,j]) - (gamma_vaccine[j] * E2[i,j])
 deriv(E2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * E2[i,j-1]) + (gamma_E * E1[i,j]) - (gamma_E * E2[i,j]) - (gamma_vaccine[j] * E2[i,j])
 
-output(Eout[]) <- sum(E1[i,]) + sum(E2[i,])
-dim(Eout) <- N_age
+output(E[]) <- sum(E1[i,]) + sum(E2[i,])
+dim(E) <- N_age
 ################################################################################
 
 ### IMild: Unhospitalised infection ############################################
@@ -90,8 +90,8 @@ deriv(R2[,1]) <- (gamma_R * R1[i,j]) - (gamma_R * R2[i,j]) - (vr * vaccination_t
 deriv(R2[,2]) <- (vr * vaccination_target[i] * R2[i,j-1]) + (gamma_R * R1[i,j]) - (gamma_R * R2[i,j]) - (gamma_vaccine[j] * R2[i,j])
 deriv(R2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * R2[i,j-1]) + (gamma_R * R1[i,j]) - (gamma_R * R2[i,j]) - (gamma_vaccine[j] * R2[i,j])
 
-output(Rout[]) <- sum(R1[i,]) + sum(R2[i,])
-dim(Rout) <- N_age
+output(R[]) <- sum(R1[i,]) + sum(R2[i,])
+dim(R) <- N_age
 ################################################################################
 
 ### ICase (ICase1 & ICase2): To-be hospitalised infection ######################
@@ -116,8 +116,8 @@ deriv(ICase2[,1]) <- (gamma_ICase * ICase1[i,j]) - (gamma_ICase * ICase2[i,j])
 deriv(ICase2[,2]) <- (gamma_ICase * ICase1[i,j]) - (gamma_ICase * ICase2[i,j]) - (gamma_vaccine[j] * ICase2[i,j])
 deriv(ICase2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * ICase2[i,j-1]) + (gamma_ICase * ICase1[i,j]) - (gamma_ICase * ICase2[i,j]) - (gamma_vaccine[j] * ICase2[i,j])
 
-output(ICaseout[]) <- sum(ICase1[i,]) + sum(ICase2[i,])
-dim(ICaseout) <- N_age
+output(ICase[]) <- sum(ICase1[i,]) + sum(ICase2[i,])
+dim(ICase) <- N_age
 ################################################################################
 
 ### IOxGetLive (IOxGetLive1 & IOxGetLive2): Get oxygen, go on to survive #######
@@ -512,7 +512,7 @@ dim(infections) <- N_age
 
 # Vaccinations
 deriv(V[]) <- (vr * vaccination_target[i] * S[i,1]) + (vr * vaccination_target[i] * E1[i,1]) + (vr * vaccination_target[i] * E2[i,1]) +
-  (vr * vaccination_target[i] * R2[i,1]) + (vr * vaccination_target[i] * R2[i,1])
+  (vr * vaccination_target[i] * R1[i,1]) + (vr * vaccination_target[i] * R2[i,1])
 dim(V) <- N_age
 initial(V[]) <- 0
 
