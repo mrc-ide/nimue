@@ -15,7 +15,6 @@ run(
   time_period = 365,
   dt = 0.1,
   replicates = 10,
-  init = NULL,
   seed = stats::runif(1, 0, 1e+08),
   prob_hosp = probs$prob_hosp,
   prob_severe = probs$prob_severe,
@@ -48,8 +47,7 @@ run(
   ICU_bed_capacity = NULL,
   tt_hosp_beds = 0,
   tt_ICU_beds = 0,
-  seeding_cases = NULL,
-  framework = "deterministic"
+  seeding_cases = 20
 )
 }
 \arguments{
@@ -78,8 +76,6 @@ Default = NULL, which causes beta to be estimated from R0}
 \item{dt}{Time Step. Default = 0.1}
 
 \item{replicates}{Number of replicates. Default = 10}
-
-\item{init}{Data.frame of initial conditions. Default = NULL}
 
 \item{seed}{Random seed used for simulations. Deafult = runif(1, 0, 10000)}
 
@@ -173,8 +169,6 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 \item{tt_ICU_beds}{Times at which ICU bed capacity changes (Default = 0 = doesn't change)}
 
 \item{seeding_cases}{Initial number of cases seeding the epidemic}
-
-\item{framework}{Model framework to run: stochastic or deterministic.}
 }
 \value{
 Simulation output

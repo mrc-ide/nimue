@@ -4,10 +4,8 @@
 
 ### Initial setup ##############################################################
 dt <- user() # Specified timestep
-N_age <- user()
-N_vaccine <- user()
-#time <- t
-#output(time) <- TRUE
+N_age <- user() # Number of age groups
+N_vaccine <- user() # Numebr of vaccine groups
 ################################################################################
 
 ### S: susceptible #############################################################

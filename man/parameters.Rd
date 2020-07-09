@@ -14,8 +14,7 @@ parameters(
   beta_set = NULL,
   time_period = 365,
   dt = 0.1,
-  init = NULL,
-  seeding_cases = NULL,
+  seeding_cases,
   prob_hosp = probs$prob_hosp,
   prob_severe = probs$prob_severe,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
@@ -46,8 +45,7 @@ parameters(
   hosp_bed_capacity,
   ICU_bed_capacity,
   tt_hosp_beds,
-  tt_ICU_beds,
-  framework
+  tt_ICU_beds
 )
 }
 \arguments{
@@ -74,8 +72,6 @@ Default = NULL, which causes beta to be estimated from R0}
 \item{time_period}{Length of simulation. Default = 365}
 
 \item{dt}{Time Step. Default = 0.1}
-
-\item{init}{Data.frame of initial conditions. Default = NULL}
 
 \item{seeding_cases}{Initial number of cases seeding the epidemic}
 
@@ -167,8 +163,6 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 \item{tt_hosp_beds}{Times at which hospital bed capacity changes (Default = 0 = doesn't change)}
 
 \item{tt_ICU_beds}{Times at which ICU bed capacity changes (Default = 0 = doesn't change)}
-
-\item{framework}{Model framework to run: stochastic or deterministic.}
 }
 \description{
 Vaccine parameters
