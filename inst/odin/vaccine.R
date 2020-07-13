@@ -359,7 +359,7 @@ dim(tt_vaccine) <- user()
 dim(max_vaccine) <- length(tt_vaccine)
 vr_temp[] <- S[i,1] * vaccination_target[i] + E1[i,1] * vaccination_target[i] + E2[i,1] * vaccination_target[i] + R1[i,1] * vaccination_target[i] + R2[i,1] * vaccination_target[i]
 dim(vr_temp) <- N_age
-# Catch so max vaccination rate does not -> infinity as vaccine-eligible population -> 0
+# Catch so vaccination rate does not exceed 1 if the number of people available for vaccination < number of vaccines
 vr_den <- if(sum(vr_temp) <= mv) mv else sum(vr_temp)
 vr <- mv / vr_den # Vaccination rate to achieve capacity given number in vaccine-eligible population
 ################################################################################
