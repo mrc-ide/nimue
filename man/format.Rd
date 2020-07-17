@@ -7,9 +7,9 @@
 format(
   x,
   compartments = c("S", "E", "IMild", "ICase", "IICU", "IHospital", "IRec", "R", "D"),
-  summaries = c("N", "hospital_demand", "hospital_occupancy", "ICU_demand",
-    "ICU_occupancy", "vaccines", "unvaccinated", "vaccinated", "priorvaccinated",
-    "infections", "deaths"),
+  summaries = c("N", "hospitalisations", "hospital_demand", "hospital_occupancy",
+    "ICU_demand", "ICU_occupancy", "vaccines", "unvaccinated", "vaccinated",
+    "priorvaccinated", "infections", "deaths"),
   reduce_age = TRUE,
   date_0 = NULL
 )
@@ -21,13 +21,14 @@ format(
 
 \item{summaries}{Vector of summary names, which may be:
 \itemize{
-      \item{"deaths"}{ Daily Deaths (stochatic model) }
-      \item{"infections"}{ Daily Infections. New infections (note this is currently a slightly different definitionto the main Squire mode)}
+      \item{"deaths"}{ Deaths per time step }
+      \item{"infections"}{ Infections per time step. New infections (note this is currently a slightly different definitionto the main Squire mode)}
+      \item{"hospitilisations"}{ Hospitalisations per time step (Note this takes into account hospital capacity)}
       \item{"hospital_occupancy"}{ Occupied Hospital Beds }
       \item{"ICU_occupancy"}{ Occupied ICU Beds }
       \item{"hospital_demand}{ Required Hospital Beds }
       \item{"ICU_demand}{ Required ICU Beds }
-      \item{"vaccinated"}{ Daily vaccines administered (Stochastic model)}
+      \item{"vaccinated"}{ Vaccines administered per time step}
       }}
 
 \item{reduce_age}{Collapse age-dimension, calculating the total in the

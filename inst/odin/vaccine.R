@@ -489,6 +489,16 @@ dim(IICU) <- N_age
 output(IHospital[]) <- sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetDie1[i,]) + sum(IOxGetDie2[i,]) + sum(IOxNotGetLive1[i,]) + sum(IOxNotGetLive2[i,]) + sum(IOxNotGetDie1[i,]) + sum(IOxNotGetDie2[i,])
 dim(IHospital) <- N_age
 
+# Hospitalisations
+deriv(H[,]) <- number_get_IMV[i,j] + number_get_Ox[i,j]
+dim(H) <- c(N_age, N_vaccine)
+initial(H[,]) <- 0
+
+Hlag[,] <- delay(H[i,j], dt)
+dim(Hlag) <- c(N_age, N_vaccine)
+output(hospitalisations[]) <- sum(H[i,]) - sum(Hlag[i,])
+dim(hospitalisations) <- N_age
+
 # Deaths
 Dlag[,] <- delay(D[i,j], dt)
 dim(Dlag) <- c(N_age, N_vaccine)
