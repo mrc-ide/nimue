@@ -3030,7 +3030,7 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
   }
   for (int i = 1; i <= internal->dim_IMVNotGetLive2_1; ++i) {
     for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IMVNotGetLive2 + i - 1 + internal->dim_IMVNotGetLive2_1 * (j - 1)] = -((internal->gamma_vaccine[j - 1 - 1] * IMVNotGetLive2[internal->dim_IMVNotGetLive2_1 * (j - 1 - 1) + i - 1])) + (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_not_get_mv_survive * IMVNotGetLive2[internal->dim_IMVNotGetLive2_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetLive2[internal->dim_IMVNotGetLive2_1 * (j - 1) + i - 1]);
+      dstatedt[internal->offset_variable_IMVNotGetLive2 + i - 1 + internal->dim_IMVNotGetLive2_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVNotGetLive2[internal->dim_IMVNotGetLive2_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_not_get_mv_survive * IMVNotGetLive2[internal->dim_IMVNotGetLive2_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetLive2[internal->dim_IMVNotGetLive2_1 * (j - 1) + i - 1]);
     }
   }
   for (int i = 1; i <= internal->dim_IOxGetDie2_1; ++i) {

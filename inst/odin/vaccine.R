@@ -274,7 +274,7 @@ deriv(IMVNotGetLive1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVNotGetLive1[i,j-
 
 deriv(IMVNotGetLive2[,1]) <- (gamma_not_get_mv_survive * IMVNotGetLive1[i,j]) - (gamma_not_get_mv_survive * IMVNotGetLive2[i,j])
 deriv(IMVNotGetLive2[,2]) <- (gamma_not_get_mv_survive * IMVNotGetLive1[i,j]) - (gamma_not_get_mv_survive * IMVNotGetLive2[i,j]) - (gamma_vaccine[j] * IMVNotGetLive2[i,j])
-deriv(IMVNotGetLive2[,3:N_vaccine]) <-  - (gamma_vaccine[j-1] * IMVNotGetLive2[i,j-1]) + (gamma_not_get_mv_survive * IMVNotGetLive1[i,j]) - (gamma_not_get_mv_survive * IMVNotGetLive2[i,j]) - (gamma_vaccine[j] * IMVNotGetLive2[i,j])
+deriv(IMVNotGetLive2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVNotGetLive2[i,j-1]) + (gamma_not_get_mv_survive * IMVNotGetLive1[i,j]) - (gamma_not_get_mv_survive * IMVNotGetLive2[i,j]) - (gamma_vaccine[j] * IMVNotGetLive2[i,j])
 ################################################################################
 
 ### IMVNotGetDie (IMVNotGetDie1 & IMVNotGetDie2): Do no get mechanical ventilation, go on to die ########
