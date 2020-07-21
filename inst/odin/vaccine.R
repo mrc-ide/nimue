@@ -3,7 +3,7 @@
 ################################################################################
 
 ### Initial setup ##############################################################
-dt <- user() # Specified timestep
+#dt <- user() # Specified timestep
 N_age <- user() # Number of age groups
 N_vaccine <- user() # Numebr of vaccine groups
 ################################################################################
@@ -415,8 +415,8 @@ dim(prob_severe_death_treatment) <- N_age
 prob_severe_death_no_treatment[] <- user() # probability of dying from severe disease (i.e. requiring mechanical ventilation) by age given you do NOT receive appropriate treatment (proxy here is whether an ICU bed is available)
 dim(prob_severe_death_no_treatment) <- N_age
 
-p_dist[,] <- user() # distributing infections in given age/vaccine class to available hosp/ICU beds (make all equal to make it random and not related to age)
-dim(p_dist) <- c(N_age, N_vaccine)
+#p_dist[,] <- user() # distributing infections in given age/vaccine class to available hosp/ICU beds (make all equal to make it random and not related to age)
+#dim(p_dist) <- c(N_age, N_vaccine)
 
 # Infections Requiring Oxygen (a general Hosptial Bed)
 hosp_occ <- sum(IOxGetLive1) + sum(IOxGetLive2) - gamma_get_ox_survive * sum(IOxGetLive2) + sum(IOxGetDie1) + sum(IOxGetDie2) - gamma_get_ox_die * sum(IOxGetDie2) + sum(IRec1) + sum(IRec2) - gamma_rec * sum(IRec2) # Summing number of infections in compartments that use general hospital beds
@@ -502,41 +502,26 @@ output(IHospital[]) <- sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetD
 dim(IHospital) <- N_age
 
 # Hospitalisations
-# deriv(H[,]) <- number_get_IMV[i,j] + number_get_Ox[i,j]
-# dim(H) <- c(N_age, N_vaccine)
-# initial(H[,]) <- 0
-#
-# Hlag[,] <- delay(H[i,j], dt)
-# dim(Hlag) <- c(N_age, N_vaccine)
-# output(hospitalisations[]) <- sum(H[i,]) - sum(Hlag[i,])
-# dim(hospitalisations) <- N_age
+deriv(H_cumu[,]) <- number_get_IMV[i,j] + number_get_Ox[i,j]
+dim(H_cumu) <- c(N_age, N_vaccine)
+initial(H_cumu[,]) <- 0
 
 # Deaths
-Dlag[,] <- delay(D[i,j], dt)
-dim(Dlag) <- c(N_age, N_vaccine)
-output(deaths[]) <- sum(D[i,]) - sum(Dlag[i,])
-dim(deaths) <- N_age
+output(D_cumu[,]) <- D[i,j]
+dim(D_cumu) <- c(N_age, N_vaccine)
+initial(D_cumu[,]) <- 0
 
 # Infections
-deriv(I[,]) <- (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j])
-dim(I) <- c(N_age, N_vaccine)
-initial(I[,]) <- 0
-
-Ilag[,] <- delay(I[i,j], dt)
-dim(Ilag) <- c(N_age, N_vaccine)
-output(infections[]) <- sum(I[i,]) - sum(Ilag[i,])
-dim(infections) <- N_age
+deriv(I_cumu[,]) <- (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j])
+dim(I_cumu) <- c(N_age, N_vaccine)
+initial(I_cumu[,]) <- 0
 
 # Vaccinations
-deriv(V[]) <- (vr * vaccination_target[i] * S[i,1]) + (vr * vaccination_target[i] * E1[i,1]) + (vr * vaccination_target[i] * E2[i,1]) +
-  (vr * vaccination_target[i] * R1[i,1]) + (vr * vaccination_target[i] * R2[i,1])
-dim(V) <- N_age
-initial(V[]) <- 0
+deriv(V_cumu[]) <- (vr * vaccination_target[i] * S[i,1]) + (vr * vaccination_target[i] * E1[i,1]) + (vr * vaccination_target[i] * E2[i,1]) +
+   (vr * vaccination_target[i] * R1[i,1]) + (vr * vaccination_target[i] * R2[i,1])
+ dim(V_cumu) <- N_age
+initial(V_cumu[]) <- 0
 
-Vlag[] <- delay(V[i], dt)
-dim(Vlag) <- N_age
-output(vaccines[]) <- V[i] - Vlag[i]
-dim(vaccines) <- N_age
 
 # Unvaccinated
 output(unvaccinated[]) <- sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(ICase1[i,1]) + sum(ICase2[i,1]) +
