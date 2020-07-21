@@ -75,11 +75,9 @@ typedef struct vaccine_internal {
   double *beta_set;
   double *D_0;
   int *delay_index_Dlag;
-  int *delay_index_Hlag;
   int *delay_index_Ilag;
   int *delay_index_Vlag;
   double *delay_state_Dlag;
-  double *delay_state_Hlag;
   double *delay_state_Ilag;
   double *delay_state_Vlag;
   int dim_beta_set;
@@ -91,7 +89,6 @@ typedef struct vaccine_internal {
   int dim_D_2;
   int dim_deaths;
   int dim_delay_Dlag;
-  int dim_delay_Hlag;
   int dim_delay_Ilag;
   int dim_delay_Vlag;
   int dim_Dlag;
@@ -111,16 +108,9 @@ typedef struct vaccine_internal {
   int dim_E2_1;
   int dim_E2_2;
   int dim_gamma_vaccine;
-  int dim_H;
-  int dim_H_1;
-  int dim_H_2;
-  int dim_Hlag;
-  int dim_Hlag_1;
-  int dim_Hlag_2;
   int dim_hosp_beds;
   int dim_hospital_demand;
   int dim_hospital_occupancy;
-  int dim_hospitalisations;
   int dim_I;
   int dim_I_1;
   int dim_I_2;
@@ -152,9 +142,6 @@ typedef struct vaccine_internal {
   int dim_IMild_1;
   int dim_IMild_2;
   int dim_IMildout;
-  int dim_IMV_dist_weighting;
-  int dim_IMV_dist_weighting_1;
-  int dim_IMV_dist_weighting_2;
   int dim_IMVGetDie1;
   int dim_IMVGetDie1_0;
   int dim_IMVGetDie1_0_1;
@@ -276,21 +263,12 @@ typedef struct vaccine_internal {
   int dim_mix_mat_set_2;
   int dim_mix_mat_set_3;
   int dim_N;
-  int dim_number_get_IMV;
-  int dim_number_get_IMV_1;
-  int dim_number_get_IMV_2;
-  int dim_number_get_Ox;
-  int dim_number_get_Ox_1;
-  int dim_number_get_Ox_2;
   int dim_number_requiring_IMV;
   int dim_number_requiring_IMV_1;
   int dim_number_requiring_IMV_2;
   int dim_number_requiring_Ox;
   int dim_number_requiring_Ox_1;
   int dim_number_requiring_Ox_2;
-  int dim_Ox_dist_weighting;
-  int dim_Ox_dist_weighting_1;
-  int dim_Ox_dist_weighting_2;
   int dim_p_dist;
   int dim_p_dist_1;
   int dim_p_dist_2;
@@ -359,14 +337,12 @@ typedef struct vaccine_internal {
   double gamma_R;
   double gamma_rec;
   double *gamma_vaccine;
-  double *Hlag;
   double *hosp_beds;
   double *ICase1_0;
   double *ICase2_0;
   double *ICU_beds;
   double *Ilag;
   double *IMild_0;
-  double *IMV_dist_weighting;
   double *IMVGetDie1_0;
   double *IMVGetDie2_0;
   double *IMVGetLive1_0;
@@ -378,7 +354,6 @@ typedef struct vaccine_internal {
   double *initial_D;
   double *initial_E1;
   double *initial_E2;
-  double *initial_H;
   double *initial_I;
   double *initial_ICase1;
   double *initial_ICase2;
@@ -427,14 +402,11 @@ typedef struct vaccine_internal {
   double *mix_mat_set;
   int N_age;
   int N_vaccine;
-  double *number_get_IMV;
-  double *number_get_Ox;
   double *number_requiring_IMV;
   double *number_requiring_Ox;
   int offset_output_deaths;
   int offset_output_hospital_demand;
   int offset_output_hospital_occupancy;
-  int offset_output_hospitalisations;
   int offset_output_ICase;
   int offset_output_ICU_demand;
   int offset_output_ICU_occupancy;
@@ -451,7 +423,6 @@ typedef struct vaccine_internal {
   int offset_variable_D;
   int offset_variable_E1;
   int offset_variable_E2;
-  int offset_variable_H;
   int offset_variable_I;
   int offset_variable_ICase1;
   int offset_variable_ICase2;
@@ -476,7 +447,6 @@ typedef struct vaccine_internal {
   int offset_variable_IRec2;
   int offset_variable_R1;
   int offset_variable_R2;
-  double *Ox_dist_weighting;
   double *p_dist;
   double *prob_hosp;
   double *prob_non_severe_death_no_treatment;
@@ -571,25 +541,21 @@ void vaccine_finalise(SEXP internal_p) {
     Free(internal->beta_set);
     Free(internal->D_0);
     Free(internal->delay_index_Dlag);
-    Free(internal->delay_index_Hlag);
     Free(internal->delay_index_Ilag);
     Free(internal->delay_index_Vlag);
     Free(internal->delay_state_Dlag);
-    Free(internal->delay_state_Hlag);
     Free(internal->delay_state_Ilag);
     Free(internal->delay_state_Vlag);
     Free(internal->Dlag);
     Free(internal->E1_0);
     Free(internal->E2_0);
     Free(internal->gamma_vaccine);
-    Free(internal->Hlag);
     Free(internal->hosp_beds);
     Free(internal->ICase1_0);
     Free(internal->ICase2_0);
     Free(internal->ICU_beds);
     Free(internal->Ilag);
     Free(internal->IMild_0);
-    Free(internal->IMV_dist_weighting);
     Free(internal->IMVGetDie1_0);
     Free(internal->IMVGetDie2_0);
     Free(internal->IMVGetLive1_0);
@@ -601,7 +567,6 @@ void vaccine_finalise(SEXP internal_p) {
     Free(internal->initial_D);
     Free(internal->initial_E1);
     Free(internal->initial_E2);
-    Free(internal->initial_H);
     Free(internal->initial_I);
     Free(internal->initial_ICase1);
     Free(internal->initial_ICase2);
@@ -642,11 +607,8 @@ void vaccine_finalise(SEXP internal_p) {
     Free(internal->m);
     Free(internal->max_vaccine);
     Free(internal->mix_mat_set);
-    Free(internal->number_get_IMV);
-    Free(internal->number_get_Ox);
     Free(internal->number_requiring_IMV);
     Free(internal->number_requiring_Ox);
-    Free(internal->Ox_dist_weighting);
     Free(internal->p_dist);
     Free(internal->prob_hosp);
     Free(internal->prob_non_severe_death_no_treatment);
@@ -677,25 +639,21 @@ SEXP vaccine_create(SEXP user) {
   internal->beta_set = NULL;
   internal->D_0 = NULL;
   internal->delay_index_Dlag = NULL;
-  internal->delay_index_Hlag = NULL;
   internal->delay_index_Ilag = NULL;
   internal->delay_index_Vlag = NULL;
   internal->delay_state_Dlag = NULL;
-  internal->delay_state_Hlag = NULL;
   internal->delay_state_Ilag = NULL;
   internal->delay_state_Vlag = NULL;
   internal->Dlag = NULL;
   internal->E1_0 = NULL;
   internal->E2_0 = NULL;
   internal->gamma_vaccine = NULL;
-  internal->Hlag = NULL;
   internal->hosp_beds = NULL;
   internal->ICase1_0 = NULL;
   internal->ICase2_0 = NULL;
   internal->ICU_beds = NULL;
   internal->Ilag = NULL;
   internal->IMild_0 = NULL;
-  internal->IMV_dist_weighting = NULL;
   internal->IMVGetDie1_0 = NULL;
   internal->IMVGetDie2_0 = NULL;
   internal->IMVGetLive1_0 = NULL;
@@ -707,7 +665,6 @@ SEXP vaccine_create(SEXP user) {
   internal->initial_D = NULL;
   internal->initial_E1 = NULL;
   internal->initial_E2 = NULL;
-  internal->initial_H = NULL;
   internal->initial_I = NULL;
   internal->initial_ICase1 = NULL;
   internal->initial_ICase2 = NULL;
@@ -749,11 +706,8 @@ SEXP vaccine_create(SEXP user) {
   internal->m = NULL;
   internal->max_vaccine = NULL;
   internal->mix_mat_set = NULL;
-  internal->number_get_IMV = NULL;
-  internal->number_get_Ox = NULL;
   internal->number_requiring_IMV = NULL;
   internal->number_requiring_Ox = NULL;
-  internal->Ox_dist_weighting = NULL;
   internal->p_dist = NULL;
   internal->prob_hosp = NULL;
   internal->prob_non_severe_death_no_treatment = NULL;
@@ -855,7 +809,7 @@ void vaccine_initmod_desolve(void(* odeparms) (int *, double *)) {
 }
 SEXP vaccine_contents(SEXP internal_p) {
   vaccine_internal *internal = vaccine_get_internal(internal_p, 1);
-  SEXP contents = PROTECT(allocVector(VECSXP, 427));
+  SEXP contents = PROTECT(allocVector(VECSXP, 397));
   SEXP beta_set = PROTECT(allocVector(REALSXP, internal->dim_beta_set));
   memcpy(REAL(beta_set), internal->beta_set, internal->dim_beta_set * sizeof(double));
   SET_VECTOR_ELT(contents, 0, beta_set);
@@ -866,1119 +820,1037 @@ SEXP vaccine_contents(SEXP internal_p) {
   SEXP delay_index_Dlag = PROTECT(allocVector(INTSXP, internal->dim_delay_Dlag));
   memcpy(INTEGER(delay_index_Dlag), internal->delay_index_Dlag, internal->dim_delay_Dlag * sizeof(int));
   SET_VECTOR_ELT(contents, 2, delay_index_Dlag);
-  SEXP delay_index_Hlag = PROTECT(allocVector(INTSXP, internal->dim_delay_Hlag));
-  memcpy(INTEGER(delay_index_Hlag), internal->delay_index_Hlag, internal->dim_delay_Hlag * sizeof(int));
-  SET_VECTOR_ELT(contents, 3, delay_index_Hlag);
   SEXP delay_index_Ilag = PROTECT(allocVector(INTSXP, internal->dim_delay_Ilag));
   memcpy(INTEGER(delay_index_Ilag), internal->delay_index_Ilag, internal->dim_delay_Ilag * sizeof(int));
-  SET_VECTOR_ELT(contents, 4, delay_index_Ilag);
+  SET_VECTOR_ELT(contents, 3, delay_index_Ilag);
   SEXP delay_index_Vlag = PROTECT(allocVector(INTSXP, internal->dim_delay_Vlag));
   memcpy(INTEGER(delay_index_Vlag), internal->delay_index_Vlag, internal->dim_delay_Vlag * sizeof(int));
-  SET_VECTOR_ELT(contents, 5, delay_index_Vlag);
+  SET_VECTOR_ELT(contents, 4, delay_index_Vlag);
   SEXP delay_state_Dlag = PROTECT(allocVector(REALSXP, internal->dim_delay_Dlag));
   memcpy(REAL(delay_state_Dlag), internal->delay_state_Dlag, internal->dim_delay_Dlag * sizeof(double));
-  SET_VECTOR_ELT(contents, 6, delay_state_Dlag);
-  SEXP delay_state_Hlag = PROTECT(allocVector(REALSXP, internal->dim_delay_Hlag));
-  memcpy(REAL(delay_state_Hlag), internal->delay_state_Hlag, internal->dim_delay_Hlag * sizeof(double));
-  SET_VECTOR_ELT(contents, 7, delay_state_Hlag);
+  SET_VECTOR_ELT(contents, 5, delay_state_Dlag);
   SEXP delay_state_Ilag = PROTECT(allocVector(REALSXP, internal->dim_delay_Ilag));
   memcpy(REAL(delay_state_Ilag), internal->delay_state_Ilag, internal->dim_delay_Ilag * sizeof(double));
-  SET_VECTOR_ELT(contents, 8, delay_state_Ilag);
+  SET_VECTOR_ELT(contents, 6, delay_state_Ilag);
   SEXP delay_state_Vlag = PROTECT(allocVector(REALSXP, internal->dim_delay_Vlag));
   memcpy(REAL(delay_state_Vlag), internal->delay_state_Vlag, internal->dim_delay_Vlag * sizeof(double));
-  SET_VECTOR_ELT(contents, 9, delay_state_Vlag);
-  SET_VECTOR_ELT(contents, 10, ScalarInteger(internal->dim_beta_set));
-  SET_VECTOR_ELT(contents, 11, ScalarInteger(internal->dim_D));
-  SET_VECTOR_ELT(contents, 12, ScalarInteger(internal->dim_D_0));
-  SET_VECTOR_ELT(contents, 13, ScalarInteger(internal->dim_D_0_1));
-  SET_VECTOR_ELT(contents, 14, ScalarInteger(internal->dim_D_0_2));
-  SET_VECTOR_ELT(contents, 15, ScalarInteger(internal->dim_D_1));
-  SET_VECTOR_ELT(contents, 16, ScalarInteger(internal->dim_D_2));
-  SET_VECTOR_ELT(contents, 17, ScalarInteger(internal->dim_deaths));
-  SET_VECTOR_ELT(contents, 18, ScalarInteger(internal->dim_delay_Dlag));
-  SET_VECTOR_ELT(contents, 19, ScalarInteger(internal->dim_delay_Hlag));
-  SET_VECTOR_ELT(contents, 20, ScalarInteger(internal->dim_delay_Ilag));
-  SET_VECTOR_ELT(contents, 21, ScalarInteger(internal->dim_delay_Vlag));
-  SET_VECTOR_ELT(contents, 22, ScalarInteger(internal->dim_Dlag));
-  SET_VECTOR_ELT(contents, 23, ScalarInteger(internal->dim_Dlag_1));
-  SET_VECTOR_ELT(contents, 24, ScalarInteger(internal->dim_Dlag_2));
-  SET_VECTOR_ELT(contents, 25, ScalarInteger(internal->dim_E));
-  SET_VECTOR_ELT(contents, 26, ScalarInteger(internal->dim_E1));
-  SET_VECTOR_ELT(contents, 27, ScalarInteger(internal->dim_E1_0));
-  SET_VECTOR_ELT(contents, 28, ScalarInteger(internal->dim_E1_0_1));
-  SET_VECTOR_ELT(contents, 29, ScalarInteger(internal->dim_E1_0_2));
-  SET_VECTOR_ELT(contents, 30, ScalarInteger(internal->dim_E1_1));
-  SET_VECTOR_ELT(contents, 31, ScalarInteger(internal->dim_E1_2));
-  SET_VECTOR_ELT(contents, 32, ScalarInteger(internal->dim_E2));
-  SET_VECTOR_ELT(contents, 33, ScalarInteger(internal->dim_E2_0));
-  SET_VECTOR_ELT(contents, 34, ScalarInteger(internal->dim_E2_0_1));
-  SET_VECTOR_ELT(contents, 35, ScalarInteger(internal->dim_E2_0_2));
-  SET_VECTOR_ELT(contents, 36, ScalarInteger(internal->dim_E2_1));
-  SET_VECTOR_ELT(contents, 37, ScalarInteger(internal->dim_E2_2));
-  SET_VECTOR_ELT(contents, 38, ScalarInteger(internal->dim_gamma_vaccine));
-  SET_VECTOR_ELT(contents, 39, ScalarInteger(internal->dim_H));
-  SET_VECTOR_ELT(contents, 40, ScalarInteger(internal->dim_H_1));
-  SET_VECTOR_ELT(contents, 41, ScalarInteger(internal->dim_H_2));
-  SET_VECTOR_ELT(contents, 42, ScalarInteger(internal->dim_Hlag));
-  SET_VECTOR_ELT(contents, 43, ScalarInteger(internal->dim_Hlag_1));
-  SET_VECTOR_ELT(contents, 44, ScalarInteger(internal->dim_Hlag_2));
-  SET_VECTOR_ELT(contents, 45, ScalarInteger(internal->dim_hosp_beds));
-  SET_VECTOR_ELT(contents, 46, ScalarInteger(internal->dim_hospital_demand));
-  SET_VECTOR_ELT(contents, 47, ScalarInteger(internal->dim_hospital_occupancy));
-  SET_VECTOR_ELT(contents, 48, ScalarInteger(internal->dim_hospitalisations));
-  SET_VECTOR_ELT(contents, 49, ScalarInteger(internal->dim_I));
-  SET_VECTOR_ELT(contents, 50, ScalarInteger(internal->dim_I_1));
-  SET_VECTOR_ELT(contents, 51, ScalarInteger(internal->dim_I_2));
-  SET_VECTOR_ELT(contents, 52, ScalarInteger(internal->dim_ICase));
-  SET_VECTOR_ELT(contents, 53, ScalarInteger(internal->dim_ICase1));
-  SET_VECTOR_ELT(contents, 54, ScalarInteger(internal->dim_ICase1_0));
-  SET_VECTOR_ELT(contents, 55, ScalarInteger(internal->dim_ICase1_0_1));
-  SET_VECTOR_ELT(contents, 56, ScalarInteger(internal->dim_ICase1_0_2));
-  SET_VECTOR_ELT(contents, 57, ScalarInteger(internal->dim_ICase1_1));
-  SET_VECTOR_ELT(contents, 58, ScalarInteger(internal->dim_ICase1_2));
-  SET_VECTOR_ELT(contents, 59, ScalarInteger(internal->dim_ICase2));
-  SET_VECTOR_ELT(contents, 60, ScalarInteger(internal->dim_ICase2_0));
-  SET_VECTOR_ELT(contents, 61, ScalarInteger(internal->dim_ICase2_0_1));
-  SET_VECTOR_ELT(contents, 62, ScalarInteger(internal->dim_ICase2_0_2));
-  SET_VECTOR_ELT(contents, 63, ScalarInteger(internal->dim_ICase2_1));
-  SET_VECTOR_ELT(contents, 64, ScalarInteger(internal->dim_ICase2_2));
-  SET_VECTOR_ELT(contents, 65, ScalarInteger(internal->dim_ICU_beds));
-  SET_VECTOR_ELT(contents, 66, ScalarInteger(internal->dim_ICU_demand));
-  SET_VECTOR_ELT(contents, 67, ScalarInteger(internal->dim_ICU_occupancy));
-  SET_VECTOR_ELT(contents, 68, ScalarInteger(internal->dim_IHospital));
-  SET_VECTOR_ELT(contents, 69, ScalarInteger(internal->dim_IICU));
-  SET_VECTOR_ELT(contents, 70, ScalarInteger(internal->dim_Ilag));
-  SET_VECTOR_ELT(contents, 71, ScalarInteger(internal->dim_Ilag_1));
-  SET_VECTOR_ELT(contents, 72, ScalarInteger(internal->dim_Ilag_2));
-  SET_VECTOR_ELT(contents, 73, ScalarInteger(internal->dim_IMild));
-  SET_VECTOR_ELT(contents, 74, ScalarInteger(internal->dim_IMild_0));
-  SET_VECTOR_ELT(contents, 75, ScalarInteger(internal->dim_IMild_0_1));
-  SET_VECTOR_ELT(contents, 76, ScalarInteger(internal->dim_IMild_0_2));
-  SET_VECTOR_ELT(contents, 77, ScalarInteger(internal->dim_IMild_1));
-  SET_VECTOR_ELT(contents, 78, ScalarInteger(internal->dim_IMild_2));
-  SET_VECTOR_ELT(contents, 79, ScalarInteger(internal->dim_IMildout));
-  SET_VECTOR_ELT(contents, 80, ScalarInteger(internal->dim_IMV_dist_weighting));
-  SET_VECTOR_ELT(contents, 81, ScalarInteger(internal->dim_IMV_dist_weighting_1));
-  SET_VECTOR_ELT(contents, 82, ScalarInteger(internal->dim_IMV_dist_weighting_2));
-  SET_VECTOR_ELT(contents, 83, ScalarInteger(internal->dim_IMVGetDie1));
-  SET_VECTOR_ELT(contents, 84, ScalarInteger(internal->dim_IMVGetDie1_0));
-  SET_VECTOR_ELT(contents, 85, ScalarInteger(internal->dim_IMVGetDie1_0_1));
-  SET_VECTOR_ELT(contents, 86, ScalarInteger(internal->dim_IMVGetDie1_0_2));
-  SET_VECTOR_ELT(contents, 87, ScalarInteger(internal->dim_IMVGetDie1_1));
-  SET_VECTOR_ELT(contents, 88, ScalarInteger(internal->dim_IMVGetDie1_2));
-  SET_VECTOR_ELT(contents, 89, ScalarInteger(internal->dim_IMVGetDie2));
-  SET_VECTOR_ELT(contents, 90, ScalarInteger(internal->dim_IMVGetDie2_0));
-  SET_VECTOR_ELT(contents, 91, ScalarInteger(internal->dim_IMVGetDie2_0_1));
-  SET_VECTOR_ELT(contents, 92, ScalarInteger(internal->dim_IMVGetDie2_0_2));
-  SET_VECTOR_ELT(contents, 93, ScalarInteger(internal->dim_IMVGetDie2_1));
-  SET_VECTOR_ELT(contents, 94, ScalarInteger(internal->dim_IMVGetDie2_2));
-  SET_VECTOR_ELT(contents, 95, ScalarInteger(internal->dim_IMVGetLive1));
-  SET_VECTOR_ELT(contents, 96, ScalarInteger(internal->dim_IMVGetLive1_0));
-  SET_VECTOR_ELT(contents, 97, ScalarInteger(internal->dim_IMVGetLive1_0_1));
-  SET_VECTOR_ELT(contents, 98, ScalarInteger(internal->dim_IMVGetLive1_0_2));
-  SET_VECTOR_ELT(contents, 99, ScalarInteger(internal->dim_IMVGetLive1_1));
-  SET_VECTOR_ELT(contents, 100, ScalarInteger(internal->dim_IMVGetLive1_2));
-  SET_VECTOR_ELT(contents, 101, ScalarInteger(internal->dim_IMVGetLive2));
-  SET_VECTOR_ELT(contents, 102, ScalarInteger(internal->dim_IMVGetLive2_0));
-  SET_VECTOR_ELT(contents, 103, ScalarInteger(internal->dim_IMVGetLive2_0_1));
-  SET_VECTOR_ELT(contents, 104, ScalarInteger(internal->dim_IMVGetLive2_0_2));
-  SET_VECTOR_ELT(contents, 105, ScalarInteger(internal->dim_IMVGetLive2_1));
-  SET_VECTOR_ELT(contents, 106, ScalarInteger(internal->dim_IMVGetLive2_2));
-  SET_VECTOR_ELT(contents, 107, ScalarInteger(internal->dim_IMVNotGetDie1));
-  SET_VECTOR_ELT(contents, 108, ScalarInteger(internal->dim_IMVNotGetDie1_0));
-  SET_VECTOR_ELT(contents, 109, ScalarInteger(internal->dim_IMVNotGetDie1_0_1));
-  SET_VECTOR_ELT(contents, 110, ScalarInteger(internal->dim_IMVNotGetDie1_0_2));
-  SET_VECTOR_ELT(contents, 111, ScalarInteger(internal->dim_IMVNotGetDie1_1));
-  SET_VECTOR_ELT(contents, 112, ScalarInteger(internal->dim_IMVNotGetDie1_2));
-  SET_VECTOR_ELT(contents, 113, ScalarInteger(internal->dim_IMVNotGetDie2));
-  SET_VECTOR_ELT(contents, 114, ScalarInteger(internal->dim_IMVNotGetDie2_0));
-  SET_VECTOR_ELT(contents, 115, ScalarInteger(internal->dim_IMVNotGetDie2_0_1));
-  SET_VECTOR_ELT(contents, 116, ScalarInteger(internal->dim_IMVNotGetDie2_0_2));
-  SET_VECTOR_ELT(contents, 117, ScalarInteger(internal->dim_IMVNotGetDie2_1));
-  SET_VECTOR_ELT(contents, 118, ScalarInteger(internal->dim_IMVNotGetDie2_2));
-  SET_VECTOR_ELT(contents, 119, ScalarInteger(internal->dim_IMVNotGetLive1));
-  SET_VECTOR_ELT(contents, 120, ScalarInteger(internal->dim_IMVNotGetLive1_0));
-  SET_VECTOR_ELT(contents, 121, ScalarInteger(internal->dim_IMVNotGetLive1_0_1));
-  SET_VECTOR_ELT(contents, 122, ScalarInteger(internal->dim_IMVNotGetLive1_0_2));
-  SET_VECTOR_ELT(contents, 123, ScalarInteger(internal->dim_IMVNotGetLive1_1));
-  SET_VECTOR_ELT(contents, 124, ScalarInteger(internal->dim_IMVNotGetLive1_2));
-  SET_VECTOR_ELT(contents, 125, ScalarInteger(internal->dim_IMVNotGetLive2));
-  SET_VECTOR_ELT(contents, 126, ScalarInteger(internal->dim_IMVNotGetLive2_0));
-  SET_VECTOR_ELT(contents, 127, ScalarInteger(internal->dim_IMVNotGetLive2_0_1));
-  SET_VECTOR_ELT(contents, 128, ScalarInteger(internal->dim_IMVNotGetLive2_0_2));
-  SET_VECTOR_ELT(contents, 129, ScalarInteger(internal->dim_IMVNotGetLive2_1));
-  SET_VECTOR_ELT(contents, 130, ScalarInteger(internal->dim_IMVNotGetLive2_2));
-  SET_VECTOR_ELT(contents, 131, ScalarInteger(internal->dim_infections));
-  SET_VECTOR_ELT(contents, 132, ScalarInteger(internal->dim_IOxGetDie1));
-  SET_VECTOR_ELT(contents, 133, ScalarInteger(internal->dim_IOxGetDie1_0));
-  SET_VECTOR_ELT(contents, 134, ScalarInteger(internal->dim_IOxGetDie1_0_1));
-  SET_VECTOR_ELT(contents, 135, ScalarInteger(internal->dim_IOxGetDie1_0_2));
-  SET_VECTOR_ELT(contents, 136, ScalarInteger(internal->dim_IOxGetDie1_1));
-  SET_VECTOR_ELT(contents, 137, ScalarInteger(internal->dim_IOxGetDie1_2));
-  SET_VECTOR_ELT(contents, 138, ScalarInteger(internal->dim_IOxGetDie2));
-  SET_VECTOR_ELT(contents, 139, ScalarInteger(internal->dim_IOxGetDie2_0));
-  SET_VECTOR_ELT(contents, 140, ScalarInteger(internal->dim_IOxGetDie2_0_1));
-  SET_VECTOR_ELT(contents, 141, ScalarInteger(internal->dim_IOxGetDie2_0_2));
-  SET_VECTOR_ELT(contents, 142, ScalarInteger(internal->dim_IOxGetDie2_1));
-  SET_VECTOR_ELT(contents, 143, ScalarInteger(internal->dim_IOxGetDie2_2));
-  SET_VECTOR_ELT(contents, 144, ScalarInteger(internal->dim_IOxGetLive1));
-  SET_VECTOR_ELT(contents, 145, ScalarInteger(internal->dim_IOxGetLive1_0));
-  SET_VECTOR_ELT(contents, 146, ScalarInteger(internal->dim_IOxGetLive1_0_1));
-  SET_VECTOR_ELT(contents, 147, ScalarInteger(internal->dim_IOxGetLive1_0_2));
-  SET_VECTOR_ELT(contents, 148, ScalarInteger(internal->dim_IOxGetLive1_1));
-  SET_VECTOR_ELT(contents, 149, ScalarInteger(internal->dim_IOxGetLive1_2));
-  SET_VECTOR_ELT(contents, 150, ScalarInteger(internal->dim_IOxGetLive2));
-  SET_VECTOR_ELT(contents, 151, ScalarInteger(internal->dim_IOxGetLive2_0));
-  SET_VECTOR_ELT(contents, 152, ScalarInteger(internal->dim_IOxGetLive2_0_1));
-  SET_VECTOR_ELT(contents, 153, ScalarInteger(internal->dim_IOxGetLive2_0_2));
-  SET_VECTOR_ELT(contents, 154, ScalarInteger(internal->dim_IOxGetLive2_1));
-  SET_VECTOR_ELT(contents, 155, ScalarInteger(internal->dim_IOxGetLive2_2));
-  SET_VECTOR_ELT(contents, 156, ScalarInteger(internal->dim_IOxNotGetDie1));
-  SET_VECTOR_ELT(contents, 157, ScalarInteger(internal->dim_IOxNotGetDie1_0));
-  SET_VECTOR_ELT(contents, 158, ScalarInteger(internal->dim_IOxNotGetDie1_0_1));
-  SET_VECTOR_ELT(contents, 159, ScalarInteger(internal->dim_IOxNotGetDie1_0_2));
-  SET_VECTOR_ELT(contents, 160, ScalarInteger(internal->dim_IOxNotGetDie1_1));
-  SET_VECTOR_ELT(contents, 161, ScalarInteger(internal->dim_IOxNotGetDie1_2));
-  SET_VECTOR_ELT(contents, 162, ScalarInteger(internal->dim_IOxNotGetDie2));
-  SET_VECTOR_ELT(contents, 163, ScalarInteger(internal->dim_IOxNotGetDie2_0));
-  SET_VECTOR_ELT(contents, 164, ScalarInteger(internal->dim_IOxNotGetDie2_0_1));
-  SET_VECTOR_ELT(contents, 165, ScalarInteger(internal->dim_IOxNotGetDie2_0_2));
-  SET_VECTOR_ELT(contents, 166, ScalarInteger(internal->dim_IOxNotGetDie2_1));
-  SET_VECTOR_ELT(contents, 167, ScalarInteger(internal->dim_IOxNotGetDie2_2));
-  SET_VECTOR_ELT(contents, 168, ScalarInteger(internal->dim_IOxNotGetLive1));
-  SET_VECTOR_ELT(contents, 169, ScalarInteger(internal->dim_IOxNotGetLive1_0));
-  SET_VECTOR_ELT(contents, 170, ScalarInteger(internal->dim_IOxNotGetLive1_0_1));
-  SET_VECTOR_ELT(contents, 171, ScalarInteger(internal->dim_IOxNotGetLive1_0_2));
-  SET_VECTOR_ELT(contents, 172, ScalarInteger(internal->dim_IOxNotGetLive1_1));
-  SET_VECTOR_ELT(contents, 173, ScalarInteger(internal->dim_IOxNotGetLive1_2));
-  SET_VECTOR_ELT(contents, 174, ScalarInteger(internal->dim_IOxNotGetLive2));
-  SET_VECTOR_ELT(contents, 175, ScalarInteger(internal->dim_IOxNotGetLive2_0));
-  SET_VECTOR_ELT(contents, 176, ScalarInteger(internal->dim_IOxNotGetLive2_0_1));
-  SET_VECTOR_ELT(contents, 177, ScalarInteger(internal->dim_IOxNotGetLive2_0_2));
-  SET_VECTOR_ELT(contents, 178, ScalarInteger(internal->dim_IOxNotGetLive2_1));
-  SET_VECTOR_ELT(contents, 179, ScalarInteger(internal->dim_IOxNotGetLive2_2));
-  SET_VECTOR_ELT(contents, 180, ScalarInteger(internal->dim_IRec));
-  SET_VECTOR_ELT(contents, 181, ScalarInteger(internal->dim_IRec1));
-  SET_VECTOR_ELT(contents, 182, ScalarInteger(internal->dim_IRec1_0));
-  SET_VECTOR_ELT(contents, 183, ScalarInteger(internal->dim_IRec1_0_1));
-  SET_VECTOR_ELT(contents, 184, ScalarInteger(internal->dim_IRec1_0_2));
-  SET_VECTOR_ELT(contents, 185, ScalarInteger(internal->dim_IRec1_1));
-  SET_VECTOR_ELT(contents, 186, ScalarInteger(internal->dim_IRec1_2));
-  SET_VECTOR_ELT(contents, 187, ScalarInteger(internal->dim_IRec2));
-  SET_VECTOR_ELT(contents, 188, ScalarInteger(internal->dim_IRec2_0));
-  SET_VECTOR_ELT(contents, 189, ScalarInteger(internal->dim_IRec2_0_1));
-  SET_VECTOR_ELT(contents, 190, ScalarInteger(internal->dim_IRec2_0_2));
-  SET_VECTOR_ELT(contents, 191, ScalarInteger(internal->dim_IRec2_1));
-  SET_VECTOR_ELT(contents, 192, ScalarInteger(internal->dim_IRec2_2));
-  SET_VECTOR_ELT(contents, 193, ScalarInteger(internal->dim_lambda));
-  SET_VECTOR_ELT(contents, 194, ScalarInteger(internal->dim_m));
-  SET_VECTOR_ELT(contents, 195, ScalarInteger(internal->dim_m_1));
-  SET_VECTOR_ELT(contents, 196, ScalarInteger(internal->dim_m_2));
-  SET_VECTOR_ELT(contents, 197, ScalarInteger(internal->dim_max_vaccine));
-  SET_VECTOR_ELT(contents, 198, ScalarInteger(internal->dim_mix_mat_set));
-  SET_VECTOR_ELT(contents, 199, ScalarInteger(internal->dim_mix_mat_set_1));
-  SET_VECTOR_ELT(contents, 200, ScalarInteger(internal->dim_mix_mat_set_12));
-  SET_VECTOR_ELT(contents, 201, ScalarInteger(internal->dim_mix_mat_set_2));
-  SET_VECTOR_ELT(contents, 202, ScalarInteger(internal->dim_mix_mat_set_3));
-  SET_VECTOR_ELT(contents, 203, ScalarInteger(internal->dim_N));
-  SET_VECTOR_ELT(contents, 204, ScalarInteger(internal->dim_number_get_IMV));
-  SET_VECTOR_ELT(contents, 205, ScalarInteger(internal->dim_number_get_IMV_1));
-  SET_VECTOR_ELT(contents, 206, ScalarInteger(internal->dim_number_get_IMV_2));
-  SET_VECTOR_ELT(contents, 207, ScalarInteger(internal->dim_number_get_Ox));
-  SET_VECTOR_ELT(contents, 208, ScalarInteger(internal->dim_number_get_Ox_1));
-  SET_VECTOR_ELT(contents, 209, ScalarInteger(internal->dim_number_get_Ox_2));
-  SET_VECTOR_ELT(contents, 210, ScalarInteger(internal->dim_number_requiring_IMV));
-  SET_VECTOR_ELT(contents, 211, ScalarInteger(internal->dim_number_requiring_IMV_1));
-  SET_VECTOR_ELT(contents, 212, ScalarInteger(internal->dim_number_requiring_IMV_2));
-  SET_VECTOR_ELT(contents, 213, ScalarInteger(internal->dim_number_requiring_Ox));
-  SET_VECTOR_ELT(contents, 214, ScalarInteger(internal->dim_number_requiring_Ox_1));
-  SET_VECTOR_ELT(contents, 215, ScalarInteger(internal->dim_number_requiring_Ox_2));
-  SET_VECTOR_ELT(contents, 216, ScalarInteger(internal->dim_Ox_dist_weighting));
-  SET_VECTOR_ELT(contents, 217, ScalarInteger(internal->dim_Ox_dist_weighting_1));
-  SET_VECTOR_ELT(contents, 218, ScalarInteger(internal->dim_Ox_dist_weighting_2));
-  SET_VECTOR_ELT(contents, 219, ScalarInteger(internal->dim_p_dist));
-  SET_VECTOR_ELT(contents, 220, ScalarInteger(internal->dim_p_dist_1));
-  SET_VECTOR_ELT(contents, 221, ScalarInteger(internal->dim_p_dist_2));
-  SET_VECTOR_ELT(contents, 222, ScalarInteger(internal->dim_priorvaccinated));
-  SET_VECTOR_ELT(contents, 223, ScalarInteger(internal->dim_prob_hosp));
-  SET_VECTOR_ELT(contents, 224, ScalarInteger(internal->dim_prob_hosp_1));
-  SET_VECTOR_ELT(contents, 225, ScalarInteger(internal->dim_prob_hosp_2));
-  SET_VECTOR_ELT(contents, 226, ScalarInteger(internal->dim_prob_non_severe_death_no_treatment));
-  SET_VECTOR_ELT(contents, 227, ScalarInteger(internal->dim_prob_non_severe_death_treatment));
-  SET_VECTOR_ELT(contents, 228, ScalarInteger(internal->dim_prob_severe));
-  SET_VECTOR_ELT(contents, 229, ScalarInteger(internal->dim_prob_severe_death_no_treatment));
-  SET_VECTOR_ELT(contents, 230, ScalarInteger(internal->dim_prob_severe_death_treatment));
-  SET_VECTOR_ELT(contents, 231, ScalarInteger(internal->dim_R));
-  SET_VECTOR_ELT(contents, 232, ScalarInteger(internal->dim_R1));
-  SET_VECTOR_ELT(contents, 233, ScalarInteger(internal->dim_R1_0));
-  SET_VECTOR_ELT(contents, 234, ScalarInteger(internal->dim_R1_0_1));
-  SET_VECTOR_ELT(contents, 235, ScalarInteger(internal->dim_R1_0_2));
-  SET_VECTOR_ELT(contents, 236, ScalarInteger(internal->dim_R1_1));
-  SET_VECTOR_ELT(contents, 237, ScalarInteger(internal->dim_R1_2));
-  SET_VECTOR_ELT(contents, 238, ScalarInteger(internal->dim_R2));
-  SET_VECTOR_ELT(contents, 239, ScalarInteger(internal->dim_R2_0));
-  SET_VECTOR_ELT(contents, 240, ScalarInteger(internal->dim_R2_0_1));
-  SET_VECTOR_ELT(contents, 241, ScalarInteger(internal->dim_R2_0_2));
-  SET_VECTOR_ELT(contents, 242, ScalarInteger(internal->dim_R2_1));
-  SET_VECTOR_ELT(contents, 243, ScalarInteger(internal->dim_R2_2));
-  SET_VECTOR_ELT(contents, 244, ScalarInteger(internal->dim_S));
-  SET_VECTOR_ELT(contents, 245, ScalarInteger(internal->dim_S_0));
-  SET_VECTOR_ELT(contents, 246, ScalarInteger(internal->dim_S_0_1));
-  SET_VECTOR_ELT(contents, 247, ScalarInteger(internal->dim_S_0_2));
-  SET_VECTOR_ELT(contents, 248, ScalarInteger(internal->dim_S_1));
-  SET_VECTOR_ELT(contents, 249, ScalarInteger(internal->dim_S_2));
-  SET_VECTOR_ELT(contents, 250, ScalarInteger(internal->dim_s_ij));
-  SET_VECTOR_ELT(contents, 251, ScalarInteger(internal->dim_s_ij_1));
-  SET_VECTOR_ELT(contents, 252, ScalarInteger(internal->dim_s_ij_2));
-  SET_VECTOR_ELT(contents, 253, ScalarInteger(internal->dim_temp));
-  SET_VECTOR_ELT(contents, 254, ScalarInteger(internal->dim_tt_beta));
-  SET_VECTOR_ELT(contents, 255, ScalarInteger(internal->dim_tt_hosp_beds));
-  SET_VECTOR_ELT(contents, 256, ScalarInteger(internal->dim_tt_ICU_beds));
-  SET_VECTOR_ELT(contents, 257, ScalarInteger(internal->dim_tt_matrix));
-  SET_VECTOR_ELT(contents, 258, ScalarInteger(internal->dim_tt_vaccine));
-  SET_VECTOR_ELT(contents, 259, ScalarInteger(internal->dim_unvaccinated));
-  SET_VECTOR_ELT(contents, 260, ScalarInteger(internal->dim_V));
-  SET_VECTOR_ELT(contents, 261, ScalarInteger(internal->dim_vaccinated));
-  SET_VECTOR_ELT(contents, 262, ScalarInteger(internal->dim_vaccination_target));
-  SET_VECTOR_ELT(contents, 263, ScalarInteger(internal->dim_vaccine_efficacy_infection));
-  SET_VECTOR_ELT(contents, 264, ScalarInteger(internal->dim_vaccine_efficacy_infection_1));
-  SET_VECTOR_ELT(contents, 265, ScalarInteger(internal->dim_vaccine_efficacy_infection_2));
-  SET_VECTOR_ELT(contents, 266, ScalarInteger(internal->dim_vaccines));
-  SET_VECTOR_ELT(contents, 267, ScalarInteger(internal->dim_Vlag));
-  SET_VECTOR_ELT(contents, 268, ScalarInteger(internal->dim_vr_temp));
+  SET_VECTOR_ELT(contents, 7, delay_state_Vlag);
+  SET_VECTOR_ELT(contents, 8, ScalarInteger(internal->dim_beta_set));
+  SET_VECTOR_ELT(contents, 9, ScalarInteger(internal->dim_D));
+  SET_VECTOR_ELT(contents, 10, ScalarInteger(internal->dim_D_0));
+  SET_VECTOR_ELT(contents, 11, ScalarInteger(internal->dim_D_0_1));
+  SET_VECTOR_ELT(contents, 12, ScalarInteger(internal->dim_D_0_2));
+  SET_VECTOR_ELT(contents, 13, ScalarInteger(internal->dim_D_1));
+  SET_VECTOR_ELT(contents, 14, ScalarInteger(internal->dim_D_2));
+  SET_VECTOR_ELT(contents, 15, ScalarInteger(internal->dim_deaths));
+  SET_VECTOR_ELT(contents, 16, ScalarInteger(internal->dim_delay_Dlag));
+  SET_VECTOR_ELT(contents, 17, ScalarInteger(internal->dim_delay_Ilag));
+  SET_VECTOR_ELT(contents, 18, ScalarInteger(internal->dim_delay_Vlag));
+  SET_VECTOR_ELT(contents, 19, ScalarInteger(internal->dim_Dlag));
+  SET_VECTOR_ELT(contents, 20, ScalarInteger(internal->dim_Dlag_1));
+  SET_VECTOR_ELT(contents, 21, ScalarInteger(internal->dim_Dlag_2));
+  SET_VECTOR_ELT(contents, 22, ScalarInteger(internal->dim_E));
+  SET_VECTOR_ELT(contents, 23, ScalarInteger(internal->dim_E1));
+  SET_VECTOR_ELT(contents, 24, ScalarInteger(internal->dim_E1_0));
+  SET_VECTOR_ELT(contents, 25, ScalarInteger(internal->dim_E1_0_1));
+  SET_VECTOR_ELT(contents, 26, ScalarInteger(internal->dim_E1_0_2));
+  SET_VECTOR_ELT(contents, 27, ScalarInteger(internal->dim_E1_1));
+  SET_VECTOR_ELT(contents, 28, ScalarInteger(internal->dim_E1_2));
+  SET_VECTOR_ELT(contents, 29, ScalarInteger(internal->dim_E2));
+  SET_VECTOR_ELT(contents, 30, ScalarInteger(internal->dim_E2_0));
+  SET_VECTOR_ELT(contents, 31, ScalarInteger(internal->dim_E2_0_1));
+  SET_VECTOR_ELT(contents, 32, ScalarInteger(internal->dim_E2_0_2));
+  SET_VECTOR_ELT(contents, 33, ScalarInteger(internal->dim_E2_1));
+  SET_VECTOR_ELT(contents, 34, ScalarInteger(internal->dim_E2_2));
+  SET_VECTOR_ELT(contents, 35, ScalarInteger(internal->dim_gamma_vaccine));
+  SET_VECTOR_ELT(contents, 36, ScalarInteger(internal->dim_hosp_beds));
+  SET_VECTOR_ELT(contents, 37, ScalarInteger(internal->dim_hospital_demand));
+  SET_VECTOR_ELT(contents, 38, ScalarInteger(internal->dim_hospital_occupancy));
+  SET_VECTOR_ELT(contents, 39, ScalarInteger(internal->dim_I));
+  SET_VECTOR_ELT(contents, 40, ScalarInteger(internal->dim_I_1));
+  SET_VECTOR_ELT(contents, 41, ScalarInteger(internal->dim_I_2));
+  SET_VECTOR_ELT(contents, 42, ScalarInteger(internal->dim_ICase));
+  SET_VECTOR_ELT(contents, 43, ScalarInteger(internal->dim_ICase1));
+  SET_VECTOR_ELT(contents, 44, ScalarInteger(internal->dim_ICase1_0));
+  SET_VECTOR_ELT(contents, 45, ScalarInteger(internal->dim_ICase1_0_1));
+  SET_VECTOR_ELT(contents, 46, ScalarInteger(internal->dim_ICase1_0_2));
+  SET_VECTOR_ELT(contents, 47, ScalarInteger(internal->dim_ICase1_1));
+  SET_VECTOR_ELT(contents, 48, ScalarInteger(internal->dim_ICase1_2));
+  SET_VECTOR_ELT(contents, 49, ScalarInteger(internal->dim_ICase2));
+  SET_VECTOR_ELT(contents, 50, ScalarInteger(internal->dim_ICase2_0));
+  SET_VECTOR_ELT(contents, 51, ScalarInteger(internal->dim_ICase2_0_1));
+  SET_VECTOR_ELT(contents, 52, ScalarInteger(internal->dim_ICase2_0_2));
+  SET_VECTOR_ELT(contents, 53, ScalarInteger(internal->dim_ICase2_1));
+  SET_VECTOR_ELT(contents, 54, ScalarInteger(internal->dim_ICase2_2));
+  SET_VECTOR_ELT(contents, 55, ScalarInteger(internal->dim_ICU_beds));
+  SET_VECTOR_ELT(contents, 56, ScalarInteger(internal->dim_ICU_demand));
+  SET_VECTOR_ELT(contents, 57, ScalarInteger(internal->dim_ICU_occupancy));
+  SET_VECTOR_ELT(contents, 58, ScalarInteger(internal->dim_IHospital));
+  SET_VECTOR_ELT(contents, 59, ScalarInteger(internal->dim_IICU));
+  SET_VECTOR_ELT(contents, 60, ScalarInteger(internal->dim_Ilag));
+  SET_VECTOR_ELT(contents, 61, ScalarInteger(internal->dim_Ilag_1));
+  SET_VECTOR_ELT(contents, 62, ScalarInteger(internal->dim_Ilag_2));
+  SET_VECTOR_ELT(contents, 63, ScalarInteger(internal->dim_IMild));
+  SET_VECTOR_ELT(contents, 64, ScalarInteger(internal->dim_IMild_0));
+  SET_VECTOR_ELT(contents, 65, ScalarInteger(internal->dim_IMild_0_1));
+  SET_VECTOR_ELT(contents, 66, ScalarInteger(internal->dim_IMild_0_2));
+  SET_VECTOR_ELT(contents, 67, ScalarInteger(internal->dim_IMild_1));
+  SET_VECTOR_ELT(contents, 68, ScalarInteger(internal->dim_IMild_2));
+  SET_VECTOR_ELT(contents, 69, ScalarInteger(internal->dim_IMildout));
+  SET_VECTOR_ELT(contents, 70, ScalarInteger(internal->dim_IMVGetDie1));
+  SET_VECTOR_ELT(contents, 71, ScalarInteger(internal->dim_IMVGetDie1_0));
+  SET_VECTOR_ELT(contents, 72, ScalarInteger(internal->dim_IMVGetDie1_0_1));
+  SET_VECTOR_ELT(contents, 73, ScalarInteger(internal->dim_IMVGetDie1_0_2));
+  SET_VECTOR_ELT(contents, 74, ScalarInteger(internal->dim_IMVGetDie1_1));
+  SET_VECTOR_ELT(contents, 75, ScalarInteger(internal->dim_IMVGetDie1_2));
+  SET_VECTOR_ELT(contents, 76, ScalarInteger(internal->dim_IMVGetDie2));
+  SET_VECTOR_ELT(contents, 77, ScalarInteger(internal->dim_IMVGetDie2_0));
+  SET_VECTOR_ELT(contents, 78, ScalarInteger(internal->dim_IMVGetDie2_0_1));
+  SET_VECTOR_ELT(contents, 79, ScalarInteger(internal->dim_IMVGetDie2_0_2));
+  SET_VECTOR_ELT(contents, 80, ScalarInteger(internal->dim_IMVGetDie2_1));
+  SET_VECTOR_ELT(contents, 81, ScalarInteger(internal->dim_IMVGetDie2_2));
+  SET_VECTOR_ELT(contents, 82, ScalarInteger(internal->dim_IMVGetLive1));
+  SET_VECTOR_ELT(contents, 83, ScalarInteger(internal->dim_IMVGetLive1_0));
+  SET_VECTOR_ELT(contents, 84, ScalarInteger(internal->dim_IMVGetLive1_0_1));
+  SET_VECTOR_ELT(contents, 85, ScalarInteger(internal->dim_IMVGetLive1_0_2));
+  SET_VECTOR_ELT(contents, 86, ScalarInteger(internal->dim_IMVGetLive1_1));
+  SET_VECTOR_ELT(contents, 87, ScalarInteger(internal->dim_IMVGetLive1_2));
+  SET_VECTOR_ELT(contents, 88, ScalarInteger(internal->dim_IMVGetLive2));
+  SET_VECTOR_ELT(contents, 89, ScalarInteger(internal->dim_IMVGetLive2_0));
+  SET_VECTOR_ELT(contents, 90, ScalarInteger(internal->dim_IMVGetLive2_0_1));
+  SET_VECTOR_ELT(contents, 91, ScalarInteger(internal->dim_IMVGetLive2_0_2));
+  SET_VECTOR_ELT(contents, 92, ScalarInteger(internal->dim_IMVGetLive2_1));
+  SET_VECTOR_ELT(contents, 93, ScalarInteger(internal->dim_IMVGetLive2_2));
+  SET_VECTOR_ELT(contents, 94, ScalarInteger(internal->dim_IMVNotGetDie1));
+  SET_VECTOR_ELT(contents, 95, ScalarInteger(internal->dim_IMVNotGetDie1_0));
+  SET_VECTOR_ELT(contents, 96, ScalarInteger(internal->dim_IMVNotGetDie1_0_1));
+  SET_VECTOR_ELT(contents, 97, ScalarInteger(internal->dim_IMVNotGetDie1_0_2));
+  SET_VECTOR_ELT(contents, 98, ScalarInteger(internal->dim_IMVNotGetDie1_1));
+  SET_VECTOR_ELT(contents, 99, ScalarInteger(internal->dim_IMVNotGetDie1_2));
+  SET_VECTOR_ELT(contents, 100, ScalarInteger(internal->dim_IMVNotGetDie2));
+  SET_VECTOR_ELT(contents, 101, ScalarInteger(internal->dim_IMVNotGetDie2_0));
+  SET_VECTOR_ELT(contents, 102, ScalarInteger(internal->dim_IMVNotGetDie2_0_1));
+  SET_VECTOR_ELT(contents, 103, ScalarInteger(internal->dim_IMVNotGetDie2_0_2));
+  SET_VECTOR_ELT(contents, 104, ScalarInteger(internal->dim_IMVNotGetDie2_1));
+  SET_VECTOR_ELT(contents, 105, ScalarInteger(internal->dim_IMVNotGetDie2_2));
+  SET_VECTOR_ELT(contents, 106, ScalarInteger(internal->dim_IMVNotGetLive1));
+  SET_VECTOR_ELT(contents, 107, ScalarInteger(internal->dim_IMVNotGetLive1_0));
+  SET_VECTOR_ELT(contents, 108, ScalarInteger(internal->dim_IMVNotGetLive1_0_1));
+  SET_VECTOR_ELT(contents, 109, ScalarInteger(internal->dim_IMVNotGetLive1_0_2));
+  SET_VECTOR_ELT(contents, 110, ScalarInteger(internal->dim_IMVNotGetLive1_1));
+  SET_VECTOR_ELT(contents, 111, ScalarInteger(internal->dim_IMVNotGetLive1_2));
+  SET_VECTOR_ELT(contents, 112, ScalarInteger(internal->dim_IMVNotGetLive2));
+  SET_VECTOR_ELT(contents, 113, ScalarInteger(internal->dim_IMVNotGetLive2_0));
+  SET_VECTOR_ELT(contents, 114, ScalarInteger(internal->dim_IMVNotGetLive2_0_1));
+  SET_VECTOR_ELT(contents, 115, ScalarInteger(internal->dim_IMVNotGetLive2_0_2));
+  SET_VECTOR_ELT(contents, 116, ScalarInteger(internal->dim_IMVNotGetLive2_1));
+  SET_VECTOR_ELT(contents, 117, ScalarInteger(internal->dim_IMVNotGetLive2_2));
+  SET_VECTOR_ELT(contents, 118, ScalarInteger(internal->dim_infections));
+  SET_VECTOR_ELT(contents, 119, ScalarInteger(internal->dim_IOxGetDie1));
+  SET_VECTOR_ELT(contents, 120, ScalarInteger(internal->dim_IOxGetDie1_0));
+  SET_VECTOR_ELT(contents, 121, ScalarInteger(internal->dim_IOxGetDie1_0_1));
+  SET_VECTOR_ELT(contents, 122, ScalarInteger(internal->dim_IOxGetDie1_0_2));
+  SET_VECTOR_ELT(contents, 123, ScalarInteger(internal->dim_IOxGetDie1_1));
+  SET_VECTOR_ELT(contents, 124, ScalarInteger(internal->dim_IOxGetDie1_2));
+  SET_VECTOR_ELT(contents, 125, ScalarInteger(internal->dim_IOxGetDie2));
+  SET_VECTOR_ELT(contents, 126, ScalarInteger(internal->dim_IOxGetDie2_0));
+  SET_VECTOR_ELT(contents, 127, ScalarInteger(internal->dim_IOxGetDie2_0_1));
+  SET_VECTOR_ELT(contents, 128, ScalarInteger(internal->dim_IOxGetDie2_0_2));
+  SET_VECTOR_ELT(contents, 129, ScalarInteger(internal->dim_IOxGetDie2_1));
+  SET_VECTOR_ELT(contents, 130, ScalarInteger(internal->dim_IOxGetDie2_2));
+  SET_VECTOR_ELT(contents, 131, ScalarInteger(internal->dim_IOxGetLive1));
+  SET_VECTOR_ELT(contents, 132, ScalarInteger(internal->dim_IOxGetLive1_0));
+  SET_VECTOR_ELT(contents, 133, ScalarInteger(internal->dim_IOxGetLive1_0_1));
+  SET_VECTOR_ELT(contents, 134, ScalarInteger(internal->dim_IOxGetLive1_0_2));
+  SET_VECTOR_ELT(contents, 135, ScalarInteger(internal->dim_IOxGetLive1_1));
+  SET_VECTOR_ELT(contents, 136, ScalarInteger(internal->dim_IOxGetLive1_2));
+  SET_VECTOR_ELT(contents, 137, ScalarInteger(internal->dim_IOxGetLive2));
+  SET_VECTOR_ELT(contents, 138, ScalarInteger(internal->dim_IOxGetLive2_0));
+  SET_VECTOR_ELT(contents, 139, ScalarInteger(internal->dim_IOxGetLive2_0_1));
+  SET_VECTOR_ELT(contents, 140, ScalarInteger(internal->dim_IOxGetLive2_0_2));
+  SET_VECTOR_ELT(contents, 141, ScalarInteger(internal->dim_IOxGetLive2_1));
+  SET_VECTOR_ELT(contents, 142, ScalarInteger(internal->dim_IOxGetLive2_2));
+  SET_VECTOR_ELT(contents, 143, ScalarInteger(internal->dim_IOxNotGetDie1));
+  SET_VECTOR_ELT(contents, 144, ScalarInteger(internal->dim_IOxNotGetDie1_0));
+  SET_VECTOR_ELT(contents, 145, ScalarInteger(internal->dim_IOxNotGetDie1_0_1));
+  SET_VECTOR_ELT(contents, 146, ScalarInteger(internal->dim_IOxNotGetDie1_0_2));
+  SET_VECTOR_ELT(contents, 147, ScalarInteger(internal->dim_IOxNotGetDie1_1));
+  SET_VECTOR_ELT(contents, 148, ScalarInteger(internal->dim_IOxNotGetDie1_2));
+  SET_VECTOR_ELT(contents, 149, ScalarInteger(internal->dim_IOxNotGetDie2));
+  SET_VECTOR_ELT(contents, 150, ScalarInteger(internal->dim_IOxNotGetDie2_0));
+  SET_VECTOR_ELT(contents, 151, ScalarInteger(internal->dim_IOxNotGetDie2_0_1));
+  SET_VECTOR_ELT(contents, 152, ScalarInteger(internal->dim_IOxNotGetDie2_0_2));
+  SET_VECTOR_ELT(contents, 153, ScalarInteger(internal->dim_IOxNotGetDie2_1));
+  SET_VECTOR_ELT(contents, 154, ScalarInteger(internal->dim_IOxNotGetDie2_2));
+  SET_VECTOR_ELT(contents, 155, ScalarInteger(internal->dim_IOxNotGetLive1));
+  SET_VECTOR_ELT(contents, 156, ScalarInteger(internal->dim_IOxNotGetLive1_0));
+  SET_VECTOR_ELT(contents, 157, ScalarInteger(internal->dim_IOxNotGetLive1_0_1));
+  SET_VECTOR_ELT(contents, 158, ScalarInteger(internal->dim_IOxNotGetLive1_0_2));
+  SET_VECTOR_ELT(contents, 159, ScalarInteger(internal->dim_IOxNotGetLive1_1));
+  SET_VECTOR_ELT(contents, 160, ScalarInteger(internal->dim_IOxNotGetLive1_2));
+  SET_VECTOR_ELT(contents, 161, ScalarInteger(internal->dim_IOxNotGetLive2));
+  SET_VECTOR_ELT(contents, 162, ScalarInteger(internal->dim_IOxNotGetLive2_0));
+  SET_VECTOR_ELT(contents, 163, ScalarInteger(internal->dim_IOxNotGetLive2_0_1));
+  SET_VECTOR_ELT(contents, 164, ScalarInteger(internal->dim_IOxNotGetLive2_0_2));
+  SET_VECTOR_ELT(contents, 165, ScalarInteger(internal->dim_IOxNotGetLive2_1));
+  SET_VECTOR_ELT(contents, 166, ScalarInteger(internal->dim_IOxNotGetLive2_2));
+  SET_VECTOR_ELT(contents, 167, ScalarInteger(internal->dim_IRec));
+  SET_VECTOR_ELT(contents, 168, ScalarInteger(internal->dim_IRec1));
+  SET_VECTOR_ELT(contents, 169, ScalarInteger(internal->dim_IRec1_0));
+  SET_VECTOR_ELT(contents, 170, ScalarInteger(internal->dim_IRec1_0_1));
+  SET_VECTOR_ELT(contents, 171, ScalarInteger(internal->dim_IRec1_0_2));
+  SET_VECTOR_ELT(contents, 172, ScalarInteger(internal->dim_IRec1_1));
+  SET_VECTOR_ELT(contents, 173, ScalarInteger(internal->dim_IRec1_2));
+  SET_VECTOR_ELT(contents, 174, ScalarInteger(internal->dim_IRec2));
+  SET_VECTOR_ELT(contents, 175, ScalarInteger(internal->dim_IRec2_0));
+  SET_VECTOR_ELT(contents, 176, ScalarInteger(internal->dim_IRec2_0_1));
+  SET_VECTOR_ELT(contents, 177, ScalarInteger(internal->dim_IRec2_0_2));
+  SET_VECTOR_ELT(contents, 178, ScalarInteger(internal->dim_IRec2_1));
+  SET_VECTOR_ELT(contents, 179, ScalarInteger(internal->dim_IRec2_2));
+  SET_VECTOR_ELT(contents, 180, ScalarInteger(internal->dim_lambda));
+  SET_VECTOR_ELT(contents, 181, ScalarInteger(internal->dim_m));
+  SET_VECTOR_ELT(contents, 182, ScalarInteger(internal->dim_m_1));
+  SET_VECTOR_ELT(contents, 183, ScalarInteger(internal->dim_m_2));
+  SET_VECTOR_ELT(contents, 184, ScalarInteger(internal->dim_max_vaccine));
+  SET_VECTOR_ELT(contents, 185, ScalarInteger(internal->dim_mix_mat_set));
+  SET_VECTOR_ELT(contents, 186, ScalarInteger(internal->dim_mix_mat_set_1));
+  SET_VECTOR_ELT(contents, 187, ScalarInteger(internal->dim_mix_mat_set_12));
+  SET_VECTOR_ELT(contents, 188, ScalarInteger(internal->dim_mix_mat_set_2));
+  SET_VECTOR_ELT(contents, 189, ScalarInteger(internal->dim_mix_mat_set_3));
+  SET_VECTOR_ELT(contents, 190, ScalarInteger(internal->dim_N));
+  SET_VECTOR_ELT(contents, 191, ScalarInteger(internal->dim_number_requiring_IMV));
+  SET_VECTOR_ELT(contents, 192, ScalarInteger(internal->dim_number_requiring_IMV_1));
+  SET_VECTOR_ELT(contents, 193, ScalarInteger(internal->dim_number_requiring_IMV_2));
+  SET_VECTOR_ELT(contents, 194, ScalarInteger(internal->dim_number_requiring_Ox));
+  SET_VECTOR_ELT(contents, 195, ScalarInteger(internal->dim_number_requiring_Ox_1));
+  SET_VECTOR_ELT(contents, 196, ScalarInteger(internal->dim_number_requiring_Ox_2));
+  SET_VECTOR_ELT(contents, 197, ScalarInteger(internal->dim_p_dist));
+  SET_VECTOR_ELT(contents, 198, ScalarInteger(internal->dim_p_dist_1));
+  SET_VECTOR_ELT(contents, 199, ScalarInteger(internal->dim_p_dist_2));
+  SET_VECTOR_ELT(contents, 200, ScalarInteger(internal->dim_priorvaccinated));
+  SET_VECTOR_ELT(contents, 201, ScalarInteger(internal->dim_prob_hosp));
+  SET_VECTOR_ELT(contents, 202, ScalarInteger(internal->dim_prob_hosp_1));
+  SET_VECTOR_ELT(contents, 203, ScalarInteger(internal->dim_prob_hosp_2));
+  SET_VECTOR_ELT(contents, 204, ScalarInteger(internal->dim_prob_non_severe_death_no_treatment));
+  SET_VECTOR_ELT(contents, 205, ScalarInteger(internal->dim_prob_non_severe_death_treatment));
+  SET_VECTOR_ELT(contents, 206, ScalarInteger(internal->dim_prob_severe));
+  SET_VECTOR_ELT(contents, 207, ScalarInteger(internal->dim_prob_severe_death_no_treatment));
+  SET_VECTOR_ELT(contents, 208, ScalarInteger(internal->dim_prob_severe_death_treatment));
+  SET_VECTOR_ELT(contents, 209, ScalarInteger(internal->dim_R));
+  SET_VECTOR_ELT(contents, 210, ScalarInteger(internal->dim_R1));
+  SET_VECTOR_ELT(contents, 211, ScalarInteger(internal->dim_R1_0));
+  SET_VECTOR_ELT(contents, 212, ScalarInteger(internal->dim_R1_0_1));
+  SET_VECTOR_ELT(contents, 213, ScalarInteger(internal->dim_R1_0_2));
+  SET_VECTOR_ELT(contents, 214, ScalarInteger(internal->dim_R1_1));
+  SET_VECTOR_ELT(contents, 215, ScalarInteger(internal->dim_R1_2));
+  SET_VECTOR_ELT(contents, 216, ScalarInteger(internal->dim_R2));
+  SET_VECTOR_ELT(contents, 217, ScalarInteger(internal->dim_R2_0));
+  SET_VECTOR_ELT(contents, 218, ScalarInteger(internal->dim_R2_0_1));
+  SET_VECTOR_ELT(contents, 219, ScalarInteger(internal->dim_R2_0_2));
+  SET_VECTOR_ELT(contents, 220, ScalarInteger(internal->dim_R2_1));
+  SET_VECTOR_ELT(contents, 221, ScalarInteger(internal->dim_R2_2));
+  SET_VECTOR_ELT(contents, 222, ScalarInteger(internal->dim_S));
+  SET_VECTOR_ELT(contents, 223, ScalarInteger(internal->dim_S_0));
+  SET_VECTOR_ELT(contents, 224, ScalarInteger(internal->dim_S_0_1));
+  SET_VECTOR_ELT(contents, 225, ScalarInteger(internal->dim_S_0_2));
+  SET_VECTOR_ELT(contents, 226, ScalarInteger(internal->dim_S_1));
+  SET_VECTOR_ELT(contents, 227, ScalarInteger(internal->dim_S_2));
+  SET_VECTOR_ELT(contents, 228, ScalarInteger(internal->dim_s_ij));
+  SET_VECTOR_ELT(contents, 229, ScalarInteger(internal->dim_s_ij_1));
+  SET_VECTOR_ELT(contents, 230, ScalarInteger(internal->dim_s_ij_2));
+  SET_VECTOR_ELT(contents, 231, ScalarInteger(internal->dim_temp));
+  SET_VECTOR_ELT(contents, 232, ScalarInteger(internal->dim_tt_beta));
+  SET_VECTOR_ELT(contents, 233, ScalarInteger(internal->dim_tt_hosp_beds));
+  SET_VECTOR_ELT(contents, 234, ScalarInteger(internal->dim_tt_ICU_beds));
+  SET_VECTOR_ELT(contents, 235, ScalarInteger(internal->dim_tt_matrix));
+  SET_VECTOR_ELT(contents, 236, ScalarInteger(internal->dim_tt_vaccine));
+  SET_VECTOR_ELT(contents, 237, ScalarInteger(internal->dim_unvaccinated));
+  SET_VECTOR_ELT(contents, 238, ScalarInteger(internal->dim_V));
+  SET_VECTOR_ELT(contents, 239, ScalarInteger(internal->dim_vaccinated));
+  SET_VECTOR_ELT(contents, 240, ScalarInteger(internal->dim_vaccination_target));
+  SET_VECTOR_ELT(contents, 241, ScalarInteger(internal->dim_vaccine_efficacy_infection));
+  SET_VECTOR_ELT(contents, 242, ScalarInteger(internal->dim_vaccine_efficacy_infection_1));
+  SET_VECTOR_ELT(contents, 243, ScalarInteger(internal->dim_vaccine_efficacy_infection_2));
+  SET_VECTOR_ELT(contents, 244, ScalarInteger(internal->dim_vaccines));
+  SET_VECTOR_ELT(contents, 245, ScalarInteger(internal->dim_Vlag));
+  SET_VECTOR_ELT(contents, 246, ScalarInteger(internal->dim_vr_temp));
   SEXP Dlag = PROTECT(allocVector(REALSXP, internal->dim_Dlag));
   memcpy(REAL(Dlag), internal->Dlag, internal->dim_Dlag * sizeof(double));
   odin_set_dim(Dlag, 2, internal->dim_Dlag_1, internal->dim_Dlag_2);
-  SET_VECTOR_ELT(contents, 269, Dlag);
-  SET_VECTOR_ELT(contents, 270, ScalarReal(internal->dt));
+  SET_VECTOR_ELT(contents, 247, Dlag);
+  SET_VECTOR_ELT(contents, 248, ScalarReal(internal->dt));
   SEXP E1_0 = PROTECT(allocVector(REALSXP, internal->dim_E1_0));
   memcpy(REAL(E1_0), internal->E1_0, internal->dim_E1_0 * sizeof(double));
   odin_set_dim(E1_0, 2, internal->dim_E1_0_1, internal->dim_E1_0_2);
-  SET_VECTOR_ELT(contents, 271, E1_0);
+  SET_VECTOR_ELT(contents, 249, E1_0);
   SEXP E2_0 = PROTECT(allocVector(REALSXP, internal->dim_E2_0));
   memcpy(REAL(E2_0), internal->E2_0, internal->dim_E2_0 * sizeof(double));
   odin_set_dim(E2_0, 2, internal->dim_E2_0_1, internal->dim_E2_0_2);
-  SET_VECTOR_ELT(contents, 272, E2_0);
-  SET_VECTOR_ELT(contents, 273, ScalarReal(internal->gamma_E));
-  SET_VECTOR_ELT(contents, 274, ScalarReal(internal->gamma_get_mv_die));
-  SET_VECTOR_ELT(contents, 275, ScalarReal(internal->gamma_get_mv_survive));
-  SET_VECTOR_ELT(contents, 276, ScalarReal(internal->gamma_get_ox_die));
-  SET_VECTOR_ELT(contents, 277, ScalarReal(internal->gamma_get_ox_survive));
-  SET_VECTOR_ELT(contents, 278, ScalarReal(internal->gamma_ICase));
-  SET_VECTOR_ELT(contents, 279, ScalarReal(internal->gamma_IMild));
-  SET_VECTOR_ELT(contents, 280, ScalarReal(internal->gamma_not_get_mv_die));
-  SET_VECTOR_ELT(contents, 281, ScalarReal(internal->gamma_not_get_mv_survive));
-  SET_VECTOR_ELT(contents, 282, ScalarReal(internal->gamma_not_get_ox_die));
-  SET_VECTOR_ELT(contents, 283, ScalarReal(internal->gamma_not_get_ox_survive));
-  SET_VECTOR_ELT(contents, 284, ScalarReal(internal->gamma_R));
-  SET_VECTOR_ELT(contents, 285, ScalarReal(internal->gamma_rec));
+  SET_VECTOR_ELT(contents, 250, E2_0);
+  SET_VECTOR_ELT(contents, 251, ScalarReal(internal->gamma_E));
+  SET_VECTOR_ELT(contents, 252, ScalarReal(internal->gamma_get_mv_die));
+  SET_VECTOR_ELT(contents, 253, ScalarReal(internal->gamma_get_mv_survive));
+  SET_VECTOR_ELT(contents, 254, ScalarReal(internal->gamma_get_ox_die));
+  SET_VECTOR_ELT(contents, 255, ScalarReal(internal->gamma_get_ox_survive));
+  SET_VECTOR_ELT(contents, 256, ScalarReal(internal->gamma_ICase));
+  SET_VECTOR_ELT(contents, 257, ScalarReal(internal->gamma_IMild));
+  SET_VECTOR_ELT(contents, 258, ScalarReal(internal->gamma_not_get_mv_die));
+  SET_VECTOR_ELT(contents, 259, ScalarReal(internal->gamma_not_get_mv_survive));
+  SET_VECTOR_ELT(contents, 260, ScalarReal(internal->gamma_not_get_ox_die));
+  SET_VECTOR_ELT(contents, 261, ScalarReal(internal->gamma_not_get_ox_survive));
+  SET_VECTOR_ELT(contents, 262, ScalarReal(internal->gamma_R));
+  SET_VECTOR_ELT(contents, 263, ScalarReal(internal->gamma_rec));
   SEXP gamma_vaccine = PROTECT(allocVector(REALSXP, internal->dim_gamma_vaccine));
   memcpy(REAL(gamma_vaccine), internal->gamma_vaccine, internal->dim_gamma_vaccine * sizeof(double));
-  SET_VECTOR_ELT(contents, 286, gamma_vaccine);
-  SEXP Hlag = PROTECT(allocVector(REALSXP, internal->dim_Hlag));
-  memcpy(REAL(Hlag), internal->Hlag, internal->dim_Hlag * sizeof(double));
-  odin_set_dim(Hlag, 2, internal->dim_Hlag_1, internal->dim_Hlag_2);
-  SET_VECTOR_ELT(contents, 287, Hlag);
+  SET_VECTOR_ELT(contents, 264, gamma_vaccine);
   SEXP hosp_beds = PROTECT(allocVector(REALSXP, internal->dim_hosp_beds));
   memcpy(REAL(hosp_beds), internal->hosp_beds, internal->dim_hosp_beds * sizeof(double));
-  SET_VECTOR_ELT(contents, 288, hosp_beds);
+  SET_VECTOR_ELT(contents, 265, hosp_beds);
   SEXP ICase1_0 = PROTECT(allocVector(REALSXP, internal->dim_ICase1_0));
   memcpy(REAL(ICase1_0), internal->ICase1_0, internal->dim_ICase1_0 * sizeof(double));
   odin_set_dim(ICase1_0, 2, internal->dim_ICase1_0_1, internal->dim_ICase1_0_2);
-  SET_VECTOR_ELT(contents, 289, ICase1_0);
+  SET_VECTOR_ELT(contents, 266, ICase1_0);
   SEXP ICase2_0 = PROTECT(allocVector(REALSXP, internal->dim_ICase2_0));
   memcpy(REAL(ICase2_0), internal->ICase2_0, internal->dim_ICase2_0 * sizeof(double));
   odin_set_dim(ICase2_0, 2, internal->dim_ICase2_0_1, internal->dim_ICase2_0_2);
-  SET_VECTOR_ELT(contents, 290, ICase2_0);
+  SET_VECTOR_ELT(contents, 267, ICase2_0);
   SEXP ICU_beds = PROTECT(allocVector(REALSXP, internal->dim_ICU_beds));
   memcpy(REAL(ICU_beds), internal->ICU_beds, internal->dim_ICU_beds * sizeof(double));
-  SET_VECTOR_ELT(contents, 291, ICU_beds);
+  SET_VECTOR_ELT(contents, 268, ICU_beds);
   SEXP Ilag = PROTECT(allocVector(REALSXP, internal->dim_Ilag));
   memcpy(REAL(Ilag), internal->Ilag, internal->dim_Ilag * sizeof(double));
   odin_set_dim(Ilag, 2, internal->dim_Ilag_1, internal->dim_Ilag_2);
-  SET_VECTOR_ELT(contents, 292, Ilag);
+  SET_VECTOR_ELT(contents, 269, Ilag);
   SEXP IMild_0 = PROTECT(allocVector(REALSXP, internal->dim_IMild_0));
   memcpy(REAL(IMild_0), internal->IMild_0, internal->dim_IMild_0 * sizeof(double));
   odin_set_dim(IMild_0, 2, internal->dim_IMild_0_1, internal->dim_IMild_0_2);
-  SET_VECTOR_ELT(contents, 293, IMild_0);
-  SEXP IMV_dist_weighting = PROTECT(allocVector(REALSXP, internal->dim_IMV_dist_weighting));
-  memcpy(REAL(IMV_dist_weighting), internal->IMV_dist_weighting, internal->dim_IMV_dist_weighting * sizeof(double));
-  odin_set_dim(IMV_dist_weighting, 2, internal->dim_IMV_dist_weighting_1, internal->dim_IMV_dist_weighting_2);
-  SET_VECTOR_ELT(contents, 294, IMV_dist_weighting);
+  SET_VECTOR_ELT(contents, 270, IMild_0);
   SEXP IMVGetDie1_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetDie1_0));
   memcpy(REAL(IMVGetDie1_0), internal->IMVGetDie1_0, internal->dim_IMVGetDie1_0 * sizeof(double));
   odin_set_dim(IMVGetDie1_0, 2, internal->dim_IMVGetDie1_0_1, internal->dim_IMVGetDie1_0_2);
-  SET_VECTOR_ELT(contents, 295, IMVGetDie1_0);
+  SET_VECTOR_ELT(contents, 271, IMVGetDie1_0);
   SEXP IMVGetDie2_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetDie2_0));
   memcpy(REAL(IMVGetDie2_0), internal->IMVGetDie2_0, internal->dim_IMVGetDie2_0 * sizeof(double));
   odin_set_dim(IMVGetDie2_0, 2, internal->dim_IMVGetDie2_0_1, internal->dim_IMVGetDie2_0_2);
-  SET_VECTOR_ELT(contents, 296, IMVGetDie2_0);
+  SET_VECTOR_ELT(contents, 272, IMVGetDie2_0);
   SEXP IMVGetLive1_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetLive1_0));
   memcpy(REAL(IMVGetLive1_0), internal->IMVGetLive1_0, internal->dim_IMVGetLive1_0 * sizeof(double));
   odin_set_dim(IMVGetLive1_0, 2, internal->dim_IMVGetLive1_0_1, internal->dim_IMVGetLive1_0_2);
-  SET_VECTOR_ELT(contents, 297, IMVGetLive1_0);
+  SET_VECTOR_ELT(contents, 273, IMVGetLive1_0);
   SEXP IMVGetLive2_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetLive2_0));
   memcpy(REAL(IMVGetLive2_0), internal->IMVGetLive2_0, internal->dim_IMVGetLive2_0 * sizeof(double));
   odin_set_dim(IMVGetLive2_0, 2, internal->dim_IMVGetLive2_0_1, internal->dim_IMVGetLive2_0_2);
-  SET_VECTOR_ELT(contents, 298, IMVGetLive2_0);
+  SET_VECTOR_ELT(contents, 274, IMVGetLive2_0);
   SEXP IMVNotGetDie1_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetDie1_0));
   memcpy(REAL(IMVNotGetDie1_0), internal->IMVNotGetDie1_0, internal->dim_IMVNotGetDie1_0 * sizeof(double));
   odin_set_dim(IMVNotGetDie1_0, 2, internal->dim_IMVNotGetDie1_0_1, internal->dim_IMVNotGetDie1_0_2);
-  SET_VECTOR_ELT(contents, 299, IMVNotGetDie1_0);
+  SET_VECTOR_ELT(contents, 275, IMVNotGetDie1_0);
   SEXP IMVNotGetDie2_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetDie2_0));
   memcpy(REAL(IMVNotGetDie2_0), internal->IMVNotGetDie2_0, internal->dim_IMVNotGetDie2_0 * sizeof(double));
   odin_set_dim(IMVNotGetDie2_0, 2, internal->dim_IMVNotGetDie2_0_1, internal->dim_IMVNotGetDie2_0_2);
-  SET_VECTOR_ELT(contents, 300, IMVNotGetDie2_0);
+  SET_VECTOR_ELT(contents, 276, IMVNotGetDie2_0);
   SEXP IMVNotGetLive1_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetLive1_0));
   memcpy(REAL(IMVNotGetLive1_0), internal->IMVNotGetLive1_0, internal->dim_IMVNotGetLive1_0 * sizeof(double));
   odin_set_dim(IMVNotGetLive1_0, 2, internal->dim_IMVNotGetLive1_0_1, internal->dim_IMVNotGetLive1_0_2);
-  SET_VECTOR_ELT(contents, 301, IMVNotGetLive1_0);
+  SET_VECTOR_ELT(contents, 277, IMVNotGetLive1_0);
   SEXP IMVNotGetLive2_0 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetLive2_0));
   memcpy(REAL(IMVNotGetLive2_0), internal->IMVNotGetLive2_0, internal->dim_IMVNotGetLive2_0 * sizeof(double));
   odin_set_dim(IMVNotGetLive2_0, 2, internal->dim_IMVNotGetLive2_0_1, internal->dim_IMVNotGetLive2_0_2);
-  SET_VECTOR_ELT(contents, 302, IMVNotGetLive2_0);
+  SET_VECTOR_ELT(contents, 278, IMVNotGetLive2_0);
   SEXP initial_D = PROTECT(allocVector(REALSXP, internal->dim_D));
   memcpy(REAL(initial_D), internal->initial_D, internal->dim_D * sizeof(double));
   odin_set_dim(initial_D, 2, internal->dim_D_1, internal->dim_D_2);
-  SET_VECTOR_ELT(contents, 303, initial_D);
+  SET_VECTOR_ELT(contents, 279, initial_D);
   SEXP initial_E1 = PROTECT(allocVector(REALSXP, internal->dim_E1));
   memcpy(REAL(initial_E1), internal->initial_E1, internal->dim_E1 * sizeof(double));
   odin_set_dim(initial_E1, 2, internal->dim_E1_1, internal->dim_E1_2);
-  SET_VECTOR_ELT(contents, 304, initial_E1);
+  SET_VECTOR_ELT(contents, 280, initial_E1);
   SEXP initial_E2 = PROTECT(allocVector(REALSXP, internal->dim_E2));
   memcpy(REAL(initial_E2), internal->initial_E2, internal->dim_E2 * sizeof(double));
   odin_set_dim(initial_E2, 2, internal->dim_E2_1, internal->dim_E2_2);
-  SET_VECTOR_ELT(contents, 305, initial_E2);
-  SEXP initial_H = PROTECT(allocVector(REALSXP, internal->dim_H));
-  memcpy(REAL(initial_H), internal->initial_H, internal->dim_H * sizeof(double));
-  odin_set_dim(initial_H, 2, internal->dim_H_1, internal->dim_H_2);
-  SET_VECTOR_ELT(contents, 306, initial_H);
+  SET_VECTOR_ELT(contents, 281, initial_E2);
   SEXP initial_I = PROTECT(allocVector(REALSXP, internal->dim_I));
   memcpy(REAL(initial_I), internal->initial_I, internal->dim_I * sizeof(double));
   odin_set_dim(initial_I, 2, internal->dim_I_1, internal->dim_I_2);
-  SET_VECTOR_ELT(contents, 307, initial_I);
+  SET_VECTOR_ELT(contents, 282, initial_I);
   SEXP initial_ICase1 = PROTECT(allocVector(REALSXP, internal->dim_ICase1));
   memcpy(REAL(initial_ICase1), internal->initial_ICase1, internal->dim_ICase1 * sizeof(double));
   odin_set_dim(initial_ICase1, 2, internal->dim_ICase1_1, internal->dim_ICase1_2);
-  SET_VECTOR_ELT(contents, 308, initial_ICase1);
+  SET_VECTOR_ELT(contents, 283, initial_ICase1);
   SEXP initial_ICase2 = PROTECT(allocVector(REALSXP, internal->dim_ICase2));
   memcpy(REAL(initial_ICase2), internal->initial_ICase2, internal->dim_ICase2 * sizeof(double));
   odin_set_dim(initial_ICase2, 2, internal->dim_ICase2_1, internal->dim_ICase2_2);
-  SET_VECTOR_ELT(contents, 309, initial_ICase2);
+  SET_VECTOR_ELT(contents, 284, initial_ICase2);
   SEXP initial_IMild = PROTECT(allocVector(REALSXP, internal->dim_IMild));
   memcpy(REAL(initial_IMild), internal->initial_IMild, internal->dim_IMild * sizeof(double));
   odin_set_dim(initial_IMild, 2, internal->dim_IMild_1, internal->dim_IMild_2);
-  SET_VECTOR_ELT(contents, 310, initial_IMild);
+  SET_VECTOR_ELT(contents, 285, initial_IMild);
   SEXP initial_IMVGetDie1 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetDie1));
   memcpy(REAL(initial_IMVGetDie1), internal->initial_IMVGetDie1, internal->dim_IMVGetDie1 * sizeof(double));
   odin_set_dim(initial_IMVGetDie1, 2, internal->dim_IMVGetDie1_1, internal->dim_IMVGetDie1_2);
-  SET_VECTOR_ELT(contents, 311, initial_IMVGetDie1);
+  SET_VECTOR_ELT(contents, 286, initial_IMVGetDie1);
   SEXP initial_IMVGetDie2 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetDie2));
   memcpy(REAL(initial_IMVGetDie2), internal->initial_IMVGetDie2, internal->dim_IMVGetDie2 * sizeof(double));
   odin_set_dim(initial_IMVGetDie2, 2, internal->dim_IMVGetDie2_1, internal->dim_IMVGetDie2_2);
-  SET_VECTOR_ELT(contents, 312, initial_IMVGetDie2);
+  SET_VECTOR_ELT(contents, 287, initial_IMVGetDie2);
   SEXP initial_IMVGetLive1 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetLive1));
   memcpy(REAL(initial_IMVGetLive1), internal->initial_IMVGetLive1, internal->dim_IMVGetLive1 * sizeof(double));
   odin_set_dim(initial_IMVGetLive1, 2, internal->dim_IMVGetLive1_1, internal->dim_IMVGetLive1_2);
-  SET_VECTOR_ELT(contents, 313, initial_IMVGetLive1);
+  SET_VECTOR_ELT(contents, 288, initial_IMVGetLive1);
   SEXP initial_IMVGetLive2 = PROTECT(allocVector(REALSXP, internal->dim_IMVGetLive2));
   memcpy(REAL(initial_IMVGetLive2), internal->initial_IMVGetLive2, internal->dim_IMVGetLive2 * sizeof(double));
   odin_set_dim(initial_IMVGetLive2, 2, internal->dim_IMVGetLive2_1, internal->dim_IMVGetLive2_2);
-  SET_VECTOR_ELT(contents, 314, initial_IMVGetLive2);
+  SET_VECTOR_ELT(contents, 289, initial_IMVGetLive2);
   SEXP initial_IMVNotGetDie1 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetDie1));
   memcpy(REAL(initial_IMVNotGetDie1), internal->initial_IMVNotGetDie1, internal->dim_IMVNotGetDie1 * sizeof(double));
   odin_set_dim(initial_IMVNotGetDie1, 2, internal->dim_IMVNotGetDie1_1, internal->dim_IMVNotGetDie1_2);
-  SET_VECTOR_ELT(contents, 315, initial_IMVNotGetDie1);
+  SET_VECTOR_ELT(contents, 290, initial_IMVNotGetDie1);
   SEXP initial_IMVNotGetDie2 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetDie2));
   memcpy(REAL(initial_IMVNotGetDie2), internal->initial_IMVNotGetDie2, internal->dim_IMVNotGetDie2 * sizeof(double));
   odin_set_dim(initial_IMVNotGetDie2, 2, internal->dim_IMVNotGetDie2_1, internal->dim_IMVNotGetDie2_2);
-  SET_VECTOR_ELT(contents, 316, initial_IMVNotGetDie2);
+  SET_VECTOR_ELT(contents, 291, initial_IMVNotGetDie2);
   SEXP initial_IMVNotGetLive1 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetLive1));
   memcpy(REAL(initial_IMVNotGetLive1), internal->initial_IMVNotGetLive1, internal->dim_IMVNotGetLive1 * sizeof(double));
   odin_set_dim(initial_IMVNotGetLive1, 2, internal->dim_IMVNotGetLive1_1, internal->dim_IMVNotGetLive1_2);
-  SET_VECTOR_ELT(contents, 317, initial_IMVNotGetLive1);
+  SET_VECTOR_ELT(contents, 292, initial_IMVNotGetLive1);
   SEXP initial_IMVNotGetLive2 = PROTECT(allocVector(REALSXP, internal->dim_IMVNotGetLive2));
   memcpy(REAL(initial_IMVNotGetLive2), internal->initial_IMVNotGetLive2, internal->dim_IMVNotGetLive2 * sizeof(double));
   odin_set_dim(initial_IMVNotGetLive2, 2, internal->dim_IMVNotGetLive2_1, internal->dim_IMVNotGetLive2_2);
-  SET_VECTOR_ELT(contents, 318, initial_IMVNotGetLive2);
+  SET_VECTOR_ELT(contents, 293, initial_IMVNotGetLive2);
   SEXP initial_IOxGetDie1 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetDie1));
   memcpy(REAL(initial_IOxGetDie1), internal->initial_IOxGetDie1, internal->dim_IOxGetDie1 * sizeof(double));
   odin_set_dim(initial_IOxGetDie1, 2, internal->dim_IOxGetDie1_1, internal->dim_IOxGetDie1_2);
-  SET_VECTOR_ELT(contents, 319, initial_IOxGetDie1);
+  SET_VECTOR_ELT(contents, 294, initial_IOxGetDie1);
   SEXP initial_IOxGetDie2 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetDie2));
   memcpy(REAL(initial_IOxGetDie2), internal->initial_IOxGetDie2, internal->dim_IOxGetDie2 * sizeof(double));
   odin_set_dim(initial_IOxGetDie2, 2, internal->dim_IOxGetDie2_1, internal->dim_IOxGetDie2_2);
-  SET_VECTOR_ELT(contents, 320, initial_IOxGetDie2);
+  SET_VECTOR_ELT(contents, 295, initial_IOxGetDie2);
   SEXP initial_IOxGetLive1 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetLive1));
   memcpy(REAL(initial_IOxGetLive1), internal->initial_IOxGetLive1, internal->dim_IOxGetLive1 * sizeof(double));
   odin_set_dim(initial_IOxGetLive1, 2, internal->dim_IOxGetLive1_1, internal->dim_IOxGetLive1_2);
-  SET_VECTOR_ELT(contents, 321, initial_IOxGetLive1);
+  SET_VECTOR_ELT(contents, 296, initial_IOxGetLive1);
   SEXP initial_IOxGetLive2 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetLive2));
   memcpy(REAL(initial_IOxGetLive2), internal->initial_IOxGetLive2, internal->dim_IOxGetLive2 * sizeof(double));
   odin_set_dim(initial_IOxGetLive2, 2, internal->dim_IOxGetLive2_1, internal->dim_IOxGetLive2_2);
-  SET_VECTOR_ELT(contents, 322, initial_IOxGetLive2);
+  SET_VECTOR_ELT(contents, 297, initial_IOxGetLive2);
   SEXP initial_IOxNotGetDie1 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetDie1));
   memcpy(REAL(initial_IOxNotGetDie1), internal->initial_IOxNotGetDie1, internal->dim_IOxNotGetDie1 * sizeof(double));
   odin_set_dim(initial_IOxNotGetDie1, 2, internal->dim_IOxNotGetDie1_1, internal->dim_IOxNotGetDie1_2);
-  SET_VECTOR_ELT(contents, 323, initial_IOxNotGetDie1);
+  SET_VECTOR_ELT(contents, 298, initial_IOxNotGetDie1);
   SEXP initial_IOxNotGetDie2 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetDie2));
   memcpy(REAL(initial_IOxNotGetDie2), internal->initial_IOxNotGetDie2, internal->dim_IOxNotGetDie2 * sizeof(double));
   odin_set_dim(initial_IOxNotGetDie2, 2, internal->dim_IOxNotGetDie2_1, internal->dim_IOxNotGetDie2_2);
-  SET_VECTOR_ELT(contents, 324, initial_IOxNotGetDie2);
+  SET_VECTOR_ELT(contents, 299, initial_IOxNotGetDie2);
   SEXP initial_IOxNotGetLive1 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetLive1));
   memcpy(REAL(initial_IOxNotGetLive1), internal->initial_IOxNotGetLive1, internal->dim_IOxNotGetLive1 * sizeof(double));
   odin_set_dim(initial_IOxNotGetLive1, 2, internal->dim_IOxNotGetLive1_1, internal->dim_IOxNotGetLive1_2);
-  SET_VECTOR_ELT(contents, 325, initial_IOxNotGetLive1);
+  SET_VECTOR_ELT(contents, 300, initial_IOxNotGetLive1);
   SEXP initial_IOxNotGetLive2 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetLive2));
   memcpy(REAL(initial_IOxNotGetLive2), internal->initial_IOxNotGetLive2, internal->dim_IOxNotGetLive2 * sizeof(double));
   odin_set_dim(initial_IOxNotGetLive2, 2, internal->dim_IOxNotGetLive2_1, internal->dim_IOxNotGetLive2_2);
-  SET_VECTOR_ELT(contents, 326, initial_IOxNotGetLive2);
+  SET_VECTOR_ELT(contents, 301, initial_IOxNotGetLive2);
   SEXP initial_IRec1 = PROTECT(allocVector(REALSXP, internal->dim_IRec1));
   memcpy(REAL(initial_IRec1), internal->initial_IRec1, internal->dim_IRec1 * sizeof(double));
   odin_set_dim(initial_IRec1, 2, internal->dim_IRec1_1, internal->dim_IRec1_2);
-  SET_VECTOR_ELT(contents, 327, initial_IRec1);
+  SET_VECTOR_ELT(contents, 302, initial_IRec1);
   SEXP initial_IRec2 = PROTECT(allocVector(REALSXP, internal->dim_IRec2));
   memcpy(REAL(initial_IRec2), internal->initial_IRec2, internal->dim_IRec2 * sizeof(double));
   odin_set_dim(initial_IRec2, 2, internal->dim_IRec2_1, internal->dim_IRec2_2);
-  SET_VECTOR_ELT(contents, 328, initial_IRec2);
+  SET_VECTOR_ELT(contents, 303, initial_IRec2);
   SEXP initial_R1 = PROTECT(allocVector(REALSXP, internal->dim_R1));
   memcpy(REAL(initial_R1), internal->initial_R1, internal->dim_R1 * sizeof(double));
   odin_set_dim(initial_R1, 2, internal->dim_R1_1, internal->dim_R1_2);
-  SET_VECTOR_ELT(contents, 329, initial_R1);
+  SET_VECTOR_ELT(contents, 304, initial_R1);
   SEXP initial_R2 = PROTECT(allocVector(REALSXP, internal->dim_R2));
   memcpy(REAL(initial_R2), internal->initial_R2, internal->dim_R2 * sizeof(double));
   odin_set_dim(initial_R2, 2, internal->dim_R2_1, internal->dim_R2_2);
-  SET_VECTOR_ELT(contents, 330, initial_R2);
+  SET_VECTOR_ELT(contents, 305, initial_R2);
   SEXP initial_S = PROTECT(allocVector(REALSXP, internal->dim_S));
   memcpy(REAL(initial_S), internal->initial_S, internal->dim_S * sizeof(double));
   odin_set_dim(initial_S, 2, internal->dim_S_1, internal->dim_S_2);
-  SET_VECTOR_ELT(contents, 331, initial_S);
-  SET_VECTOR_ELT(contents, 332, ScalarReal(internal->initial_t));
+  SET_VECTOR_ELT(contents, 306, initial_S);
+  SET_VECTOR_ELT(contents, 307, ScalarReal(internal->initial_t));
   SEXP initial_V = PROTECT(allocVector(REALSXP, internal->dim_V));
   memcpy(REAL(initial_V), internal->initial_V, internal->dim_V * sizeof(double));
-  SET_VECTOR_ELT(contents, 333, initial_V);
+  SET_VECTOR_ELT(contents, 308, initial_V);
   SEXP IOxGetDie1_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetDie1_0));
   memcpy(REAL(IOxGetDie1_0), internal->IOxGetDie1_0, internal->dim_IOxGetDie1_0 * sizeof(double));
   odin_set_dim(IOxGetDie1_0, 2, internal->dim_IOxGetDie1_0_1, internal->dim_IOxGetDie1_0_2);
-  SET_VECTOR_ELT(contents, 339, IOxGetDie1_0);
+  SET_VECTOR_ELT(contents, 314, IOxGetDie1_0);
   SEXP IOxGetDie2_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetDie2_0));
   memcpy(REAL(IOxGetDie2_0), internal->IOxGetDie2_0, internal->dim_IOxGetDie2_0 * sizeof(double));
   odin_set_dim(IOxGetDie2_0, 2, internal->dim_IOxGetDie2_0_1, internal->dim_IOxGetDie2_0_2);
-  SET_VECTOR_ELT(contents, 340, IOxGetDie2_0);
+  SET_VECTOR_ELT(contents, 315, IOxGetDie2_0);
   SEXP IOxGetLive1_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetLive1_0));
   memcpy(REAL(IOxGetLive1_0), internal->IOxGetLive1_0, internal->dim_IOxGetLive1_0 * sizeof(double));
   odin_set_dim(IOxGetLive1_0, 2, internal->dim_IOxGetLive1_0_1, internal->dim_IOxGetLive1_0_2);
-  SET_VECTOR_ELT(contents, 341, IOxGetLive1_0);
+  SET_VECTOR_ELT(contents, 316, IOxGetLive1_0);
   SEXP IOxGetLive2_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxGetLive2_0));
   memcpy(REAL(IOxGetLive2_0), internal->IOxGetLive2_0, internal->dim_IOxGetLive2_0 * sizeof(double));
   odin_set_dim(IOxGetLive2_0, 2, internal->dim_IOxGetLive2_0_1, internal->dim_IOxGetLive2_0_2);
-  SET_VECTOR_ELT(contents, 342, IOxGetLive2_0);
+  SET_VECTOR_ELT(contents, 317, IOxGetLive2_0);
   SEXP IOxNotGetDie1_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetDie1_0));
   memcpy(REAL(IOxNotGetDie1_0), internal->IOxNotGetDie1_0, internal->dim_IOxNotGetDie1_0 * sizeof(double));
   odin_set_dim(IOxNotGetDie1_0, 2, internal->dim_IOxNotGetDie1_0_1, internal->dim_IOxNotGetDie1_0_2);
-  SET_VECTOR_ELT(contents, 343, IOxNotGetDie1_0);
+  SET_VECTOR_ELT(contents, 318, IOxNotGetDie1_0);
   SEXP IOxNotGetDie2_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetDie2_0));
   memcpy(REAL(IOxNotGetDie2_0), internal->IOxNotGetDie2_0, internal->dim_IOxNotGetDie2_0 * sizeof(double));
   odin_set_dim(IOxNotGetDie2_0, 2, internal->dim_IOxNotGetDie2_0_1, internal->dim_IOxNotGetDie2_0_2);
-  SET_VECTOR_ELT(contents, 344, IOxNotGetDie2_0);
+  SET_VECTOR_ELT(contents, 319, IOxNotGetDie2_0);
   SEXP IOxNotGetLive1_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetLive1_0));
   memcpy(REAL(IOxNotGetLive1_0), internal->IOxNotGetLive1_0, internal->dim_IOxNotGetLive1_0 * sizeof(double));
   odin_set_dim(IOxNotGetLive1_0, 2, internal->dim_IOxNotGetLive1_0_1, internal->dim_IOxNotGetLive1_0_2);
-  SET_VECTOR_ELT(contents, 345, IOxNotGetLive1_0);
+  SET_VECTOR_ELT(contents, 320, IOxNotGetLive1_0);
   SEXP IOxNotGetLive2_0 = PROTECT(allocVector(REALSXP, internal->dim_IOxNotGetLive2_0));
   memcpy(REAL(IOxNotGetLive2_0), internal->IOxNotGetLive2_0, internal->dim_IOxNotGetLive2_0 * sizeof(double));
   odin_set_dim(IOxNotGetLive2_0, 2, internal->dim_IOxNotGetLive2_0_1, internal->dim_IOxNotGetLive2_0_2);
-  SET_VECTOR_ELT(contents, 346, IOxNotGetLive2_0);
+  SET_VECTOR_ELT(contents, 321, IOxNotGetLive2_0);
   SEXP IRec1_0 = PROTECT(allocVector(REALSXP, internal->dim_IRec1_0));
   memcpy(REAL(IRec1_0), internal->IRec1_0, internal->dim_IRec1_0 * sizeof(double));
   odin_set_dim(IRec1_0, 2, internal->dim_IRec1_0_1, internal->dim_IRec1_0_2);
-  SET_VECTOR_ELT(contents, 347, IRec1_0);
+  SET_VECTOR_ELT(contents, 322, IRec1_0);
   SEXP IRec2_0 = PROTECT(allocVector(REALSXP, internal->dim_IRec2_0));
   memcpy(REAL(IRec2_0), internal->IRec2_0, internal->dim_IRec2_0 * sizeof(double));
   odin_set_dim(IRec2_0, 2, internal->dim_IRec2_0_1, internal->dim_IRec2_0_2);
-  SET_VECTOR_ELT(contents, 348, IRec2_0);
+  SET_VECTOR_ELT(contents, 323, IRec2_0);
   SEXP lambda = PROTECT(allocVector(REALSXP, internal->dim_lambda));
   memcpy(REAL(lambda), internal->lambda, internal->dim_lambda * sizeof(double));
-  SET_VECTOR_ELT(contents, 349, lambda);
+  SET_VECTOR_ELT(contents, 324, lambda);
   SEXP m = PROTECT(allocVector(REALSXP, internal->dim_m));
   memcpy(REAL(m), internal->m, internal->dim_m * sizeof(double));
   odin_set_dim(m, 2, internal->dim_m_1, internal->dim_m_2);
-  SET_VECTOR_ELT(contents, 350, m);
+  SET_VECTOR_ELT(contents, 325, m);
   SEXP max_vaccine = PROTECT(allocVector(REALSXP, internal->dim_max_vaccine));
   memcpy(REAL(max_vaccine), internal->max_vaccine, internal->dim_max_vaccine * sizeof(double));
-  SET_VECTOR_ELT(contents, 351, max_vaccine);
+  SET_VECTOR_ELT(contents, 326, max_vaccine);
   SEXP mix_mat_set = PROTECT(allocVector(REALSXP, internal->dim_mix_mat_set));
   memcpy(REAL(mix_mat_set), internal->mix_mat_set, internal->dim_mix_mat_set * sizeof(double));
   odin_set_dim(mix_mat_set, 3, internal->dim_mix_mat_set_1, internal->dim_mix_mat_set_2, internal->dim_mix_mat_set_3);
-  SET_VECTOR_ELT(contents, 352, mix_mat_set);
-  SET_VECTOR_ELT(contents, 353, ScalarInteger(internal->N_age));
-  SET_VECTOR_ELT(contents, 354, ScalarInteger(internal->N_vaccine));
-  SEXP number_get_IMV = PROTECT(allocVector(REALSXP, internal->dim_number_get_IMV));
-  memcpy(REAL(number_get_IMV), internal->number_get_IMV, internal->dim_number_get_IMV * sizeof(double));
-  odin_set_dim(number_get_IMV, 2, internal->dim_number_get_IMV_1, internal->dim_number_get_IMV_2);
-  SET_VECTOR_ELT(contents, 355, number_get_IMV);
-  SEXP number_get_Ox = PROTECT(allocVector(REALSXP, internal->dim_number_get_Ox));
-  memcpy(REAL(number_get_Ox), internal->number_get_Ox, internal->dim_number_get_Ox * sizeof(double));
-  odin_set_dim(number_get_Ox, 2, internal->dim_number_get_Ox_1, internal->dim_number_get_Ox_2);
-  SET_VECTOR_ELT(contents, 356, number_get_Ox);
+  SET_VECTOR_ELT(contents, 327, mix_mat_set);
+  SET_VECTOR_ELT(contents, 328, ScalarInteger(internal->N_age));
+  SET_VECTOR_ELT(contents, 329, ScalarInteger(internal->N_vaccine));
   SEXP number_requiring_IMV = PROTECT(allocVector(REALSXP, internal->dim_number_requiring_IMV));
   memcpy(REAL(number_requiring_IMV), internal->number_requiring_IMV, internal->dim_number_requiring_IMV * sizeof(double));
   odin_set_dim(number_requiring_IMV, 2, internal->dim_number_requiring_IMV_1, internal->dim_number_requiring_IMV_2);
-  SET_VECTOR_ELT(contents, 357, number_requiring_IMV);
+  SET_VECTOR_ELT(contents, 330, number_requiring_IMV);
   SEXP number_requiring_Ox = PROTECT(allocVector(REALSXP, internal->dim_number_requiring_Ox));
   memcpy(REAL(number_requiring_Ox), internal->number_requiring_Ox, internal->dim_number_requiring_Ox * sizeof(double));
   odin_set_dim(number_requiring_Ox, 2, internal->dim_number_requiring_Ox_1, internal->dim_number_requiring_Ox_2);
-  SET_VECTOR_ELT(contents, 358, number_requiring_Ox);
-  SET_VECTOR_ELT(contents, 359, ScalarInteger(internal->offset_output_deaths));
-  SET_VECTOR_ELT(contents, 360, ScalarInteger(internal->offset_output_hospital_demand));
-  SET_VECTOR_ELT(contents, 361, ScalarInteger(internal->offset_output_hospital_occupancy));
-  SET_VECTOR_ELT(contents, 362, ScalarInteger(internal->offset_output_hospitalisations));
-  SET_VECTOR_ELT(contents, 363, ScalarInteger(internal->offset_output_ICase));
-  SET_VECTOR_ELT(contents, 364, ScalarInteger(internal->offset_output_ICU_demand));
-  SET_VECTOR_ELT(contents, 365, ScalarInteger(internal->offset_output_ICU_occupancy));
-  SET_VECTOR_ELT(contents, 366, ScalarInteger(internal->offset_output_IHospital));
-  SET_VECTOR_ELT(contents, 367, ScalarInteger(internal->offset_output_IICU));
-  SET_VECTOR_ELT(contents, 368, ScalarInteger(internal->offset_output_infections));
-  SET_VECTOR_ELT(contents, 369, ScalarInteger(internal->offset_output_IRec));
-  SET_VECTOR_ELT(contents, 370, ScalarInteger(internal->offset_output_N));
-  SET_VECTOR_ELT(contents, 371, ScalarInteger(internal->offset_output_priorvaccinated));
-  SET_VECTOR_ELT(contents, 372, ScalarInteger(internal->offset_output_R));
-  SET_VECTOR_ELT(contents, 373, ScalarInteger(internal->offset_output_unvaccinated));
-  SET_VECTOR_ELT(contents, 374, ScalarInteger(internal->offset_output_vaccinated));
-  SET_VECTOR_ELT(contents, 375, ScalarInteger(internal->offset_output_vaccines));
-  SET_VECTOR_ELT(contents, 376, ScalarInteger(internal->offset_variable_D));
-  SET_VECTOR_ELT(contents, 377, ScalarInteger(internal->offset_variable_E1));
-  SET_VECTOR_ELT(contents, 378, ScalarInteger(internal->offset_variable_E2));
-  SET_VECTOR_ELT(contents, 379, ScalarInteger(internal->offset_variable_H));
-  SET_VECTOR_ELT(contents, 380, ScalarInteger(internal->offset_variable_I));
-  SET_VECTOR_ELT(contents, 381, ScalarInteger(internal->offset_variable_ICase1));
-  SET_VECTOR_ELT(contents, 382, ScalarInteger(internal->offset_variable_ICase2));
-  SET_VECTOR_ELT(contents, 383, ScalarInteger(internal->offset_variable_IMild));
-  SET_VECTOR_ELT(contents, 384, ScalarInteger(internal->offset_variable_IMVGetDie1));
-  SET_VECTOR_ELT(contents, 385, ScalarInteger(internal->offset_variable_IMVGetDie2));
-  SET_VECTOR_ELT(contents, 386, ScalarInteger(internal->offset_variable_IMVGetLive1));
-  SET_VECTOR_ELT(contents, 387, ScalarInteger(internal->offset_variable_IMVGetLive2));
-  SET_VECTOR_ELT(contents, 388, ScalarInteger(internal->offset_variable_IMVNotGetDie1));
-  SET_VECTOR_ELT(contents, 389, ScalarInteger(internal->offset_variable_IMVNotGetDie2));
-  SET_VECTOR_ELT(contents, 390, ScalarInteger(internal->offset_variable_IMVNotGetLive1));
-  SET_VECTOR_ELT(contents, 391, ScalarInteger(internal->offset_variable_IMVNotGetLive2));
-  SET_VECTOR_ELT(contents, 392, ScalarInteger(internal->offset_variable_IOxGetDie1));
-  SET_VECTOR_ELT(contents, 393, ScalarInteger(internal->offset_variable_IOxGetDie2));
-  SET_VECTOR_ELT(contents, 394, ScalarInteger(internal->offset_variable_IOxGetLive1));
-  SET_VECTOR_ELT(contents, 395, ScalarInteger(internal->offset_variable_IOxGetLive2));
-  SET_VECTOR_ELT(contents, 396, ScalarInteger(internal->offset_variable_IOxNotGetDie1));
-  SET_VECTOR_ELT(contents, 397, ScalarInteger(internal->offset_variable_IOxNotGetDie2));
-  SET_VECTOR_ELT(contents, 398, ScalarInteger(internal->offset_variable_IOxNotGetLive1));
-  SET_VECTOR_ELT(contents, 399, ScalarInteger(internal->offset_variable_IOxNotGetLive2));
-  SET_VECTOR_ELT(contents, 400, ScalarInteger(internal->offset_variable_IRec1));
-  SET_VECTOR_ELT(contents, 401, ScalarInteger(internal->offset_variable_IRec2));
-  SET_VECTOR_ELT(contents, 402, ScalarInteger(internal->offset_variable_R1));
-  SET_VECTOR_ELT(contents, 403, ScalarInteger(internal->offset_variable_R2));
-  SEXP Ox_dist_weighting = PROTECT(allocVector(REALSXP, internal->dim_Ox_dist_weighting));
-  memcpy(REAL(Ox_dist_weighting), internal->Ox_dist_weighting, internal->dim_Ox_dist_weighting * sizeof(double));
-  odin_set_dim(Ox_dist_weighting, 2, internal->dim_Ox_dist_weighting_1, internal->dim_Ox_dist_weighting_2);
-  SET_VECTOR_ELT(contents, 404, Ox_dist_weighting);
+  SET_VECTOR_ELT(contents, 331, number_requiring_Ox);
+  SET_VECTOR_ELT(contents, 332, ScalarInteger(internal->offset_output_deaths));
+  SET_VECTOR_ELT(contents, 333, ScalarInteger(internal->offset_output_hospital_demand));
+  SET_VECTOR_ELT(contents, 334, ScalarInteger(internal->offset_output_hospital_occupancy));
+  SET_VECTOR_ELT(contents, 335, ScalarInteger(internal->offset_output_ICase));
+  SET_VECTOR_ELT(contents, 336, ScalarInteger(internal->offset_output_ICU_demand));
+  SET_VECTOR_ELT(contents, 337, ScalarInteger(internal->offset_output_ICU_occupancy));
+  SET_VECTOR_ELT(contents, 338, ScalarInteger(internal->offset_output_IHospital));
+  SET_VECTOR_ELT(contents, 339, ScalarInteger(internal->offset_output_IICU));
+  SET_VECTOR_ELT(contents, 340, ScalarInteger(internal->offset_output_infections));
+  SET_VECTOR_ELT(contents, 341, ScalarInteger(internal->offset_output_IRec));
+  SET_VECTOR_ELT(contents, 342, ScalarInteger(internal->offset_output_N));
+  SET_VECTOR_ELT(contents, 343, ScalarInteger(internal->offset_output_priorvaccinated));
+  SET_VECTOR_ELT(contents, 344, ScalarInteger(internal->offset_output_R));
+  SET_VECTOR_ELT(contents, 345, ScalarInteger(internal->offset_output_unvaccinated));
+  SET_VECTOR_ELT(contents, 346, ScalarInteger(internal->offset_output_vaccinated));
+  SET_VECTOR_ELT(contents, 347, ScalarInteger(internal->offset_output_vaccines));
+  SET_VECTOR_ELT(contents, 348, ScalarInteger(internal->offset_variable_D));
+  SET_VECTOR_ELT(contents, 349, ScalarInteger(internal->offset_variable_E1));
+  SET_VECTOR_ELT(contents, 350, ScalarInteger(internal->offset_variable_E2));
+  SET_VECTOR_ELT(contents, 351, ScalarInteger(internal->offset_variable_I));
+  SET_VECTOR_ELT(contents, 352, ScalarInteger(internal->offset_variable_ICase1));
+  SET_VECTOR_ELT(contents, 353, ScalarInteger(internal->offset_variable_ICase2));
+  SET_VECTOR_ELT(contents, 354, ScalarInteger(internal->offset_variable_IMild));
+  SET_VECTOR_ELT(contents, 355, ScalarInteger(internal->offset_variable_IMVGetDie1));
+  SET_VECTOR_ELT(contents, 356, ScalarInteger(internal->offset_variable_IMVGetDie2));
+  SET_VECTOR_ELT(contents, 357, ScalarInteger(internal->offset_variable_IMVGetLive1));
+  SET_VECTOR_ELT(contents, 358, ScalarInteger(internal->offset_variable_IMVGetLive2));
+  SET_VECTOR_ELT(contents, 359, ScalarInteger(internal->offset_variable_IMVNotGetDie1));
+  SET_VECTOR_ELT(contents, 360, ScalarInteger(internal->offset_variable_IMVNotGetDie2));
+  SET_VECTOR_ELT(contents, 361, ScalarInteger(internal->offset_variable_IMVNotGetLive1));
+  SET_VECTOR_ELT(contents, 362, ScalarInteger(internal->offset_variable_IMVNotGetLive2));
+  SET_VECTOR_ELT(contents, 363, ScalarInteger(internal->offset_variable_IOxGetDie1));
+  SET_VECTOR_ELT(contents, 364, ScalarInteger(internal->offset_variable_IOxGetDie2));
+  SET_VECTOR_ELT(contents, 365, ScalarInteger(internal->offset_variable_IOxGetLive1));
+  SET_VECTOR_ELT(contents, 366, ScalarInteger(internal->offset_variable_IOxGetLive2));
+  SET_VECTOR_ELT(contents, 367, ScalarInteger(internal->offset_variable_IOxNotGetDie1));
+  SET_VECTOR_ELT(contents, 368, ScalarInteger(internal->offset_variable_IOxNotGetDie2));
+  SET_VECTOR_ELT(contents, 369, ScalarInteger(internal->offset_variable_IOxNotGetLive1));
+  SET_VECTOR_ELT(contents, 370, ScalarInteger(internal->offset_variable_IOxNotGetLive2));
+  SET_VECTOR_ELT(contents, 371, ScalarInteger(internal->offset_variable_IRec1));
+  SET_VECTOR_ELT(contents, 372, ScalarInteger(internal->offset_variable_IRec2));
+  SET_VECTOR_ELT(contents, 373, ScalarInteger(internal->offset_variable_R1));
+  SET_VECTOR_ELT(contents, 374, ScalarInteger(internal->offset_variable_R2));
   SEXP p_dist = PROTECT(allocVector(REALSXP, internal->dim_p_dist));
   memcpy(REAL(p_dist), internal->p_dist, internal->dim_p_dist * sizeof(double));
   odin_set_dim(p_dist, 2, internal->dim_p_dist_1, internal->dim_p_dist_2);
-  SET_VECTOR_ELT(contents, 405, p_dist);
+  SET_VECTOR_ELT(contents, 375, p_dist);
   SEXP prob_hosp = PROTECT(allocVector(REALSXP, internal->dim_prob_hosp));
   memcpy(REAL(prob_hosp), internal->prob_hosp, internal->dim_prob_hosp * sizeof(double));
   odin_set_dim(prob_hosp, 2, internal->dim_prob_hosp_1, internal->dim_prob_hosp_2);
-  SET_VECTOR_ELT(contents, 406, prob_hosp);
+  SET_VECTOR_ELT(contents, 376, prob_hosp);
   SEXP prob_non_severe_death_no_treatment = PROTECT(allocVector(REALSXP, internal->dim_prob_non_severe_death_no_treatment));
   memcpy(REAL(prob_non_severe_death_no_treatment), internal->prob_non_severe_death_no_treatment, internal->dim_prob_non_severe_death_no_treatment * sizeof(double));
-  SET_VECTOR_ELT(contents, 407, prob_non_severe_death_no_treatment);
+  SET_VECTOR_ELT(contents, 377, prob_non_severe_death_no_treatment);
   SEXP prob_non_severe_death_treatment = PROTECT(allocVector(REALSXP, internal->dim_prob_non_severe_death_treatment));
   memcpy(REAL(prob_non_severe_death_treatment), internal->prob_non_severe_death_treatment, internal->dim_prob_non_severe_death_treatment * sizeof(double));
-  SET_VECTOR_ELT(contents, 408, prob_non_severe_death_treatment);
+  SET_VECTOR_ELT(contents, 378, prob_non_severe_death_treatment);
   SEXP prob_severe = PROTECT(allocVector(REALSXP, internal->dim_prob_severe));
   memcpy(REAL(prob_severe), internal->prob_severe, internal->dim_prob_severe * sizeof(double));
-  SET_VECTOR_ELT(contents, 409, prob_severe);
+  SET_VECTOR_ELT(contents, 379, prob_severe);
   SEXP prob_severe_death_no_treatment = PROTECT(allocVector(REALSXP, internal->dim_prob_severe_death_no_treatment));
   memcpy(REAL(prob_severe_death_no_treatment), internal->prob_severe_death_no_treatment, internal->dim_prob_severe_death_no_treatment * sizeof(double));
-  SET_VECTOR_ELT(contents, 410, prob_severe_death_no_treatment);
+  SET_VECTOR_ELT(contents, 380, prob_severe_death_no_treatment);
   SEXP prob_severe_death_treatment = PROTECT(allocVector(REALSXP, internal->dim_prob_severe_death_treatment));
   memcpy(REAL(prob_severe_death_treatment), internal->prob_severe_death_treatment, internal->dim_prob_severe_death_treatment * sizeof(double));
-  SET_VECTOR_ELT(contents, 411, prob_severe_death_treatment);
+  SET_VECTOR_ELT(contents, 381, prob_severe_death_treatment);
   SEXP R1_0 = PROTECT(allocVector(REALSXP, internal->dim_R1_0));
   memcpy(REAL(R1_0), internal->R1_0, internal->dim_R1_0 * sizeof(double));
   odin_set_dim(R1_0, 2, internal->dim_R1_0_1, internal->dim_R1_0_2);
-  SET_VECTOR_ELT(contents, 412, R1_0);
+  SET_VECTOR_ELT(contents, 382, R1_0);
   SEXP R2_0 = PROTECT(allocVector(REALSXP, internal->dim_R2_0));
   memcpy(REAL(R2_0), internal->R2_0, internal->dim_R2_0 * sizeof(double));
   odin_set_dim(R2_0, 2, internal->dim_R2_0_1, internal->dim_R2_0_2);
-  SET_VECTOR_ELT(contents, 413, R2_0);
+  SET_VECTOR_ELT(contents, 383, R2_0);
   SEXP S_0 = PROTECT(allocVector(REALSXP, internal->dim_S_0));
   memcpy(REAL(S_0), internal->S_0, internal->dim_S_0 * sizeof(double));
   odin_set_dim(S_0, 2, internal->dim_S_0_1, internal->dim_S_0_2);
-  SET_VECTOR_ELT(contents, 414, S_0);
+  SET_VECTOR_ELT(contents, 384, S_0);
   SEXP s_ij = PROTECT(allocVector(REALSXP, internal->dim_s_ij));
   memcpy(REAL(s_ij), internal->s_ij, internal->dim_s_ij * sizeof(double));
   odin_set_dim(s_ij, 2, internal->dim_s_ij_1, internal->dim_s_ij_2);
-  SET_VECTOR_ELT(contents, 415, s_ij);
+  SET_VECTOR_ELT(contents, 385, s_ij);
   SEXP temp = PROTECT(allocVector(REALSXP, internal->dim_temp));
   memcpy(REAL(temp), internal->temp, internal->dim_temp * sizeof(double));
-  SET_VECTOR_ELT(contents, 416, temp);
+  SET_VECTOR_ELT(contents, 386, temp);
   SEXP tt_beta = PROTECT(allocVector(REALSXP, internal->dim_tt_beta));
   memcpy(REAL(tt_beta), internal->tt_beta, internal->dim_tt_beta * sizeof(double));
-  SET_VECTOR_ELT(contents, 417, tt_beta);
+  SET_VECTOR_ELT(contents, 387, tt_beta);
   SEXP tt_hosp_beds = PROTECT(allocVector(REALSXP, internal->dim_tt_hosp_beds));
   memcpy(REAL(tt_hosp_beds), internal->tt_hosp_beds, internal->dim_tt_hosp_beds * sizeof(double));
-  SET_VECTOR_ELT(contents, 418, tt_hosp_beds);
+  SET_VECTOR_ELT(contents, 388, tt_hosp_beds);
   SEXP tt_ICU_beds = PROTECT(allocVector(REALSXP, internal->dim_tt_ICU_beds));
   memcpy(REAL(tt_ICU_beds), internal->tt_ICU_beds, internal->dim_tt_ICU_beds * sizeof(double));
-  SET_VECTOR_ELT(contents, 419, tt_ICU_beds);
+  SET_VECTOR_ELT(contents, 389, tt_ICU_beds);
   SEXP tt_matrix = PROTECT(allocVector(REALSXP, internal->dim_tt_matrix));
   memcpy(REAL(tt_matrix), internal->tt_matrix, internal->dim_tt_matrix * sizeof(double));
-  SET_VECTOR_ELT(contents, 420, tt_matrix);
+  SET_VECTOR_ELT(contents, 390, tt_matrix);
   SEXP tt_vaccine = PROTECT(allocVector(REALSXP, internal->dim_tt_vaccine));
   memcpy(REAL(tt_vaccine), internal->tt_vaccine, internal->dim_tt_vaccine * sizeof(double));
-  SET_VECTOR_ELT(contents, 421, tt_vaccine);
+  SET_VECTOR_ELT(contents, 391, tt_vaccine);
   SEXP vaccination_target = PROTECT(allocVector(REALSXP, internal->dim_vaccination_target));
   memcpy(REAL(vaccination_target), internal->vaccination_target, internal->dim_vaccination_target * sizeof(double));
-  SET_VECTOR_ELT(contents, 422, vaccination_target);
+  SET_VECTOR_ELT(contents, 392, vaccination_target);
   SEXP vaccine_efficacy_infection = PROTECT(allocVector(REALSXP, internal->dim_vaccine_efficacy_infection));
   memcpy(REAL(vaccine_efficacy_infection), internal->vaccine_efficacy_infection, internal->dim_vaccine_efficacy_infection * sizeof(double));
   odin_set_dim(vaccine_efficacy_infection, 2, internal->dim_vaccine_efficacy_infection_1, internal->dim_vaccine_efficacy_infection_2);
-  SET_VECTOR_ELT(contents, 423, vaccine_efficacy_infection);
+  SET_VECTOR_ELT(contents, 393, vaccine_efficacy_infection);
   SEXP Vlag = PROTECT(allocVector(REALSXP, internal->dim_Vlag));
   memcpy(REAL(Vlag), internal->Vlag, internal->dim_Vlag * sizeof(double));
-  SET_VECTOR_ELT(contents, 424, Vlag);
+  SET_VECTOR_ELT(contents, 394, Vlag);
   SEXP vr_temp = PROTECT(allocVector(REALSXP, internal->dim_vr_temp));
   memcpy(REAL(vr_temp), internal->vr_temp, internal->dim_vr_temp * sizeof(double));
-  SET_VECTOR_ELT(contents, 425, vr_temp);
-  SET_VECTOR_ELT(contents, 426, ScalarLogical(internal->vaccine_use_dde));
-  SEXP nms = PROTECT(allocVector(STRSXP, 427));
+  SET_VECTOR_ELT(contents, 395, vr_temp);
+  SET_VECTOR_ELT(contents, 396, ScalarLogical(internal->vaccine_use_dde));
+  SEXP nms = PROTECT(allocVector(STRSXP, 397));
   SET_STRING_ELT(nms, 0, mkChar("beta_set"));
   SET_STRING_ELT(nms, 1, mkChar("D_0"));
   SET_STRING_ELT(nms, 2, mkChar("delay_index_Dlag"));
-  SET_STRING_ELT(nms, 3, mkChar("delay_index_Hlag"));
-  SET_STRING_ELT(nms, 4, mkChar("delay_index_Ilag"));
-  SET_STRING_ELT(nms, 5, mkChar("delay_index_Vlag"));
-  SET_STRING_ELT(nms, 6, mkChar("delay_state_Dlag"));
-  SET_STRING_ELT(nms, 7, mkChar("delay_state_Hlag"));
-  SET_STRING_ELT(nms, 8, mkChar("delay_state_Ilag"));
-  SET_STRING_ELT(nms, 9, mkChar("delay_state_Vlag"));
-  SET_STRING_ELT(nms, 10, mkChar("dim_beta_set"));
-  SET_STRING_ELT(nms, 11, mkChar("dim_D"));
-  SET_STRING_ELT(nms, 12, mkChar("dim_D_0"));
-  SET_STRING_ELT(nms, 13, mkChar("dim_D_0_1"));
-  SET_STRING_ELT(nms, 14, mkChar("dim_D_0_2"));
-  SET_STRING_ELT(nms, 15, mkChar("dim_D_1"));
-  SET_STRING_ELT(nms, 16, mkChar("dim_D_2"));
-  SET_STRING_ELT(nms, 17, mkChar("dim_deaths"));
-  SET_STRING_ELT(nms, 18, mkChar("dim_delay_Dlag"));
-  SET_STRING_ELT(nms, 19, mkChar("dim_delay_Hlag"));
-  SET_STRING_ELT(nms, 20, mkChar("dim_delay_Ilag"));
-  SET_STRING_ELT(nms, 21, mkChar("dim_delay_Vlag"));
-  SET_STRING_ELT(nms, 22, mkChar("dim_Dlag"));
-  SET_STRING_ELT(nms, 23, mkChar("dim_Dlag_1"));
-  SET_STRING_ELT(nms, 24, mkChar("dim_Dlag_2"));
-  SET_STRING_ELT(nms, 25, mkChar("dim_E"));
-  SET_STRING_ELT(nms, 26, mkChar("dim_E1"));
-  SET_STRING_ELT(nms, 27, mkChar("dim_E1_0"));
-  SET_STRING_ELT(nms, 28, mkChar("dim_E1_0_1"));
-  SET_STRING_ELT(nms, 29, mkChar("dim_E1_0_2"));
-  SET_STRING_ELT(nms, 30, mkChar("dim_E1_1"));
-  SET_STRING_ELT(nms, 31, mkChar("dim_E1_2"));
-  SET_STRING_ELT(nms, 32, mkChar("dim_E2"));
-  SET_STRING_ELT(nms, 33, mkChar("dim_E2_0"));
-  SET_STRING_ELT(nms, 34, mkChar("dim_E2_0_1"));
-  SET_STRING_ELT(nms, 35, mkChar("dim_E2_0_2"));
-  SET_STRING_ELT(nms, 36, mkChar("dim_E2_1"));
-  SET_STRING_ELT(nms, 37, mkChar("dim_E2_2"));
-  SET_STRING_ELT(nms, 38, mkChar("dim_gamma_vaccine"));
-  SET_STRING_ELT(nms, 39, mkChar("dim_H"));
-  SET_STRING_ELT(nms, 40, mkChar("dim_H_1"));
-  SET_STRING_ELT(nms, 41, mkChar("dim_H_2"));
-  SET_STRING_ELT(nms, 42, mkChar("dim_Hlag"));
-  SET_STRING_ELT(nms, 43, mkChar("dim_Hlag_1"));
-  SET_STRING_ELT(nms, 44, mkChar("dim_Hlag_2"));
-  SET_STRING_ELT(nms, 45, mkChar("dim_hosp_beds"));
-  SET_STRING_ELT(nms, 46, mkChar("dim_hospital_demand"));
-  SET_STRING_ELT(nms, 47, mkChar("dim_hospital_occupancy"));
-  SET_STRING_ELT(nms, 48, mkChar("dim_hospitalisations"));
-  SET_STRING_ELT(nms, 49, mkChar("dim_I"));
-  SET_STRING_ELT(nms, 50, mkChar("dim_I_1"));
-  SET_STRING_ELT(nms, 51, mkChar("dim_I_2"));
-  SET_STRING_ELT(nms, 52, mkChar("dim_ICase"));
-  SET_STRING_ELT(nms, 53, mkChar("dim_ICase1"));
-  SET_STRING_ELT(nms, 54, mkChar("dim_ICase1_0"));
-  SET_STRING_ELT(nms, 55, mkChar("dim_ICase1_0_1"));
-  SET_STRING_ELT(nms, 56, mkChar("dim_ICase1_0_2"));
-  SET_STRING_ELT(nms, 57, mkChar("dim_ICase1_1"));
-  SET_STRING_ELT(nms, 58, mkChar("dim_ICase1_2"));
-  SET_STRING_ELT(nms, 59, mkChar("dim_ICase2"));
-  SET_STRING_ELT(nms, 60, mkChar("dim_ICase2_0"));
-  SET_STRING_ELT(nms, 61, mkChar("dim_ICase2_0_1"));
-  SET_STRING_ELT(nms, 62, mkChar("dim_ICase2_0_2"));
-  SET_STRING_ELT(nms, 63, mkChar("dim_ICase2_1"));
-  SET_STRING_ELT(nms, 64, mkChar("dim_ICase2_2"));
-  SET_STRING_ELT(nms, 65, mkChar("dim_ICU_beds"));
-  SET_STRING_ELT(nms, 66, mkChar("dim_ICU_demand"));
-  SET_STRING_ELT(nms, 67, mkChar("dim_ICU_occupancy"));
-  SET_STRING_ELT(nms, 68, mkChar("dim_IHospital"));
-  SET_STRING_ELT(nms, 69, mkChar("dim_IICU"));
-  SET_STRING_ELT(nms, 70, mkChar("dim_Ilag"));
-  SET_STRING_ELT(nms, 71, mkChar("dim_Ilag_1"));
-  SET_STRING_ELT(nms, 72, mkChar("dim_Ilag_2"));
-  SET_STRING_ELT(nms, 73, mkChar("dim_IMild"));
-  SET_STRING_ELT(nms, 74, mkChar("dim_IMild_0"));
-  SET_STRING_ELT(nms, 75, mkChar("dim_IMild_0_1"));
-  SET_STRING_ELT(nms, 76, mkChar("dim_IMild_0_2"));
-  SET_STRING_ELT(nms, 77, mkChar("dim_IMild_1"));
-  SET_STRING_ELT(nms, 78, mkChar("dim_IMild_2"));
-  SET_STRING_ELT(nms, 79, mkChar("dim_IMildout"));
-  SET_STRING_ELT(nms, 80, mkChar("dim_IMV_dist_weighting"));
-  SET_STRING_ELT(nms, 81, mkChar("dim_IMV_dist_weighting_1"));
-  SET_STRING_ELT(nms, 82, mkChar("dim_IMV_dist_weighting_2"));
-  SET_STRING_ELT(nms, 83, mkChar("dim_IMVGetDie1"));
-  SET_STRING_ELT(nms, 84, mkChar("dim_IMVGetDie1_0"));
-  SET_STRING_ELT(nms, 85, mkChar("dim_IMVGetDie1_0_1"));
-  SET_STRING_ELT(nms, 86, mkChar("dim_IMVGetDie1_0_2"));
-  SET_STRING_ELT(nms, 87, mkChar("dim_IMVGetDie1_1"));
-  SET_STRING_ELT(nms, 88, mkChar("dim_IMVGetDie1_2"));
-  SET_STRING_ELT(nms, 89, mkChar("dim_IMVGetDie2"));
-  SET_STRING_ELT(nms, 90, mkChar("dim_IMVGetDie2_0"));
-  SET_STRING_ELT(nms, 91, mkChar("dim_IMVGetDie2_0_1"));
-  SET_STRING_ELT(nms, 92, mkChar("dim_IMVGetDie2_0_2"));
-  SET_STRING_ELT(nms, 93, mkChar("dim_IMVGetDie2_1"));
-  SET_STRING_ELT(nms, 94, mkChar("dim_IMVGetDie2_2"));
-  SET_STRING_ELT(nms, 95, mkChar("dim_IMVGetLive1"));
-  SET_STRING_ELT(nms, 96, mkChar("dim_IMVGetLive1_0"));
-  SET_STRING_ELT(nms, 97, mkChar("dim_IMVGetLive1_0_1"));
-  SET_STRING_ELT(nms, 98, mkChar("dim_IMVGetLive1_0_2"));
-  SET_STRING_ELT(nms, 99, mkChar("dim_IMVGetLive1_1"));
-  SET_STRING_ELT(nms, 100, mkChar("dim_IMVGetLive1_2"));
-  SET_STRING_ELT(nms, 101, mkChar("dim_IMVGetLive2"));
-  SET_STRING_ELT(nms, 102, mkChar("dim_IMVGetLive2_0"));
-  SET_STRING_ELT(nms, 103, mkChar("dim_IMVGetLive2_0_1"));
-  SET_STRING_ELT(nms, 104, mkChar("dim_IMVGetLive2_0_2"));
-  SET_STRING_ELT(nms, 105, mkChar("dim_IMVGetLive2_1"));
-  SET_STRING_ELT(nms, 106, mkChar("dim_IMVGetLive2_2"));
-  SET_STRING_ELT(nms, 107, mkChar("dim_IMVNotGetDie1"));
-  SET_STRING_ELT(nms, 108, mkChar("dim_IMVNotGetDie1_0"));
-  SET_STRING_ELT(nms, 109, mkChar("dim_IMVNotGetDie1_0_1"));
-  SET_STRING_ELT(nms, 110, mkChar("dim_IMVNotGetDie1_0_2"));
-  SET_STRING_ELT(nms, 111, mkChar("dim_IMVNotGetDie1_1"));
-  SET_STRING_ELT(nms, 112, mkChar("dim_IMVNotGetDie1_2"));
-  SET_STRING_ELT(nms, 113, mkChar("dim_IMVNotGetDie2"));
-  SET_STRING_ELT(nms, 114, mkChar("dim_IMVNotGetDie2_0"));
-  SET_STRING_ELT(nms, 115, mkChar("dim_IMVNotGetDie2_0_1"));
-  SET_STRING_ELT(nms, 116, mkChar("dim_IMVNotGetDie2_0_2"));
-  SET_STRING_ELT(nms, 117, mkChar("dim_IMVNotGetDie2_1"));
-  SET_STRING_ELT(nms, 118, mkChar("dim_IMVNotGetDie2_2"));
-  SET_STRING_ELT(nms, 119, mkChar("dim_IMVNotGetLive1"));
-  SET_STRING_ELT(nms, 120, mkChar("dim_IMVNotGetLive1_0"));
-  SET_STRING_ELT(nms, 121, mkChar("dim_IMVNotGetLive1_0_1"));
-  SET_STRING_ELT(nms, 122, mkChar("dim_IMVNotGetLive1_0_2"));
-  SET_STRING_ELT(nms, 123, mkChar("dim_IMVNotGetLive1_1"));
-  SET_STRING_ELT(nms, 124, mkChar("dim_IMVNotGetLive1_2"));
-  SET_STRING_ELT(nms, 125, mkChar("dim_IMVNotGetLive2"));
-  SET_STRING_ELT(nms, 126, mkChar("dim_IMVNotGetLive2_0"));
-  SET_STRING_ELT(nms, 127, mkChar("dim_IMVNotGetLive2_0_1"));
-  SET_STRING_ELT(nms, 128, mkChar("dim_IMVNotGetLive2_0_2"));
-  SET_STRING_ELT(nms, 129, mkChar("dim_IMVNotGetLive2_1"));
-  SET_STRING_ELT(nms, 130, mkChar("dim_IMVNotGetLive2_2"));
-  SET_STRING_ELT(nms, 131, mkChar("dim_infections"));
-  SET_STRING_ELT(nms, 132, mkChar("dim_IOxGetDie1"));
-  SET_STRING_ELT(nms, 133, mkChar("dim_IOxGetDie1_0"));
-  SET_STRING_ELT(nms, 134, mkChar("dim_IOxGetDie1_0_1"));
-  SET_STRING_ELT(nms, 135, mkChar("dim_IOxGetDie1_0_2"));
-  SET_STRING_ELT(nms, 136, mkChar("dim_IOxGetDie1_1"));
-  SET_STRING_ELT(nms, 137, mkChar("dim_IOxGetDie1_2"));
-  SET_STRING_ELT(nms, 138, mkChar("dim_IOxGetDie2"));
-  SET_STRING_ELT(nms, 139, mkChar("dim_IOxGetDie2_0"));
-  SET_STRING_ELT(nms, 140, mkChar("dim_IOxGetDie2_0_1"));
-  SET_STRING_ELT(nms, 141, mkChar("dim_IOxGetDie2_0_2"));
-  SET_STRING_ELT(nms, 142, mkChar("dim_IOxGetDie2_1"));
-  SET_STRING_ELT(nms, 143, mkChar("dim_IOxGetDie2_2"));
-  SET_STRING_ELT(nms, 144, mkChar("dim_IOxGetLive1"));
-  SET_STRING_ELT(nms, 145, mkChar("dim_IOxGetLive1_0"));
-  SET_STRING_ELT(nms, 146, mkChar("dim_IOxGetLive1_0_1"));
-  SET_STRING_ELT(nms, 147, mkChar("dim_IOxGetLive1_0_2"));
-  SET_STRING_ELT(nms, 148, mkChar("dim_IOxGetLive1_1"));
-  SET_STRING_ELT(nms, 149, mkChar("dim_IOxGetLive1_2"));
-  SET_STRING_ELT(nms, 150, mkChar("dim_IOxGetLive2"));
-  SET_STRING_ELT(nms, 151, mkChar("dim_IOxGetLive2_0"));
-  SET_STRING_ELT(nms, 152, mkChar("dim_IOxGetLive2_0_1"));
-  SET_STRING_ELT(nms, 153, mkChar("dim_IOxGetLive2_0_2"));
-  SET_STRING_ELT(nms, 154, mkChar("dim_IOxGetLive2_1"));
-  SET_STRING_ELT(nms, 155, mkChar("dim_IOxGetLive2_2"));
-  SET_STRING_ELT(nms, 156, mkChar("dim_IOxNotGetDie1"));
-  SET_STRING_ELT(nms, 157, mkChar("dim_IOxNotGetDie1_0"));
-  SET_STRING_ELT(nms, 158, mkChar("dim_IOxNotGetDie1_0_1"));
-  SET_STRING_ELT(nms, 159, mkChar("dim_IOxNotGetDie1_0_2"));
-  SET_STRING_ELT(nms, 160, mkChar("dim_IOxNotGetDie1_1"));
-  SET_STRING_ELT(nms, 161, mkChar("dim_IOxNotGetDie1_2"));
-  SET_STRING_ELT(nms, 162, mkChar("dim_IOxNotGetDie2"));
-  SET_STRING_ELT(nms, 163, mkChar("dim_IOxNotGetDie2_0"));
-  SET_STRING_ELT(nms, 164, mkChar("dim_IOxNotGetDie2_0_1"));
-  SET_STRING_ELT(nms, 165, mkChar("dim_IOxNotGetDie2_0_2"));
-  SET_STRING_ELT(nms, 166, mkChar("dim_IOxNotGetDie2_1"));
-  SET_STRING_ELT(nms, 167, mkChar("dim_IOxNotGetDie2_2"));
-  SET_STRING_ELT(nms, 168, mkChar("dim_IOxNotGetLive1"));
-  SET_STRING_ELT(nms, 169, mkChar("dim_IOxNotGetLive1_0"));
-  SET_STRING_ELT(nms, 170, mkChar("dim_IOxNotGetLive1_0_1"));
-  SET_STRING_ELT(nms, 171, mkChar("dim_IOxNotGetLive1_0_2"));
-  SET_STRING_ELT(nms, 172, mkChar("dim_IOxNotGetLive1_1"));
-  SET_STRING_ELT(nms, 173, mkChar("dim_IOxNotGetLive1_2"));
-  SET_STRING_ELT(nms, 174, mkChar("dim_IOxNotGetLive2"));
-  SET_STRING_ELT(nms, 175, mkChar("dim_IOxNotGetLive2_0"));
-  SET_STRING_ELT(nms, 176, mkChar("dim_IOxNotGetLive2_0_1"));
-  SET_STRING_ELT(nms, 177, mkChar("dim_IOxNotGetLive2_0_2"));
-  SET_STRING_ELT(nms, 178, mkChar("dim_IOxNotGetLive2_1"));
-  SET_STRING_ELT(nms, 179, mkChar("dim_IOxNotGetLive2_2"));
-  SET_STRING_ELT(nms, 180, mkChar("dim_IRec"));
-  SET_STRING_ELT(nms, 181, mkChar("dim_IRec1"));
-  SET_STRING_ELT(nms, 182, mkChar("dim_IRec1_0"));
-  SET_STRING_ELT(nms, 183, mkChar("dim_IRec1_0_1"));
-  SET_STRING_ELT(nms, 184, mkChar("dim_IRec1_0_2"));
-  SET_STRING_ELT(nms, 185, mkChar("dim_IRec1_1"));
-  SET_STRING_ELT(nms, 186, mkChar("dim_IRec1_2"));
-  SET_STRING_ELT(nms, 187, mkChar("dim_IRec2"));
-  SET_STRING_ELT(nms, 188, mkChar("dim_IRec2_0"));
-  SET_STRING_ELT(nms, 189, mkChar("dim_IRec2_0_1"));
-  SET_STRING_ELT(nms, 190, mkChar("dim_IRec2_0_2"));
-  SET_STRING_ELT(nms, 191, mkChar("dim_IRec2_1"));
-  SET_STRING_ELT(nms, 192, mkChar("dim_IRec2_2"));
-  SET_STRING_ELT(nms, 193, mkChar("dim_lambda"));
-  SET_STRING_ELT(nms, 194, mkChar("dim_m"));
-  SET_STRING_ELT(nms, 195, mkChar("dim_m_1"));
-  SET_STRING_ELT(nms, 196, mkChar("dim_m_2"));
-  SET_STRING_ELT(nms, 197, mkChar("dim_max_vaccine"));
-  SET_STRING_ELT(nms, 198, mkChar("dim_mix_mat_set"));
-  SET_STRING_ELT(nms, 199, mkChar("dim_mix_mat_set_1"));
-  SET_STRING_ELT(nms, 200, mkChar("dim_mix_mat_set_12"));
-  SET_STRING_ELT(nms, 201, mkChar("dim_mix_mat_set_2"));
-  SET_STRING_ELT(nms, 202, mkChar("dim_mix_mat_set_3"));
-  SET_STRING_ELT(nms, 203, mkChar("dim_N"));
-  SET_STRING_ELT(nms, 204, mkChar("dim_number_get_IMV"));
-  SET_STRING_ELT(nms, 205, mkChar("dim_number_get_IMV_1"));
-  SET_STRING_ELT(nms, 206, mkChar("dim_number_get_IMV_2"));
-  SET_STRING_ELT(nms, 207, mkChar("dim_number_get_Ox"));
-  SET_STRING_ELT(nms, 208, mkChar("dim_number_get_Ox_1"));
-  SET_STRING_ELT(nms, 209, mkChar("dim_number_get_Ox_2"));
-  SET_STRING_ELT(nms, 210, mkChar("dim_number_requiring_IMV"));
-  SET_STRING_ELT(nms, 211, mkChar("dim_number_requiring_IMV_1"));
-  SET_STRING_ELT(nms, 212, mkChar("dim_number_requiring_IMV_2"));
-  SET_STRING_ELT(nms, 213, mkChar("dim_number_requiring_Ox"));
-  SET_STRING_ELT(nms, 214, mkChar("dim_number_requiring_Ox_1"));
-  SET_STRING_ELT(nms, 215, mkChar("dim_number_requiring_Ox_2"));
-  SET_STRING_ELT(nms, 216, mkChar("dim_Ox_dist_weighting"));
-  SET_STRING_ELT(nms, 217, mkChar("dim_Ox_dist_weighting_1"));
-  SET_STRING_ELT(nms, 218, mkChar("dim_Ox_dist_weighting_2"));
-  SET_STRING_ELT(nms, 219, mkChar("dim_p_dist"));
-  SET_STRING_ELT(nms, 220, mkChar("dim_p_dist_1"));
-  SET_STRING_ELT(nms, 221, mkChar("dim_p_dist_2"));
-  SET_STRING_ELT(nms, 222, mkChar("dim_priorvaccinated"));
-  SET_STRING_ELT(nms, 223, mkChar("dim_prob_hosp"));
-  SET_STRING_ELT(nms, 224, mkChar("dim_prob_hosp_1"));
-  SET_STRING_ELT(nms, 225, mkChar("dim_prob_hosp_2"));
-  SET_STRING_ELT(nms, 226, mkChar("dim_prob_non_severe_death_no_treatment"));
-  SET_STRING_ELT(nms, 227, mkChar("dim_prob_non_severe_death_treatment"));
-  SET_STRING_ELT(nms, 228, mkChar("dim_prob_severe"));
-  SET_STRING_ELT(nms, 229, mkChar("dim_prob_severe_death_no_treatment"));
-  SET_STRING_ELT(nms, 230, mkChar("dim_prob_severe_death_treatment"));
-  SET_STRING_ELT(nms, 231, mkChar("dim_R"));
-  SET_STRING_ELT(nms, 232, mkChar("dim_R1"));
-  SET_STRING_ELT(nms, 233, mkChar("dim_R1_0"));
-  SET_STRING_ELT(nms, 234, mkChar("dim_R1_0_1"));
-  SET_STRING_ELT(nms, 235, mkChar("dim_R1_0_2"));
-  SET_STRING_ELT(nms, 236, mkChar("dim_R1_1"));
-  SET_STRING_ELT(nms, 237, mkChar("dim_R1_2"));
-  SET_STRING_ELT(nms, 238, mkChar("dim_R2"));
-  SET_STRING_ELT(nms, 239, mkChar("dim_R2_0"));
-  SET_STRING_ELT(nms, 240, mkChar("dim_R2_0_1"));
-  SET_STRING_ELT(nms, 241, mkChar("dim_R2_0_2"));
-  SET_STRING_ELT(nms, 242, mkChar("dim_R2_1"));
-  SET_STRING_ELT(nms, 243, mkChar("dim_R2_2"));
-  SET_STRING_ELT(nms, 244, mkChar("dim_S"));
-  SET_STRING_ELT(nms, 245, mkChar("dim_S_0"));
-  SET_STRING_ELT(nms, 246, mkChar("dim_S_0_1"));
-  SET_STRING_ELT(nms, 247, mkChar("dim_S_0_2"));
-  SET_STRING_ELT(nms, 248, mkChar("dim_S_1"));
-  SET_STRING_ELT(nms, 249, mkChar("dim_S_2"));
-  SET_STRING_ELT(nms, 250, mkChar("dim_s_ij"));
-  SET_STRING_ELT(nms, 251, mkChar("dim_s_ij_1"));
-  SET_STRING_ELT(nms, 252, mkChar("dim_s_ij_2"));
-  SET_STRING_ELT(nms, 253, mkChar("dim_temp"));
-  SET_STRING_ELT(nms, 254, mkChar("dim_tt_beta"));
-  SET_STRING_ELT(nms, 255, mkChar("dim_tt_hosp_beds"));
-  SET_STRING_ELT(nms, 256, mkChar("dim_tt_ICU_beds"));
-  SET_STRING_ELT(nms, 257, mkChar("dim_tt_matrix"));
-  SET_STRING_ELT(nms, 258, mkChar("dim_tt_vaccine"));
-  SET_STRING_ELT(nms, 259, mkChar("dim_unvaccinated"));
-  SET_STRING_ELT(nms, 260, mkChar("dim_V"));
-  SET_STRING_ELT(nms, 261, mkChar("dim_vaccinated"));
-  SET_STRING_ELT(nms, 262, mkChar("dim_vaccination_target"));
-  SET_STRING_ELT(nms, 263, mkChar("dim_vaccine_efficacy_infection"));
-  SET_STRING_ELT(nms, 264, mkChar("dim_vaccine_efficacy_infection_1"));
-  SET_STRING_ELT(nms, 265, mkChar("dim_vaccine_efficacy_infection_2"));
-  SET_STRING_ELT(nms, 266, mkChar("dim_vaccines"));
-  SET_STRING_ELT(nms, 267, mkChar("dim_Vlag"));
-  SET_STRING_ELT(nms, 268, mkChar("dim_vr_temp"));
-  SET_STRING_ELT(nms, 269, mkChar("Dlag"));
-  SET_STRING_ELT(nms, 270, mkChar("dt"));
-  SET_STRING_ELT(nms, 271, mkChar("E1_0"));
-  SET_STRING_ELT(nms, 272, mkChar("E2_0"));
-  SET_STRING_ELT(nms, 273, mkChar("gamma_E"));
-  SET_STRING_ELT(nms, 274, mkChar("gamma_get_mv_die"));
-  SET_STRING_ELT(nms, 275, mkChar("gamma_get_mv_survive"));
-  SET_STRING_ELT(nms, 276, mkChar("gamma_get_ox_die"));
-  SET_STRING_ELT(nms, 277, mkChar("gamma_get_ox_survive"));
-  SET_STRING_ELT(nms, 278, mkChar("gamma_ICase"));
-  SET_STRING_ELT(nms, 279, mkChar("gamma_IMild"));
-  SET_STRING_ELT(nms, 280, mkChar("gamma_not_get_mv_die"));
-  SET_STRING_ELT(nms, 281, mkChar("gamma_not_get_mv_survive"));
-  SET_STRING_ELT(nms, 282, mkChar("gamma_not_get_ox_die"));
-  SET_STRING_ELT(nms, 283, mkChar("gamma_not_get_ox_survive"));
-  SET_STRING_ELT(nms, 284, mkChar("gamma_R"));
-  SET_STRING_ELT(nms, 285, mkChar("gamma_rec"));
-  SET_STRING_ELT(nms, 286, mkChar("gamma_vaccine"));
-  SET_STRING_ELT(nms, 287, mkChar("Hlag"));
-  SET_STRING_ELT(nms, 288, mkChar("hosp_beds"));
-  SET_STRING_ELT(nms, 289, mkChar("ICase1_0"));
-  SET_STRING_ELT(nms, 290, mkChar("ICase2_0"));
-  SET_STRING_ELT(nms, 291, mkChar("ICU_beds"));
-  SET_STRING_ELT(nms, 292, mkChar("Ilag"));
-  SET_STRING_ELT(nms, 293, mkChar("IMild_0"));
-  SET_STRING_ELT(nms, 294, mkChar("IMV_dist_weighting"));
-  SET_STRING_ELT(nms, 295, mkChar("IMVGetDie1_0"));
-  SET_STRING_ELT(nms, 296, mkChar("IMVGetDie2_0"));
-  SET_STRING_ELT(nms, 297, mkChar("IMVGetLive1_0"));
-  SET_STRING_ELT(nms, 298, mkChar("IMVGetLive2_0"));
-  SET_STRING_ELT(nms, 299, mkChar("IMVNotGetDie1_0"));
-  SET_STRING_ELT(nms, 300, mkChar("IMVNotGetDie2_0"));
-  SET_STRING_ELT(nms, 301, mkChar("IMVNotGetLive1_0"));
-  SET_STRING_ELT(nms, 302, mkChar("IMVNotGetLive2_0"));
-  SET_STRING_ELT(nms, 303, mkChar("initial_D"));
-  SET_STRING_ELT(nms, 304, mkChar("initial_E1"));
-  SET_STRING_ELT(nms, 305, mkChar("initial_E2"));
-  SET_STRING_ELT(nms, 306, mkChar("initial_H"));
-  SET_STRING_ELT(nms, 307, mkChar("initial_I"));
-  SET_STRING_ELT(nms, 308, mkChar("initial_ICase1"));
-  SET_STRING_ELT(nms, 309, mkChar("initial_ICase2"));
-  SET_STRING_ELT(nms, 310, mkChar("initial_IMild"));
-  SET_STRING_ELT(nms, 311, mkChar("initial_IMVGetDie1"));
-  SET_STRING_ELT(nms, 312, mkChar("initial_IMVGetDie2"));
-  SET_STRING_ELT(nms, 313, mkChar("initial_IMVGetLive1"));
-  SET_STRING_ELT(nms, 314, mkChar("initial_IMVGetLive2"));
-  SET_STRING_ELT(nms, 315, mkChar("initial_IMVNotGetDie1"));
-  SET_STRING_ELT(nms, 316, mkChar("initial_IMVNotGetDie2"));
-  SET_STRING_ELT(nms, 317, mkChar("initial_IMVNotGetLive1"));
-  SET_STRING_ELT(nms, 318, mkChar("initial_IMVNotGetLive2"));
-  SET_STRING_ELT(nms, 319, mkChar("initial_IOxGetDie1"));
-  SET_STRING_ELT(nms, 320, mkChar("initial_IOxGetDie2"));
-  SET_STRING_ELT(nms, 321, mkChar("initial_IOxGetLive1"));
-  SET_STRING_ELT(nms, 322, mkChar("initial_IOxGetLive2"));
-  SET_STRING_ELT(nms, 323, mkChar("initial_IOxNotGetDie1"));
-  SET_STRING_ELT(nms, 324, mkChar("initial_IOxNotGetDie2"));
-  SET_STRING_ELT(nms, 325, mkChar("initial_IOxNotGetLive1"));
-  SET_STRING_ELT(nms, 326, mkChar("initial_IOxNotGetLive2"));
-  SET_STRING_ELT(nms, 327, mkChar("initial_IRec1"));
-  SET_STRING_ELT(nms, 328, mkChar("initial_IRec2"));
-  SET_STRING_ELT(nms, 329, mkChar("initial_R1"));
-  SET_STRING_ELT(nms, 330, mkChar("initial_R2"));
-  SET_STRING_ELT(nms, 331, mkChar("initial_S"));
-  SET_STRING_ELT(nms, 332, mkChar("initial_t"));
-  SET_STRING_ELT(nms, 333, mkChar("initial_V"));
-  SET_STRING_ELT(nms, 334, mkChar("interpolate_beta"));
-  SET_STRING_ELT(nms, 335, mkChar("interpolate_hosp_bed_capacity"));
-  SET_STRING_ELT(nms, 336, mkChar("interpolate_ICU_bed_capacity"));
-  SET_STRING_ELT(nms, 337, mkChar("interpolate_m"));
-  SET_STRING_ELT(nms, 338, mkChar("interpolate_mv"));
-  SET_STRING_ELT(nms, 339, mkChar("IOxGetDie1_0"));
-  SET_STRING_ELT(nms, 340, mkChar("IOxGetDie2_0"));
-  SET_STRING_ELT(nms, 341, mkChar("IOxGetLive1_0"));
-  SET_STRING_ELT(nms, 342, mkChar("IOxGetLive2_0"));
-  SET_STRING_ELT(nms, 343, mkChar("IOxNotGetDie1_0"));
-  SET_STRING_ELT(nms, 344, mkChar("IOxNotGetDie2_0"));
-  SET_STRING_ELT(nms, 345, mkChar("IOxNotGetLive1_0"));
-  SET_STRING_ELT(nms, 346, mkChar("IOxNotGetLive2_0"));
-  SET_STRING_ELT(nms, 347, mkChar("IRec1_0"));
-  SET_STRING_ELT(nms, 348, mkChar("IRec2_0"));
-  SET_STRING_ELT(nms, 349, mkChar("lambda"));
-  SET_STRING_ELT(nms, 350, mkChar("m"));
-  SET_STRING_ELT(nms, 351, mkChar("max_vaccine"));
-  SET_STRING_ELT(nms, 352, mkChar("mix_mat_set"));
-  SET_STRING_ELT(nms, 353, mkChar("N_age"));
-  SET_STRING_ELT(nms, 354, mkChar("N_vaccine"));
-  SET_STRING_ELT(nms, 355, mkChar("number_get_IMV"));
-  SET_STRING_ELT(nms, 356, mkChar("number_get_Ox"));
-  SET_STRING_ELT(nms, 357, mkChar("number_requiring_IMV"));
-  SET_STRING_ELT(nms, 358, mkChar("number_requiring_Ox"));
-  SET_STRING_ELT(nms, 359, mkChar("offset_output_deaths"));
-  SET_STRING_ELT(nms, 360, mkChar("offset_output_hospital_demand"));
-  SET_STRING_ELT(nms, 361, mkChar("offset_output_hospital_occupancy"));
-  SET_STRING_ELT(nms, 362, mkChar("offset_output_hospitalisations"));
-  SET_STRING_ELT(nms, 363, mkChar("offset_output_ICase"));
-  SET_STRING_ELT(nms, 364, mkChar("offset_output_ICU_demand"));
-  SET_STRING_ELT(nms, 365, mkChar("offset_output_ICU_occupancy"));
-  SET_STRING_ELT(nms, 366, mkChar("offset_output_IHospital"));
-  SET_STRING_ELT(nms, 367, mkChar("offset_output_IICU"));
-  SET_STRING_ELT(nms, 368, mkChar("offset_output_infections"));
-  SET_STRING_ELT(nms, 369, mkChar("offset_output_IRec"));
-  SET_STRING_ELT(nms, 370, mkChar("offset_output_N"));
-  SET_STRING_ELT(nms, 371, mkChar("offset_output_priorvaccinated"));
-  SET_STRING_ELT(nms, 372, mkChar("offset_output_R"));
-  SET_STRING_ELT(nms, 373, mkChar("offset_output_unvaccinated"));
-  SET_STRING_ELT(nms, 374, mkChar("offset_output_vaccinated"));
-  SET_STRING_ELT(nms, 375, mkChar("offset_output_vaccines"));
-  SET_STRING_ELT(nms, 376, mkChar("offset_variable_D"));
-  SET_STRING_ELT(nms, 377, mkChar("offset_variable_E1"));
-  SET_STRING_ELT(nms, 378, mkChar("offset_variable_E2"));
-  SET_STRING_ELT(nms, 379, mkChar("offset_variable_H"));
-  SET_STRING_ELT(nms, 380, mkChar("offset_variable_I"));
-  SET_STRING_ELT(nms, 381, mkChar("offset_variable_ICase1"));
-  SET_STRING_ELT(nms, 382, mkChar("offset_variable_ICase2"));
-  SET_STRING_ELT(nms, 383, mkChar("offset_variable_IMild"));
-  SET_STRING_ELT(nms, 384, mkChar("offset_variable_IMVGetDie1"));
-  SET_STRING_ELT(nms, 385, mkChar("offset_variable_IMVGetDie2"));
-  SET_STRING_ELT(nms, 386, mkChar("offset_variable_IMVGetLive1"));
-  SET_STRING_ELT(nms, 387, mkChar("offset_variable_IMVGetLive2"));
-  SET_STRING_ELT(nms, 388, mkChar("offset_variable_IMVNotGetDie1"));
-  SET_STRING_ELT(nms, 389, mkChar("offset_variable_IMVNotGetDie2"));
-  SET_STRING_ELT(nms, 390, mkChar("offset_variable_IMVNotGetLive1"));
-  SET_STRING_ELT(nms, 391, mkChar("offset_variable_IMVNotGetLive2"));
-  SET_STRING_ELT(nms, 392, mkChar("offset_variable_IOxGetDie1"));
-  SET_STRING_ELT(nms, 393, mkChar("offset_variable_IOxGetDie2"));
-  SET_STRING_ELT(nms, 394, mkChar("offset_variable_IOxGetLive1"));
-  SET_STRING_ELT(nms, 395, mkChar("offset_variable_IOxGetLive2"));
-  SET_STRING_ELT(nms, 396, mkChar("offset_variable_IOxNotGetDie1"));
-  SET_STRING_ELT(nms, 397, mkChar("offset_variable_IOxNotGetDie2"));
-  SET_STRING_ELT(nms, 398, mkChar("offset_variable_IOxNotGetLive1"));
-  SET_STRING_ELT(nms, 399, mkChar("offset_variable_IOxNotGetLive2"));
-  SET_STRING_ELT(nms, 400, mkChar("offset_variable_IRec1"));
-  SET_STRING_ELT(nms, 401, mkChar("offset_variable_IRec2"));
-  SET_STRING_ELT(nms, 402, mkChar("offset_variable_R1"));
-  SET_STRING_ELT(nms, 403, mkChar("offset_variable_R2"));
-  SET_STRING_ELT(nms, 404, mkChar("Ox_dist_weighting"));
-  SET_STRING_ELT(nms, 405, mkChar("p_dist"));
-  SET_STRING_ELT(nms, 406, mkChar("prob_hosp"));
-  SET_STRING_ELT(nms, 407, mkChar("prob_non_severe_death_no_treatment"));
-  SET_STRING_ELT(nms, 408, mkChar("prob_non_severe_death_treatment"));
-  SET_STRING_ELT(nms, 409, mkChar("prob_severe"));
-  SET_STRING_ELT(nms, 410, mkChar("prob_severe_death_no_treatment"));
-  SET_STRING_ELT(nms, 411, mkChar("prob_severe_death_treatment"));
-  SET_STRING_ELT(nms, 412, mkChar("R1_0"));
-  SET_STRING_ELT(nms, 413, mkChar("R2_0"));
-  SET_STRING_ELT(nms, 414, mkChar("S_0"));
-  SET_STRING_ELT(nms, 415, mkChar("s_ij"));
-  SET_STRING_ELT(nms, 416, mkChar("temp"));
-  SET_STRING_ELT(nms, 417, mkChar("tt_beta"));
-  SET_STRING_ELT(nms, 418, mkChar("tt_hosp_beds"));
-  SET_STRING_ELT(nms, 419, mkChar("tt_ICU_beds"));
-  SET_STRING_ELT(nms, 420, mkChar("tt_matrix"));
-  SET_STRING_ELT(nms, 421, mkChar("tt_vaccine"));
-  SET_STRING_ELT(nms, 422, mkChar("vaccination_target"));
-  SET_STRING_ELT(nms, 423, mkChar("vaccine_efficacy_infection"));
-  SET_STRING_ELT(nms, 424, mkChar("Vlag"));
-  SET_STRING_ELT(nms, 425, mkChar("vr_temp"));
-  SET_STRING_ELT(nms, 426, mkChar("vaccine_use_dde"));
+  SET_STRING_ELT(nms, 3, mkChar("delay_index_Ilag"));
+  SET_STRING_ELT(nms, 4, mkChar("delay_index_Vlag"));
+  SET_STRING_ELT(nms, 5, mkChar("delay_state_Dlag"));
+  SET_STRING_ELT(nms, 6, mkChar("delay_state_Ilag"));
+  SET_STRING_ELT(nms, 7, mkChar("delay_state_Vlag"));
+  SET_STRING_ELT(nms, 8, mkChar("dim_beta_set"));
+  SET_STRING_ELT(nms, 9, mkChar("dim_D"));
+  SET_STRING_ELT(nms, 10, mkChar("dim_D_0"));
+  SET_STRING_ELT(nms, 11, mkChar("dim_D_0_1"));
+  SET_STRING_ELT(nms, 12, mkChar("dim_D_0_2"));
+  SET_STRING_ELT(nms, 13, mkChar("dim_D_1"));
+  SET_STRING_ELT(nms, 14, mkChar("dim_D_2"));
+  SET_STRING_ELT(nms, 15, mkChar("dim_deaths"));
+  SET_STRING_ELT(nms, 16, mkChar("dim_delay_Dlag"));
+  SET_STRING_ELT(nms, 17, mkChar("dim_delay_Ilag"));
+  SET_STRING_ELT(nms, 18, mkChar("dim_delay_Vlag"));
+  SET_STRING_ELT(nms, 19, mkChar("dim_Dlag"));
+  SET_STRING_ELT(nms, 20, mkChar("dim_Dlag_1"));
+  SET_STRING_ELT(nms, 21, mkChar("dim_Dlag_2"));
+  SET_STRING_ELT(nms, 22, mkChar("dim_E"));
+  SET_STRING_ELT(nms, 23, mkChar("dim_E1"));
+  SET_STRING_ELT(nms, 24, mkChar("dim_E1_0"));
+  SET_STRING_ELT(nms, 25, mkChar("dim_E1_0_1"));
+  SET_STRING_ELT(nms, 26, mkChar("dim_E1_0_2"));
+  SET_STRING_ELT(nms, 27, mkChar("dim_E1_1"));
+  SET_STRING_ELT(nms, 28, mkChar("dim_E1_2"));
+  SET_STRING_ELT(nms, 29, mkChar("dim_E2"));
+  SET_STRING_ELT(nms, 30, mkChar("dim_E2_0"));
+  SET_STRING_ELT(nms, 31, mkChar("dim_E2_0_1"));
+  SET_STRING_ELT(nms, 32, mkChar("dim_E2_0_2"));
+  SET_STRING_ELT(nms, 33, mkChar("dim_E2_1"));
+  SET_STRING_ELT(nms, 34, mkChar("dim_E2_2"));
+  SET_STRING_ELT(nms, 35, mkChar("dim_gamma_vaccine"));
+  SET_STRING_ELT(nms, 36, mkChar("dim_hosp_beds"));
+  SET_STRING_ELT(nms, 37, mkChar("dim_hospital_demand"));
+  SET_STRING_ELT(nms, 38, mkChar("dim_hospital_occupancy"));
+  SET_STRING_ELT(nms, 39, mkChar("dim_I"));
+  SET_STRING_ELT(nms, 40, mkChar("dim_I_1"));
+  SET_STRING_ELT(nms, 41, mkChar("dim_I_2"));
+  SET_STRING_ELT(nms, 42, mkChar("dim_ICase"));
+  SET_STRING_ELT(nms, 43, mkChar("dim_ICase1"));
+  SET_STRING_ELT(nms, 44, mkChar("dim_ICase1_0"));
+  SET_STRING_ELT(nms, 45, mkChar("dim_ICase1_0_1"));
+  SET_STRING_ELT(nms, 46, mkChar("dim_ICase1_0_2"));
+  SET_STRING_ELT(nms, 47, mkChar("dim_ICase1_1"));
+  SET_STRING_ELT(nms, 48, mkChar("dim_ICase1_2"));
+  SET_STRING_ELT(nms, 49, mkChar("dim_ICase2"));
+  SET_STRING_ELT(nms, 50, mkChar("dim_ICase2_0"));
+  SET_STRING_ELT(nms, 51, mkChar("dim_ICase2_0_1"));
+  SET_STRING_ELT(nms, 52, mkChar("dim_ICase2_0_2"));
+  SET_STRING_ELT(nms, 53, mkChar("dim_ICase2_1"));
+  SET_STRING_ELT(nms, 54, mkChar("dim_ICase2_2"));
+  SET_STRING_ELT(nms, 55, mkChar("dim_ICU_beds"));
+  SET_STRING_ELT(nms, 56, mkChar("dim_ICU_demand"));
+  SET_STRING_ELT(nms, 57, mkChar("dim_ICU_occupancy"));
+  SET_STRING_ELT(nms, 58, mkChar("dim_IHospital"));
+  SET_STRING_ELT(nms, 59, mkChar("dim_IICU"));
+  SET_STRING_ELT(nms, 60, mkChar("dim_Ilag"));
+  SET_STRING_ELT(nms, 61, mkChar("dim_Ilag_1"));
+  SET_STRING_ELT(nms, 62, mkChar("dim_Ilag_2"));
+  SET_STRING_ELT(nms, 63, mkChar("dim_IMild"));
+  SET_STRING_ELT(nms, 64, mkChar("dim_IMild_0"));
+  SET_STRING_ELT(nms, 65, mkChar("dim_IMild_0_1"));
+  SET_STRING_ELT(nms, 66, mkChar("dim_IMild_0_2"));
+  SET_STRING_ELT(nms, 67, mkChar("dim_IMild_1"));
+  SET_STRING_ELT(nms, 68, mkChar("dim_IMild_2"));
+  SET_STRING_ELT(nms, 69, mkChar("dim_IMildout"));
+  SET_STRING_ELT(nms, 70, mkChar("dim_IMVGetDie1"));
+  SET_STRING_ELT(nms, 71, mkChar("dim_IMVGetDie1_0"));
+  SET_STRING_ELT(nms, 72, mkChar("dim_IMVGetDie1_0_1"));
+  SET_STRING_ELT(nms, 73, mkChar("dim_IMVGetDie1_0_2"));
+  SET_STRING_ELT(nms, 74, mkChar("dim_IMVGetDie1_1"));
+  SET_STRING_ELT(nms, 75, mkChar("dim_IMVGetDie1_2"));
+  SET_STRING_ELT(nms, 76, mkChar("dim_IMVGetDie2"));
+  SET_STRING_ELT(nms, 77, mkChar("dim_IMVGetDie2_0"));
+  SET_STRING_ELT(nms, 78, mkChar("dim_IMVGetDie2_0_1"));
+  SET_STRING_ELT(nms, 79, mkChar("dim_IMVGetDie2_0_2"));
+  SET_STRING_ELT(nms, 80, mkChar("dim_IMVGetDie2_1"));
+  SET_STRING_ELT(nms, 81, mkChar("dim_IMVGetDie2_2"));
+  SET_STRING_ELT(nms, 82, mkChar("dim_IMVGetLive1"));
+  SET_STRING_ELT(nms, 83, mkChar("dim_IMVGetLive1_0"));
+  SET_STRING_ELT(nms, 84, mkChar("dim_IMVGetLive1_0_1"));
+  SET_STRING_ELT(nms, 85, mkChar("dim_IMVGetLive1_0_2"));
+  SET_STRING_ELT(nms, 86, mkChar("dim_IMVGetLive1_1"));
+  SET_STRING_ELT(nms, 87, mkChar("dim_IMVGetLive1_2"));
+  SET_STRING_ELT(nms, 88, mkChar("dim_IMVGetLive2"));
+  SET_STRING_ELT(nms, 89, mkChar("dim_IMVGetLive2_0"));
+  SET_STRING_ELT(nms, 90, mkChar("dim_IMVGetLive2_0_1"));
+  SET_STRING_ELT(nms, 91, mkChar("dim_IMVGetLive2_0_2"));
+  SET_STRING_ELT(nms, 92, mkChar("dim_IMVGetLive2_1"));
+  SET_STRING_ELT(nms, 93, mkChar("dim_IMVGetLive2_2"));
+  SET_STRING_ELT(nms, 94, mkChar("dim_IMVNotGetDie1"));
+  SET_STRING_ELT(nms, 95, mkChar("dim_IMVNotGetDie1_0"));
+  SET_STRING_ELT(nms, 96, mkChar("dim_IMVNotGetDie1_0_1"));
+  SET_STRING_ELT(nms, 97, mkChar("dim_IMVNotGetDie1_0_2"));
+  SET_STRING_ELT(nms, 98, mkChar("dim_IMVNotGetDie1_1"));
+  SET_STRING_ELT(nms, 99, mkChar("dim_IMVNotGetDie1_2"));
+  SET_STRING_ELT(nms, 100, mkChar("dim_IMVNotGetDie2"));
+  SET_STRING_ELT(nms, 101, mkChar("dim_IMVNotGetDie2_0"));
+  SET_STRING_ELT(nms, 102, mkChar("dim_IMVNotGetDie2_0_1"));
+  SET_STRING_ELT(nms, 103, mkChar("dim_IMVNotGetDie2_0_2"));
+  SET_STRING_ELT(nms, 104, mkChar("dim_IMVNotGetDie2_1"));
+  SET_STRING_ELT(nms, 105, mkChar("dim_IMVNotGetDie2_2"));
+  SET_STRING_ELT(nms, 106, mkChar("dim_IMVNotGetLive1"));
+  SET_STRING_ELT(nms, 107, mkChar("dim_IMVNotGetLive1_0"));
+  SET_STRING_ELT(nms, 108, mkChar("dim_IMVNotGetLive1_0_1"));
+  SET_STRING_ELT(nms, 109, mkChar("dim_IMVNotGetLive1_0_2"));
+  SET_STRING_ELT(nms, 110, mkChar("dim_IMVNotGetLive1_1"));
+  SET_STRING_ELT(nms, 111, mkChar("dim_IMVNotGetLive1_2"));
+  SET_STRING_ELT(nms, 112, mkChar("dim_IMVNotGetLive2"));
+  SET_STRING_ELT(nms, 113, mkChar("dim_IMVNotGetLive2_0"));
+  SET_STRING_ELT(nms, 114, mkChar("dim_IMVNotGetLive2_0_1"));
+  SET_STRING_ELT(nms, 115, mkChar("dim_IMVNotGetLive2_0_2"));
+  SET_STRING_ELT(nms, 116, mkChar("dim_IMVNotGetLive2_1"));
+  SET_STRING_ELT(nms, 117, mkChar("dim_IMVNotGetLive2_2"));
+  SET_STRING_ELT(nms, 118, mkChar("dim_infections"));
+  SET_STRING_ELT(nms, 119, mkChar("dim_IOxGetDie1"));
+  SET_STRING_ELT(nms, 120, mkChar("dim_IOxGetDie1_0"));
+  SET_STRING_ELT(nms, 121, mkChar("dim_IOxGetDie1_0_1"));
+  SET_STRING_ELT(nms, 122, mkChar("dim_IOxGetDie1_0_2"));
+  SET_STRING_ELT(nms, 123, mkChar("dim_IOxGetDie1_1"));
+  SET_STRING_ELT(nms, 124, mkChar("dim_IOxGetDie1_2"));
+  SET_STRING_ELT(nms, 125, mkChar("dim_IOxGetDie2"));
+  SET_STRING_ELT(nms, 126, mkChar("dim_IOxGetDie2_0"));
+  SET_STRING_ELT(nms, 127, mkChar("dim_IOxGetDie2_0_1"));
+  SET_STRING_ELT(nms, 128, mkChar("dim_IOxGetDie2_0_2"));
+  SET_STRING_ELT(nms, 129, mkChar("dim_IOxGetDie2_1"));
+  SET_STRING_ELT(nms, 130, mkChar("dim_IOxGetDie2_2"));
+  SET_STRING_ELT(nms, 131, mkChar("dim_IOxGetLive1"));
+  SET_STRING_ELT(nms, 132, mkChar("dim_IOxGetLive1_0"));
+  SET_STRING_ELT(nms, 133, mkChar("dim_IOxGetLive1_0_1"));
+  SET_STRING_ELT(nms, 134, mkChar("dim_IOxGetLive1_0_2"));
+  SET_STRING_ELT(nms, 135, mkChar("dim_IOxGetLive1_1"));
+  SET_STRING_ELT(nms, 136, mkChar("dim_IOxGetLive1_2"));
+  SET_STRING_ELT(nms, 137, mkChar("dim_IOxGetLive2"));
+  SET_STRING_ELT(nms, 138, mkChar("dim_IOxGetLive2_0"));
+  SET_STRING_ELT(nms, 139, mkChar("dim_IOxGetLive2_0_1"));
+  SET_STRING_ELT(nms, 140, mkChar("dim_IOxGetLive2_0_2"));
+  SET_STRING_ELT(nms, 141, mkChar("dim_IOxGetLive2_1"));
+  SET_STRING_ELT(nms, 142, mkChar("dim_IOxGetLive2_2"));
+  SET_STRING_ELT(nms, 143, mkChar("dim_IOxNotGetDie1"));
+  SET_STRING_ELT(nms, 144, mkChar("dim_IOxNotGetDie1_0"));
+  SET_STRING_ELT(nms, 145, mkChar("dim_IOxNotGetDie1_0_1"));
+  SET_STRING_ELT(nms, 146, mkChar("dim_IOxNotGetDie1_0_2"));
+  SET_STRING_ELT(nms, 147, mkChar("dim_IOxNotGetDie1_1"));
+  SET_STRING_ELT(nms, 148, mkChar("dim_IOxNotGetDie1_2"));
+  SET_STRING_ELT(nms, 149, mkChar("dim_IOxNotGetDie2"));
+  SET_STRING_ELT(nms, 150, mkChar("dim_IOxNotGetDie2_0"));
+  SET_STRING_ELT(nms, 151, mkChar("dim_IOxNotGetDie2_0_1"));
+  SET_STRING_ELT(nms, 152, mkChar("dim_IOxNotGetDie2_0_2"));
+  SET_STRING_ELT(nms, 153, mkChar("dim_IOxNotGetDie2_1"));
+  SET_STRING_ELT(nms, 154, mkChar("dim_IOxNotGetDie2_2"));
+  SET_STRING_ELT(nms, 155, mkChar("dim_IOxNotGetLive1"));
+  SET_STRING_ELT(nms, 156, mkChar("dim_IOxNotGetLive1_0"));
+  SET_STRING_ELT(nms, 157, mkChar("dim_IOxNotGetLive1_0_1"));
+  SET_STRING_ELT(nms, 158, mkChar("dim_IOxNotGetLive1_0_2"));
+  SET_STRING_ELT(nms, 159, mkChar("dim_IOxNotGetLive1_1"));
+  SET_STRING_ELT(nms, 160, mkChar("dim_IOxNotGetLive1_2"));
+  SET_STRING_ELT(nms, 161, mkChar("dim_IOxNotGetLive2"));
+  SET_STRING_ELT(nms, 162, mkChar("dim_IOxNotGetLive2_0"));
+  SET_STRING_ELT(nms, 163, mkChar("dim_IOxNotGetLive2_0_1"));
+  SET_STRING_ELT(nms, 164, mkChar("dim_IOxNotGetLive2_0_2"));
+  SET_STRING_ELT(nms, 165, mkChar("dim_IOxNotGetLive2_1"));
+  SET_STRING_ELT(nms, 166, mkChar("dim_IOxNotGetLive2_2"));
+  SET_STRING_ELT(nms, 167, mkChar("dim_IRec"));
+  SET_STRING_ELT(nms, 168, mkChar("dim_IRec1"));
+  SET_STRING_ELT(nms, 169, mkChar("dim_IRec1_0"));
+  SET_STRING_ELT(nms, 170, mkChar("dim_IRec1_0_1"));
+  SET_STRING_ELT(nms, 171, mkChar("dim_IRec1_0_2"));
+  SET_STRING_ELT(nms, 172, mkChar("dim_IRec1_1"));
+  SET_STRING_ELT(nms, 173, mkChar("dim_IRec1_2"));
+  SET_STRING_ELT(nms, 174, mkChar("dim_IRec2"));
+  SET_STRING_ELT(nms, 175, mkChar("dim_IRec2_0"));
+  SET_STRING_ELT(nms, 176, mkChar("dim_IRec2_0_1"));
+  SET_STRING_ELT(nms, 177, mkChar("dim_IRec2_0_2"));
+  SET_STRING_ELT(nms, 178, mkChar("dim_IRec2_1"));
+  SET_STRING_ELT(nms, 179, mkChar("dim_IRec2_2"));
+  SET_STRING_ELT(nms, 180, mkChar("dim_lambda"));
+  SET_STRING_ELT(nms, 181, mkChar("dim_m"));
+  SET_STRING_ELT(nms, 182, mkChar("dim_m_1"));
+  SET_STRING_ELT(nms, 183, mkChar("dim_m_2"));
+  SET_STRING_ELT(nms, 184, mkChar("dim_max_vaccine"));
+  SET_STRING_ELT(nms, 185, mkChar("dim_mix_mat_set"));
+  SET_STRING_ELT(nms, 186, mkChar("dim_mix_mat_set_1"));
+  SET_STRING_ELT(nms, 187, mkChar("dim_mix_mat_set_12"));
+  SET_STRING_ELT(nms, 188, mkChar("dim_mix_mat_set_2"));
+  SET_STRING_ELT(nms, 189, mkChar("dim_mix_mat_set_3"));
+  SET_STRING_ELT(nms, 190, mkChar("dim_N"));
+  SET_STRING_ELT(nms, 191, mkChar("dim_number_requiring_IMV"));
+  SET_STRING_ELT(nms, 192, mkChar("dim_number_requiring_IMV_1"));
+  SET_STRING_ELT(nms, 193, mkChar("dim_number_requiring_IMV_2"));
+  SET_STRING_ELT(nms, 194, mkChar("dim_number_requiring_Ox"));
+  SET_STRING_ELT(nms, 195, mkChar("dim_number_requiring_Ox_1"));
+  SET_STRING_ELT(nms, 196, mkChar("dim_number_requiring_Ox_2"));
+  SET_STRING_ELT(nms, 197, mkChar("dim_p_dist"));
+  SET_STRING_ELT(nms, 198, mkChar("dim_p_dist_1"));
+  SET_STRING_ELT(nms, 199, mkChar("dim_p_dist_2"));
+  SET_STRING_ELT(nms, 200, mkChar("dim_priorvaccinated"));
+  SET_STRING_ELT(nms, 201, mkChar("dim_prob_hosp"));
+  SET_STRING_ELT(nms, 202, mkChar("dim_prob_hosp_1"));
+  SET_STRING_ELT(nms, 203, mkChar("dim_prob_hosp_2"));
+  SET_STRING_ELT(nms, 204, mkChar("dim_prob_non_severe_death_no_treatment"));
+  SET_STRING_ELT(nms, 205, mkChar("dim_prob_non_severe_death_treatment"));
+  SET_STRING_ELT(nms, 206, mkChar("dim_prob_severe"));
+  SET_STRING_ELT(nms, 207, mkChar("dim_prob_severe_death_no_treatment"));
+  SET_STRING_ELT(nms, 208, mkChar("dim_prob_severe_death_treatment"));
+  SET_STRING_ELT(nms, 209, mkChar("dim_R"));
+  SET_STRING_ELT(nms, 210, mkChar("dim_R1"));
+  SET_STRING_ELT(nms, 211, mkChar("dim_R1_0"));
+  SET_STRING_ELT(nms, 212, mkChar("dim_R1_0_1"));
+  SET_STRING_ELT(nms, 213, mkChar("dim_R1_0_2"));
+  SET_STRING_ELT(nms, 214, mkChar("dim_R1_1"));
+  SET_STRING_ELT(nms, 215, mkChar("dim_R1_2"));
+  SET_STRING_ELT(nms, 216, mkChar("dim_R2"));
+  SET_STRING_ELT(nms, 217, mkChar("dim_R2_0"));
+  SET_STRING_ELT(nms, 218, mkChar("dim_R2_0_1"));
+  SET_STRING_ELT(nms, 219, mkChar("dim_R2_0_2"));
+  SET_STRING_ELT(nms, 220, mkChar("dim_R2_1"));
+  SET_STRING_ELT(nms, 221, mkChar("dim_R2_2"));
+  SET_STRING_ELT(nms, 222, mkChar("dim_S"));
+  SET_STRING_ELT(nms, 223, mkChar("dim_S_0"));
+  SET_STRING_ELT(nms, 224, mkChar("dim_S_0_1"));
+  SET_STRING_ELT(nms, 225, mkChar("dim_S_0_2"));
+  SET_STRING_ELT(nms, 226, mkChar("dim_S_1"));
+  SET_STRING_ELT(nms, 227, mkChar("dim_S_2"));
+  SET_STRING_ELT(nms, 228, mkChar("dim_s_ij"));
+  SET_STRING_ELT(nms, 229, mkChar("dim_s_ij_1"));
+  SET_STRING_ELT(nms, 230, mkChar("dim_s_ij_2"));
+  SET_STRING_ELT(nms, 231, mkChar("dim_temp"));
+  SET_STRING_ELT(nms, 232, mkChar("dim_tt_beta"));
+  SET_STRING_ELT(nms, 233, mkChar("dim_tt_hosp_beds"));
+  SET_STRING_ELT(nms, 234, mkChar("dim_tt_ICU_beds"));
+  SET_STRING_ELT(nms, 235, mkChar("dim_tt_matrix"));
+  SET_STRING_ELT(nms, 236, mkChar("dim_tt_vaccine"));
+  SET_STRING_ELT(nms, 237, mkChar("dim_unvaccinated"));
+  SET_STRING_ELT(nms, 238, mkChar("dim_V"));
+  SET_STRING_ELT(nms, 239, mkChar("dim_vaccinated"));
+  SET_STRING_ELT(nms, 240, mkChar("dim_vaccination_target"));
+  SET_STRING_ELT(nms, 241, mkChar("dim_vaccine_efficacy_infection"));
+  SET_STRING_ELT(nms, 242, mkChar("dim_vaccine_efficacy_infection_1"));
+  SET_STRING_ELT(nms, 243, mkChar("dim_vaccine_efficacy_infection_2"));
+  SET_STRING_ELT(nms, 244, mkChar("dim_vaccines"));
+  SET_STRING_ELT(nms, 245, mkChar("dim_Vlag"));
+  SET_STRING_ELT(nms, 246, mkChar("dim_vr_temp"));
+  SET_STRING_ELT(nms, 247, mkChar("Dlag"));
+  SET_STRING_ELT(nms, 248, mkChar("dt"));
+  SET_STRING_ELT(nms, 249, mkChar("E1_0"));
+  SET_STRING_ELT(nms, 250, mkChar("E2_0"));
+  SET_STRING_ELT(nms, 251, mkChar("gamma_E"));
+  SET_STRING_ELT(nms, 252, mkChar("gamma_get_mv_die"));
+  SET_STRING_ELT(nms, 253, mkChar("gamma_get_mv_survive"));
+  SET_STRING_ELT(nms, 254, mkChar("gamma_get_ox_die"));
+  SET_STRING_ELT(nms, 255, mkChar("gamma_get_ox_survive"));
+  SET_STRING_ELT(nms, 256, mkChar("gamma_ICase"));
+  SET_STRING_ELT(nms, 257, mkChar("gamma_IMild"));
+  SET_STRING_ELT(nms, 258, mkChar("gamma_not_get_mv_die"));
+  SET_STRING_ELT(nms, 259, mkChar("gamma_not_get_mv_survive"));
+  SET_STRING_ELT(nms, 260, mkChar("gamma_not_get_ox_die"));
+  SET_STRING_ELT(nms, 261, mkChar("gamma_not_get_ox_survive"));
+  SET_STRING_ELT(nms, 262, mkChar("gamma_R"));
+  SET_STRING_ELT(nms, 263, mkChar("gamma_rec"));
+  SET_STRING_ELT(nms, 264, mkChar("gamma_vaccine"));
+  SET_STRING_ELT(nms, 265, mkChar("hosp_beds"));
+  SET_STRING_ELT(nms, 266, mkChar("ICase1_0"));
+  SET_STRING_ELT(nms, 267, mkChar("ICase2_0"));
+  SET_STRING_ELT(nms, 268, mkChar("ICU_beds"));
+  SET_STRING_ELT(nms, 269, mkChar("Ilag"));
+  SET_STRING_ELT(nms, 270, mkChar("IMild_0"));
+  SET_STRING_ELT(nms, 271, mkChar("IMVGetDie1_0"));
+  SET_STRING_ELT(nms, 272, mkChar("IMVGetDie2_0"));
+  SET_STRING_ELT(nms, 273, mkChar("IMVGetLive1_0"));
+  SET_STRING_ELT(nms, 274, mkChar("IMVGetLive2_0"));
+  SET_STRING_ELT(nms, 275, mkChar("IMVNotGetDie1_0"));
+  SET_STRING_ELT(nms, 276, mkChar("IMVNotGetDie2_0"));
+  SET_STRING_ELT(nms, 277, mkChar("IMVNotGetLive1_0"));
+  SET_STRING_ELT(nms, 278, mkChar("IMVNotGetLive2_0"));
+  SET_STRING_ELT(nms, 279, mkChar("initial_D"));
+  SET_STRING_ELT(nms, 280, mkChar("initial_E1"));
+  SET_STRING_ELT(nms, 281, mkChar("initial_E2"));
+  SET_STRING_ELT(nms, 282, mkChar("initial_I"));
+  SET_STRING_ELT(nms, 283, mkChar("initial_ICase1"));
+  SET_STRING_ELT(nms, 284, mkChar("initial_ICase2"));
+  SET_STRING_ELT(nms, 285, mkChar("initial_IMild"));
+  SET_STRING_ELT(nms, 286, mkChar("initial_IMVGetDie1"));
+  SET_STRING_ELT(nms, 287, mkChar("initial_IMVGetDie2"));
+  SET_STRING_ELT(nms, 288, mkChar("initial_IMVGetLive1"));
+  SET_STRING_ELT(nms, 289, mkChar("initial_IMVGetLive2"));
+  SET_STRING_ELT(nms, 290, mkChar("initial_IMVNotGetDie1"));
+  SET_STRING_ELT(nms, 291, mkChar("initial_IMVNotGetDie2"));
+  SET_STRING_ELT(nms, 292, mkChar("initial_IMVNotGetLive1"));
+  SET_STRING_ELT(nms, 293, mkChar("initial_IMVNotGetLive2"));
+  SET_STRING_ELT(nms, 294, mkChar("initial_IOxGetDie1"));
+  SET_STRING_ELT(nms, 295, mkChar("initial_IOxGetDie2"));
+  SET_STRING_ELT(nms, 296, mkChar("initial_IOxGetLive1"));
+  SET_STRING_ELT(nms, 297, mkChar("initial_IOxGetLive2"));
+  SET_STRING_ELT(nms, 298, mkChar("initial_IOxNotGetDie1"));
+  SET_STRING_ELT(nms, 299, mkChar("initial_IOxNotGetDie2"));
+  SET_STRING_ELT(nms, 300, mkChar("initial_IOxNotGetLive1"));
+  SET_STRING_ELT(nms, 301, mkChar("initial_IOxNotGetLive2"));
+  SET_STRING_ELT(nms, 302, mkChar("initial_IRec1"));
+  SET_STRING_ELT(nms, 303, mkChar("initial_IRec2"));
+  SET_STRING_ELT(nms, 304, mkChar("initial_R1"));
+  SET_STRING_ELT(nms, 305, mkChar("initial_R2"));
+  SET_STRING_ELT(nms, 306, mkChar("initial_S"));
+  SET_STRING_ELT(nms, 307, mkChar("initial_t"));
+  SET_STRING_ELT(nms, 308, mkChar("initial_V"));
+  SET_STRING_ELT(nms, 309, mkChar("interpolate_beta"));
+  SET_STRING_ELT(nms, 310, mkChar("interpolate_hosp_bed_capacity"));
+  SET_STRING_ELT(nms, 311, mkChar("interpolate_ICU_bed_capacity"));
+  SET_STRING_ELT(nms, 312, mkChar("interpolate_m"));
+  SET_STRING_ELT(nms, 313, mkChar("interpolate_mv"));
+  SET_STRING_ELT(nms, 314, mkChar("IOxGetDie1_0"));
+  SET_STRING_ELT(nms, 315, mkChar("IOxGetDie2_0"));
+  SET_STRING_ELT(nms, 316, mkChar("IOxGetLive1_0"));
+  SET_STRING_ELT(nms, 317, mkChar("IOxGetLive2_0"));
+  SET_STRING_ELT(nms, 318, mkChar("IOxNotGetDie1_0"));
+  SET_STRING_ELT(nms, 319, mkChar("IOxNotGetDie2_0"));
+  SET_STRING_ELT(nms, 320, mkChar("IOxNotGetLive1_0"));
+  SET_STRING_ELT(nms, 321, mkChar("IOxNotGetLive2_0"));
+  SET_STRING_ELT(nms, 322, mkChar("IRec1_0"));
+  SET_STRING_ELT(nms, 323, mkChar("IRec2_0"));
+  SET_STRING_ELT(nms, 324, mkChar("lambda"));
+  SET_STRING_ELT(nms, 325, mkChar("m"));
+  SET_STRING_ELT(nms, 326, mkChar("max_vaccine"));
+  SET_STRING_ELT(nms, 327, mkChar("mix_mat_set"));
+  SET_STRING_ELT(nms, 328, mkChar("N_age"));
+  SET_STRING_ELT(nms, 329, mkChar("N_vaccine"));
+  SET_STRING_ELT(nms, 330, mkChar("number_requiring_IMV"));
+  SET_STRING_ELT(nms, 331, mkChar("number_requiring_Ox"));
+  SET_STRING_ELT(nms, 332, mkChar("offset_output_deaths"));
+  SET_STRING_ELT(nms, 333, mkChar("offset_output_hospital_demand"));
+  SET_STRING_ELT(nms, 334, mkChar("offset_output_hospital_occupancy"));
+  SET_STRING_ELT(nms, 335, mkChar("offset_output_ICase"));
+  SET_STRING_ELT(nms, 336, mkChar("offset_output_ICU_demand"));
+  SET_STRING_ELT(nms, 337, mkChar("offset_output_ICU_occupancy"));
+  SET_STRING_ELT(nms, 338, mkChar("offset_output_IHospital"));
+  SET_STRING_ELT(nms, 339, mkChar("offset_output_IICU"));
+  SET_STRING_ELT(nms, 340, mkChar("offset_output_infections"));
+  SET_STRING_ELT(nms, 341, mkChar("offset_output_IRec"));
+  SET_STRING_ELT(nms, 342, mkChar("offset_output_N"));
+  SET_STRING_ELT(nms, 343, mkChar("offset_output_priorvaccinated"));
+  SET_STRING_ELT(nms, 344, mkChar("offset_output_R"));
+  SET_STRING_ELT(nms, 345, mkChar("offset_output_unvaccinated"));
+  SET_STRING_ELT(nms, 346, mkChar("offset_output_vaccinated"));
+  SET_STRING_ELT(nms, 347, mkChar("offset_output_vaccines"));
+  SET_STRING_ELT(nms, 348, mkChar("offset_variable_D"));
+  SET_STRING_ELT(nms, 349, mkChar("offset_variable_E1"));
+  SET_STRING_ELT(nms, 350, mkChar("offset_variable_E2"));
+  SET_STRING_ELT(nms, 351, mkChar("offset_variable_I"));
+  SET_STRING_ELT(nms, 352, mkChar("offset_variable_ICase1"));
+  SET_STRING_ELT(nms, 353, mkChar("offset_variable_ICase2"));
+  SET_STRING_ELT(nms, 354, mkChar("offset_variable_IMild"));
+  SET_STRING_ELT(nms, 355, mkChar("offset_variable_IMVGetDie1"));
+  SET_STRING_ELT(nms, 356, mkChar("offset_variable_IMVGetDie2"));
+  SET_STRING_ELT(nms, 357, mkChar("offset_variable_IMVGetLive1"));
+  SET_STRING_ELT(nms, 358, mkChar("offset_variable_IMVGetLive2"));
+  SET_STRING_ELT(nms, 359, mkChar("offset_variable_IMVNotGetDie1"));
+  SET_STRING_ELT(nms, 360, mkChar("offset_variable_IMVNotGetDie2"));
+  SET_STRING_ELT(nms, 361, mkChar("offset_variable_IMVNotGetLive1"));
+  SET_STRING_ELT(nms, 362, mkChar("offset_variable_IMVNotGetLive2"));
+  SET_STRING_ELT(nms, 363, mkChar("offset_variable_IOxGetDie1"));
+  SET_STRING_ELT(nms, 364, mkChar("offset_variable_IOxGetDie2"));
+  SET_STRING_ELT(nms, 365, mkChar("offset_variable_IOxGetLive1"));
+  SET_STRING_ELT(nms, 366, mkChar("offset_variable_IOxGetLive2"));
+  SET_STRING_ELT(nms, 367, mkChar("offset_variable_IOxNotGetDie1"));
+  SET_STRING_ELT(nms, 368, mkChar("offset_variable_IOxNotGetDie2"));
+  SET_STRING_ELT(nms, 369, mkChar("offset_variable_IOxNotGetLive1"));
+  SET_STRING_ELT(nms, 370, mkChar("offset_variable_IOxNotGetLive2"));
+  SET_STRING_ELT(nms, 371, mkChar("offset_variable_IRec1"));
+  SET_STRING_ELT(nms, 372, mkChar("offset_variable_IRec2"));
+  SET_STRING_ELT(nms, 373, mkChar("offset_variable_R1"));
+  SET_STRING_ELT(nms, 374, mkChar("offset_variable_R2"));
+  SET_STRING_ELT(nms, 375, mkChar("p_dist"));
+  SET_STRING_ELT(nms, 376, mkChar("prob_hosp"));
+  SET_STRING_ELT(nms, 377, mkChar("prob_non_severe_death_no_treatment"));
+  SET_STRING_ELT(nms, 378, mkChar("prob_non_severe_death_treatment"));
+  SET_STRING_ELT(nms, 379, mkChar("prob_severe"));
+  SET_STRING_ELT(nms, 380, mkChar("prob_severe_death_no_treatment"));
+  SET_STRING_ELT(nms, 381, mkChar("prob_severe_death_treatment"));
+  SET_STRING_ELT(nms, 382, mkChar("R1_0"));
+  SET_STRING_ELT(nms, 383, mkChar("R2_0"));
+  SET_STRING_ELT(nms, 384, mkChar("S_0"));
+  SET_STRING_ELT(nms, 385, mkChar("s_ij"));
+  SET_STRING_ELT(nms, 386, mkChar("temp"));
+  SET_STRING_ELT(nms, 387, mkChar("tt_beta"));
+  SET_STRING_ELT(nms, 388, mkChar("tt_hosp_beds"));
+  SET_STRING_ELT(nms, 389, mkChar("tt_ICU_beds"));
+  SET_STRING_ELT(nms, 390, mkChar("tt_matrix"));
+  SET_STRING_ELT(nms, 391, mkChar("tt_vaccine"));
+  SET_STRING_ELT(nms, 392, mkChar("vaccination_target"));
+  SET_STRING_ELT(nms, 393, mkChar("vaccine_efficacy_infection"));
+  SET_STRING_ELT(nms, 394, mkChar("Vlag"));
+  SET_STRING_ELT(nms, 395, mkChar("vr_temp"));
+  SET_STRING_ELT(nms, 396, mkChar("vaccine_use_dde"));
   setAttrib(contents, R_NamesSymbol, nms);
-  UNPROTECT(102);
+  UNPROTECT(94);
   return contents;
 }
 SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
@@ -2021,13 +1893,8 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->dim_E2_1 = internal->N_age;
   internal->dim_E2_2 = internal->N_vaccine;
   internal->dim_gamma_vaccine = internal->N_vaccine;
-  internal->dim_H_1 = internal->N_age;
-  internal->dim_H_2 = internal->N_vaccine;
-  internal->dim_Hlag_1 = internal->N_age;
-  internal->dim_Hlag_2 = internal->N_vaccine;
   internal->dim_hospital_demand = internal->N_age;
   internal->dim_hospital_occupancy = internal->N_age;
-  internal->dim_hospitalisations = internal->N_age;
   internal->dim_I_1 = internal->N_age;
   internal->dim_I_2 = internal->N_vaccine;
   internal->dim_ICase = internal->N_age;
@@ -2050,8 +1917,6 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->dim_IMild_1 = internal->N_age;
   internal->dim_IMild_2 = internal->N_vaccine;
   internal->dim_IMildout = internal->N_age;
-  internal->dim_IMV_dist_weighting_1 = internal->N_age;
-  internal->dim_IMV_dist_weighting_2 = internal->N_vaccine;
   internal->dim_IMVGetDie1_0_1 = internal->N_age;
   internal->dim_IMVGetDie1_0_2 = internal->N_vaccine;
   internal->dim_IMVGetDie1_1 = internal->N_age;
@@ -2130,16 +1995,10 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->dim_m_1 = internal->N_age;
   internal->dim_m_2 = internal->N_age;
   internal->dim_N = internal->N_age;
-  internal->dim_number_get_IMV_1 = internal->N_age;
-  internal->dim_number_get_IMV_2 = internal->N_vaccine;
-  internal->dim_number_get_Ox_1 = internal->N_age;
-  internal->dim_number_get_Ox_2 = internal->N_vaccine;
   internal->dim_number_requiring_IMV_1 = internal->N_age;
   internal->dim_number_requiring_IMV_2 = internal->N_vaccine;
   internal->dim_number_requiring_Ox_1 = internal->N_age;
   internal->dim_number_requiring_Ox_2 = internal->N_vaccine;
-  internal->dim_Ox_dist_weighting_1 = internal->N_age;
-  internal->dim_Ox_dist_weighting_2 = internal->N_vaccine;
   internal->dim_p_dist_1 = internal->N_age;
   internal->dim_p_dist_2 = internal->N_vaccine;
   internal->dim_priorvaccinated = internal->N_age;
@@ -2194,8 +2053,6 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->dim_E1_0 = internal->dim_E1_0_1 * internal->dim_E1_0_2;
   internal->dim_E2 = internal->dim_E2_1 * internal->dim_E2_2;
   internal->dim_E2_0 = internal->dim_E2_0_1 * internal->dim_E2_0_2;
-  internal->dim_H = internal->dim_H_1 * internal->dim_H_2;
-  internal->dim_Hlag = internal->dim_Hlag_1 * internal->dim_Hlag_2;
   internal->dim_hosp_beds = internal->dim_tt_hosp_beds;
   internal->dim_I = internal->dim_I_1 * internal->dim_I_2;
   internal->dim_ICase1 = internal->dim_ICase1_1 * internal->dim_ICase1_2;
@@ -2206,7 +2063,6 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->dim_Ilag = internal->dim_Ilag_1 * internal->dim_Ilag_2;
   internal->dim_IMild = internal->dim_IMild_1 * internal->dim_IMild_2;
   internal->dim_IMild_0 = internal->dim_IMild_0_1 * internal->dim_IMild_0_2;
-  internal->dim_IMV_dist_weighting = internal->dim_IMV_dist_weighting_1 * internal->dim_IMV_dist_weighting_2;
   internal->dim_IMVGetDie1 = internal->dim_IMVGetDie1_1 * internal->dim_IMVGetDie1_2;
   internal->dim_IMVGetDie1_0 = internal->dim_IMVGetDie1_0_1 * internal->dim_IMVGetDie1_0_2;
   internal->dim_IMVGetDie2 = internal->dim_IMVGetDie2_1 * internal->dim_IMVGetDie2_2;
@@ -2248,11 +2104,8 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->dim_mix_mat_set_1 = internal->dim_tt_matrix;
   internal->dim_mix_mat_set_2 = internal->N_age;
   internal->dim_mix_mat_set_3 = internal->N_age;
-  internal->dim_number_get_IMV = internal->dim_number_get_IMV_1 * internal->dim_number_get_IMV_2;
-  internal->dim_number_get_Ox = internal->dim_number_get_Ox_1 * internal->dim_number_get_Ox_2;
   internal->dim_number_requiring_IMV = internal->dim_number_requiring_IMV_1 * internal->dim_number_requiring_IMV_2;
   internal->dim_number_requiring_Ox = internal->dim_number_requiring_Ox_1 * internal->dim_number_requiring_Ox_2;
-  internal->dim_Ox_dist_weighting = internal->dim_Ox_dist_weighting_1 * internal->dim_Ox_dist_weighting_2;
   internal->dim_p_dist = internal->dim_p_dist_1 * internal->dim_p_dist_2;
   internal->dim_prob_hosp = internal->dim_prob_hosp_1 * internal->dim_prob_hosp_2;
   internal->dim_R1 = internal->dim_R1_1 * internal->dim_R1_2;
@@ -2267,23 +2120,22 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   for (int i = 1; i <= internal->dim_V; ++i) {
     internal->initial_V[i - 1] = 0;
   }
-  internal->offset_output_deaths = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations;
+  internal->offset_output_deaths = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital;
   internal->offset_output_hospital_demand = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy;
   internal->offset_output_hospital_occupancy = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec;
-  internal->offset_output_hospitalisations = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital;
   internal->offset_output_ICase = internal->dim_E + internal->dim_IMildout + internal->dim_R;
   internal->offset_output_ICU_demand = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand;
   internal->offset_output_ICU_occupancy = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy;
   internal->offset_output_IHospital = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU;
   internal->offset_output_IICU = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand;
-  internal->offset_output_infections = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths;
+  internal->offset_output_infections = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths;
   internal->offset_output_IRec = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase;
-  internal->offset_output_N = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated + internal->dim_priorvaccinated;
-  internal->offset_output_priorvaccinated = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated;
+  internal->offset_output_N = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated + internal->dim_priorvaccinated;
+  internal->offset_output_priorvaccinated = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated;
   internal->offset_output_R = internal->dim_E + internal->dim_IMildout;
-  internal->offset_output_unvaccinated = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines;
-  internal->offset_output_vaccinated = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated;
-  internal->offset_output_vaccines = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths + internal->dim_infections;
+  internal->offset_output_unvaccinated = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines;
+  internal->offset_output_vaccinated = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated;
+  internal->offset_output_vaccines = internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths + internal->dim_infections;
   internal->prob_non_severe_death_no_treatment = (double*) user_get_array(user, false, internal->prob_non_severe_death_no_treatment, "prob_non_severe_death_no_treatment", NA_REAL, NA_REAL, 1, internal->dim_prob_non_severe_death_no_treatment);
   internal->prob_non_severe_death_treatment = (double*) user_get_array(user, false, internal->prob_non_severe_death_treatment, "prob_non_severe_death_treatment", NA_REAL, NA_REAL, 1, internal->dim_prob_non_severe_death_treatment);
   internal->prob_severe = (double*) user_get_array(user, false, internal->prob_severe, "prob_severe", NA_REAL, NA_REAL, 1, internal->dim_prob_severe);
@@ -2292,20 +2144,14 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->vaccination_target = (double*) user_get_array(user, false, internal->vaccination_target, "vaccination_target", NA_REAL, NA_REAL, 1, internal->dim_vaccination_target);
   Free(internal->Dlag);
   internal->Dlag = (double*) Calloc(internal->dim_Dlag, double);
-  Free(internal->Hlag);
-  internal->Hlag = (double*) Calloc(internal->dim_Hlag, double);
   Free(internal->Ilag);
   internal->Ilag = (double*) Calloc(internal->dim_Ilag, double);
-  Free(internal->IMV_dist_weighting);
-  internal->IMV_dist_weighting = (double*) Calloc(internal->dim_IMV_dist_weighting, double);
   Free(internal->initial_D);
   internal->initial_D = (double*) Calloc(internal->dim_D, double);
   Free(internal->initial_E1);
   internal->initial_E1 = (double*) Calloc(internal->dim_E1, double);
   Free(internal->initial_E2);
   internal->initial_E2 = (double*) Calloc(internal->dim_E2, double);
-  Free(internal->initial_H);
-  internal->initial_H = (double*) Calloc(internal->dim_H, double);
   Free(internal->initial_I);
   internal->initial_I = (double*) Calloc(internal->dim_I, double);
   Free(internal->initial_ICase1);
@@ -2358,16 +2204,10 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->initial_S = (double*) Calloc(internal->dim_S, double);
   Free(internal->m);
   internal->m = (double*) Calloc(internal->dim_m, double);
-  Free(internal->number_get_IMV);
-  internal->number_get_IMV = (double*) Calloc(internal->dim_number_get_IMV, double);
-  Free(internal->number_get_Ox);
-  internal->number_get_Ox = (double*) Calloc(internal->dim_number_get_Ox, double);
   Free(internal->number_requiring_IMV);
   internal->number_requiring_IMV = (double*) Calloc(internal->dim_number_requiring_IMV, double);
   Free(internal->number_requiring_Ox);
   internal->number_requiring_Ox = (double*) Calloc(internal->dim_number_requiring_Ox, double);
-  Free(internal->Ox_dist_weighting);
-  internal->Ox_dist_weighting = (double*) Calloc(internal->dim_Ox_dist_weighting, double);
   Free(internal->s_ij);
   internal->s_ij = (double*) Calloc(internal->dim_s_ij, double);
   internal->beta_set = (double*) user_get_array(user, false, internal->beta_set, "beta_set", NA_REAL, NA_REAL, 1, internal->dim_beta_set);
@@ -2380,7 +2220,6 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
     internal->delay_index_Vlag[0 + i] = j;
   }
   internal->dim_delay_Dlag = internal->dim_D;
-  internal->dim_delay_Hlag = internal->dim_H;
   internal->dim_delay_Ilag = internal->dim_I;
   internal->dim_mix_mat_set = internal->dim_mix_mat_set_1 * internal->dim_mix_mat_set_2 * internal->dim_mix_mat_set_3;
   internal->dim_mix_mat_set_12 = internal->dim_mix_mat_set_1 * internal->dim_mix_mat_set_2;
@@ -2399,11 +2238,6 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->IMVNotGetDie2_0 = (double*) user_get_array(user, false, internal->IMVNotGetDie2_0, "IMVNotGetDie2_0", NA_REAL, NA_REAL, 2, internal->dim_IMVNotGetDie2_0_1, internal->dim_IMVNotGetDie2_0_2);
   internal->IMVNotGetLive1_0 = (double*) user_get_array(user, false, internal->IMVNotGetLive1_0, "IMVNotGetLive1_0", NA_REAL, NA_REAL, 2, internal->dim_IMVNotGetLive1_0_1, internal->dim_IMVNotGetLive1_0_2);
   internal->IMVNotGetLive2_0 = (double*) user_get_array(user, false, internal->IMVNotGetLive2_0, "IMVNotGetLive2_0", NA_REAL, NA_REAL, 2, internal->dim_IMVNotGetLive2_0_1, internal->dim_IMVNotGetLive2_0_2);
-  for (int i = 1; i <= internal->dim_H_1; ++i) {
-    for (int j = 1; j <= internal->dim_H_2; ++j) {
-      internal->initial_H[i - 1 + internal->dim_H_1 * (j - 1)] = 0;
-    }
-  }
   for (int i = 1; i <= internal->dim_I_1; ++i) {
     for (int j = 1; j <= internal->dim_I_2; ++j) {
       internal->initial_I[i - 1 + internal->dim_I_1 * (j - 1)] = 0;
@@ -2423,8 +2257,7 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->offset_variable_D = internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2 + internal->dim_ICase1 + internal->dim_ICase2 + internal->dim_IOxGetLive1 + internal->dim_IOxGetLive2 + internal->dim_IOxGetDie1 + internal->dim_IOxGetDie2 + internal->dim_IOxNotGetLive1 + internal->dim_IOxNotGetLive2 + internal->dim_IOxNotGetDie1 + internal->dim_IOxNotGetDie2 + internal->dim_IMVGetLive1 + internal->dim_IMVGetLive2 + internal->dim_IMVGetDie1 + internal->dim_IMVGetDie2 + internal->dim_IMVNotGetLive1 + internal->dim_IMVNotGetLive2 + internal->dim_IMVNotGetDie1 + internal->dim_IMVNotGetDie2 + internal->dim_IRec1 + internal->dim_IRec2;
   internal->offset_variable_E1 = internal->dim_V + internal->dim_S;
   internal->offset_variable_E2 = internal->dim_V + internal->dim_S + internal->dim_E1;
-  internal->offset_variable_H = internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2 + internal->dim_ICase1 + internal->dim_ICase2 + internal->dim_IOxGetLive1 + internal->dim_IOxGetLive2 + internal->dim_IOxGetDie1 + internal->dim_IOxGetDie2 + internal->dim_IOxNotGetLive1 + internal->dim_IOxNotGetLive2 + internal->dim_IOxNotGetDie1 + internal->dim_IOxNotGetDie2 + internal->dim_IMVGetLive1 + internal->dim_IMVGetLive2 + internal->dim_IMVGetDie1 + internal->dim_IMVGetDie2 + internal->dim_IMVNotGetLive1 + internal->dim_IMVNotGetLive2 + internal->dim_IMVNotGetDie1 + internal->dim_IMVNotGetDie2 + internal->dim_IRec1 + internal->dim_IRec2 + internal->dim_D;
-  internal->offset_variable_I = internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2 + internal->dim_ICase1 + internal->dim_ICase2 + internal->dim_IOxGetLive1 + internal->dim_IOxGetLive2 + internal->dim_IOxGetDie1 + internal->dim_IOxGetDie2 + internal->dim_IOxNotGetLive1 + internal->dim_IOxNotGetLive2 + internal->dim_IOxNotGetDie1 + internal->dim_IOxNotGetDie2 + internal->dim_IMVGetLive1 + internal->dim_IMVGetLive2 + internal->dim_IMVGetDie1 + internal->dim_IMVGetDie2 + internal->dim_IMVNotGetLive1 + internal->dim_IMVNotGetLive2 + internal->dim_IMVNotGetDie1 + internal->dim_IMVNotGetDie2 + internal->dim_IRec1 + internal->dim_IRec2 + internal->dim_D + internal->dim_H;
+  internal->offset_variable_I = internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2 + internal->dim_ICase1 + internal->dim_ICase2 + internal->dim_IOxGetLive1 + internal->dim_IOxGetLive2 + internal->dim_IOxGetDie1 + internal->dim_IOxGetDie2 + internal->dim_IOxNotGetLive1 + internal->dim_IOxNotGetLive2 + internal->dim_IOxNotGetDie1 + internal->dim_IOxNotGetDie2 + internal->dim_IMVGetLive1 + internal->dim_IMVGetLive2 + internal->dim_IMVGetDie1 + internal->dim_IMVGetDie2 + internal->dim_IMVNotGetLive1 + internal->dim_IMVNotGetLive2 + internal->dim_IMVNotGetDie1 + internal->dim_IMVNotGetDie2 + internal->dim_IRec1 + internal->dim_IRec2 + internal->dim_D;
   internal->offset_variable_ICase1 = internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2;
   internal->offset_variable_ICase2 = internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2 + internal->dim_ICase1;
   internal->offset_variable_IMild = internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2;
@@ -2460,13 +2293,6 @@ SEXP vaccine_set_user(SEXP internal_p, SEXP user) {
   internal->delay_state_Dlag = Calloc(internal->dim_delay_Dlag, double);
   for (int i = 0, j = internal->offset_variable_D; i < internal->dim_D; ++i, ++j) {
     internal->delay_index_Dlag[0 + i] = j;
-  }
-  Free(internal->delay_index_Hlag);
-  internal->delay_index_Hlag = Calloc(internal->dim_delay_Hlag, int);
-  Free(internal->delay_state_Hlag);
-  internal->delay_state_Hlag = Calloc(internal->dim_delay_Hlag, double);
-  for (int i = 0, j = internal->offset_variable_H; i < internal->dim_H; ++i, ++j) {
-    internal->delay_index_Hlag[0 + i] = j;
   }
   Free(internal->delay_index_Ilag);
   internal->delay_index_Ilag = Calloc(internal->dim_delay_Ilag, int);
@@ -2665,7 +2491,6 @@ SEXP vaccine_set_initial(SEXP internal_p, SEXP t_ptr, SEXP state_ptr, SEXP vacci
     internal->initial_IRec1 = state + internal->offset_variable_IRec1;
     internal->initial_IRec2 = state + internal->offset_variable_IRec2;
     internal->initial_D = state + internal->offset_variable_D;
-    internal->initial_H = state + internal->offset_variable_H;
     internal->initial_I = state + internal->offset_variable_I;
   }
   return R_NilValue;
@@ -2679,8 +2504,8 @@ SEXP vaccine_metadata(SEXP internal_p) {
   SET_STRING_ELT(nms, 2, mkChar("n_out"));
   SET_STRING_ELT(nms, 3, mkChar("interpolate_t"));
   setAttrib(ret, R_NamesSymbol, nms);
-  SEXP variable_length = PROTECT(allocVector(VECSXP, 30));
-  SEXP variable_names = PROTECT(allocVector(STRSXP, 30));
+  SEXP variable_length = PROTECT(allocVector(VECSXP, 29));
+  SEXP variable_names = PROTECT(allocVector(STRSXP, 29));
   setAttrib(variable_length, R_NamesSymbol, variable_names);
   SET_VECTOR_ELT(variable_length, 0, ScalarInteger(internal->dim_V));
   SET_VECTOR_ELT(variable_length, 1, allocVector(INTSXP, 2));
@@ -2792,11 +2617,7 @@ SEXP vaccine_metadata(SEXP internal_p) {
   dim_D[0] = internal->dim_D_1;
   dim_D[1] = internal->dim_D_2;
   SET_VECTOR_ELT(variable_length, 28, allocVector(INTSXP, 2));
-  int * dim_H = INTEGER(VECTOR_ELT(variable_length, 28));
-  dim_H[0] = internal->dim_H_1;
-  dim_H[1] = internal->dim_H_2;
-  SET_VECTOR_ELT(variable_length, 29, allocVector(INTSXP, 2));
-  int * dim_I = INTEGER(VECTOR_ELT(variable_length, 29));
+  int * dim_I = INTEGER(VECTOR_ELT(variable_length, 28));
   dim_I[0] = internal->dim_I_1;
   dim_I[1] = internal->dim_I_2;
   SET_STRING_ELT(variable_names, 0, mkChar("V"));
@@ -2827,12 +2648,11 @@ SEXP vaccine_metadata(SEXP internal_p) {
   SET_STRING_ELT(variable_names, 25, mkChar("IRec1"));
   SET_STRING_ELT(variable_names, 26, mkChar("IRec2"));
   SET_STRING_ELT(variable_names, 27, mkChar("D"));
-  SET_STRING_ELT(variable_names, 28, mkChar("H"));
-  SET_STRING_ELT(variable_names, 29, mkChar("I"));
+  SET_STRING_ELT(variable_names, 28, mkChar("I"));
   SET_VECTOR_ELT(ret, 0, variable_length);
   UNPROTECT(2);
-  SEXP output_length = PROTECT(allocVector(VECSXP, 19));
-  SEXP output_names = PROTECT(allocVector(STRSXP, 19));
+  SEXP output_length = PROTECT(allocVector(VECSXP, 18));
+  SEXP output_names = PROTECT(allocVector(STRSXP, 18));
   setAttrib(output_length, R_NamesSymbol, output_names);
   SET_VECTOR_ELT(output_length, 0, ScalarInteger(internal->dim_E));
   SET_VECTOR_ELT(output_length, 1, ScalarInteger(internal->dim_IMildout));
@@ -2845,14 +2665,13 @@ SEXP vaccine_metadata(SEXP internal_p) {
   SET_VECTOR_ELT(output_length, 8, ScalarInteger(internal->dim_ICU_demand));
   SET_VECTOR_ELT(output_length, 9, ScalarInteger(internal->dim_IICU));
   SET_VECTOR_ELT(output_length, 10, ScalarInteger(internal->dim_IHospital));
-  SET_VECTOR_ELT(output_length, 11, ScalarInteger(internal->dim_hospitalisations));
-  SET_VECTOR_ELT(output_length, 12, ScalarInteger(internal->dim_deaths));
-  SET_VECTOR_ELT(output_length, 13, ScalarInteger(internal->dim_infections));
-  SET_VECTOR_ELT(output_length, 14, ScalarInteger(internal->dim_vaccines));
-  SET_VECTOR_ELT(output_length, 15, ScalarInteger(internal->dim_unvaccinated));
-  SET_VECTOR_ELT(output_length, 16, ScalarInteger(internal->dim_vaccinated));
-  SET_VECTOR_ELT(output_length, 17, ScalarInteger(internal->dim_priorvaccinated));
-  SET_VECTOR_ELT(output_length, 18, ScalarInteger(internal->dim_N));
+  SET_VECTOR_ELT(output_length, 11, ScalarInteger(internal->dim_deaths));
+  SET_VECTOR_ELT(output_length, 12, ScalarInteger(internal->dim_infections));
+  SET_VECTOR_ELT(output_length, 13, ScalarInteger(internal->dim_vaccines));
+  SET_VECTOR_ELT(output_length, 14, ScalarInteger(internal->dim_unvaccinated));
+  SET_VECTOR_ELT(output_length, 15, ScalarInteger(internal->dim_vaccinated));
+  SET_VECTOR_ELT(output_length, 16, ScalarInteger(internal->dim_priorvaccinated));
+  SET_VECTOR_ELT(output_length, 17, ScalarInteger(internal->dim_N));
   SET_STRING_ELT(output_names, 0, mkChar("E"));
   SET_STRING_ELT(output_names, 1, mkChar("IMildout"));
   SET_STRING_ELT(output_names, 2, mkChar("R"));
@@ -2864,17 +2683,16 @@ SEXP vaccine_metadata(SEXP internal_p) {
   SET_STRING_ELT(output_names, 8, mkChar("ICU_demand"));
   SET_STRING_ELT(output_names, 9, mkChar("IICU"));
   SET_STRING_ELT(output_names, 10, mkChar("IHospital"));
-  SET_STRING_ELT(output_names, 11, mkChar("hospitalisations"));
-  SET_STRING_ELT(output_names, 12, mkChar("deaths"));
-  SET_STRING_ELT(output_names, 13, mkChar("infections"));
-  SET_STRING_ELT(output_names, 14, mkChar("vaccines"));
-  SET_STRING_ELT(output_names, 15, mkChar("unvaccinated"));
-  SET_STRING_ELT(output_names, 16, mkChar("vaccinated"));
-  SET_STRING_ELT(output_names, 17, mkChar("priorvaccinated"));
-  SET_STRING_ELT(output_names, 18, mkChar("N"));
+  SET_STRING_ELT(output_names, 11, mkChar("deaths"));
+  SET_STRING_ELT(output_names, 12, mkChar("infections"));
+  SET_STRING_ELT(output_names, 13, mkChar("vaccines"));
+  SET_STRING_ELT(output_names, 14, mkChar("unvaccinated"));
+  SET_STRING_ELT(output_names, 15, mkChar("vaccinated"));
+  SET_STRING_ELT(output_names, 16, mkChar("priorvaccinated"));
+  SET_STRING_ELT(output_names, 17, mkChar("N"));
   SET_VECTOR_ELT(ret, 1, output_length);
   UNPROTECT(2);
-  SET_VECTOR_ELT(ret, 2, ScalarInteger(internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated + internal->dim_priorvaccinated + internal->dim_N));
+  SET_VECTOR_ELT(ret, 2, ScalarInteger(internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated + internal->dim_priorvaccinated + internal->dim_N));
   SEXP interpolate_t = PROTECT(allocVector(VECSXP, 3));
   SEXP interpolate_t_nms = PROTECT(allocVector(STRSXP, 3));
   setAttrib(interpolate_t, R_NamesSymbol, interpolate_t_nms);
@@ -2890,7 +2708,7 @@ SEXP vaccine_metadata(SEXP internal_p) {
 SEXP vaccine_initial_conditions(SEXP internal_p, SEXP t_ptr) {
   double t = REAL(t_ptr)[0];
   vaccine_internal *internal = vaccine_get_internal(internal_p, 1);
-  SEXP r_state = PROTECT(allocVector(REALSXP, internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2 + internal->dim_ICase1 + internal->dim_ICase2 + internal->dim_IOxGetLive1 + internal->dim_IOxGetLive2 + internal->dim_IOxGetDie1 + internal->dim_IOxGetDie2 + internal->dim_IOxNotGetLive1 + internal->dim_IOxNotGetLive2 + internal->dim_IOxNotGetDie1 + internal->dim_IOxNotGetDie2 + internal->dim_IMVGetLive1 + internal->dim_IMVGetLive2 + internal->dim_IMVGetDie1 + internal->dim_IMVGetDie2 + internal->dim_IMVNotGetLive1 + internal->dim_IMVNotGetLive2 + internal->dim_IMVNotGetDie1 + internal->dim_IMVNotGetDie2 + internal->dim_IRec1 + internal->dim_IRec2 + internal->dim_D + internal->dim_H + internal->dim_I));
+  SEXP r_state = PROTECT(allocVector(REALSXP, internal->dim_V + internal->dim_S + internal->dim_E1 + internal->dim_E2 + internal->dim_IMild + internal->dim_R1 + internal->dim_R2 + internal->dim_ICase1 + internal->dim_ICase2 + internal->dim_IOxGetLive1 + internal->dim_IOxGetLive2 + internal->dim_IOxGetDie1 + internal->dim_IOxGetDie2 + internal->dim_IOxNotGetLive1 + internal->dim_IOxNotGetLive2 + internal->dim_IOxNotGetDie1 + internal->dim_IOxNotGetDie2 + internal->dim_IMVGetLive1 + internal->dim_IMVGetLive2 + internal->dim_IMVGetDie1 + internal->dim_IMVGetDie2 + internal->dim_IMVNotGetLive1 + internal->dim_IMVNotGetLive2 + internal->dim_IMVNotGetDie1 + internal->dim_IMVNotGetDie2 + internal->dim_IRec1 + internal->dim_IRec2 + internal->dim_D + internal->dim_I));
   double * state = REAL(r_state);
   memcpy(state + 0, internal->initial_V, internal->dim_V * sizeof(double));
   memcpy(state + internal->dim_V, internal->initial_S, internal->dim_S * sizeof(double));
@@ -2920,7 +2738,6 @@ SEXP vaccine_initial_conditions(SEXP internal_p, SEXP t_ptr) {
   memcpy(state + internal->offset_variable_IRec1, internal->initial_IRec1, internal->dim_IRec1 * sizeof(double));
   memcpy(state + internal->offset_variable_IRec2, internal->initial_IRec2, internal->dim_IRec2 * sizeof(double));
   memcpy(state + internal->offset_variable_D, internal->initial_D, internal->dim_D * sizeof(double));
-  memcpy(state + internal->offset_variable_H, internal->initial_H, internal->dim_H * sizeof(double));
   memcpy(state + internal->offset_variable_I, internal->initial_I, internal->dim_I * sizeof(double));
   UNPROTECT(1);
   return r_state;
@@ -2953,8 +2770,8 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
   double * IRec1 = state + internal->offset_variable_IRec1;
   double * IRec2 = state + internal->offset_variable_IRec2;
   double * D = state + internal->offset_variable_D;
-  double hosp_occ = odin_sum1(IOxGetLive1, 0, internal->dim_IOxGetLive1) + odin_sum1(IOxGetLive2, 0, internal->dim_IOxGetLive2) + odin_sum1(IOxGetDie1, 0, internal->dim_IOxGetDie1) + odin_sum1(IOxGetDie2, 0, internal->dim_IOxGetDie2) + odin_sum1(IRec1, 0, internal->dim_IRec1) + odin_sum1(IRec2, 0, internal->dim_IRec2);
-  double ICU_occ = odin_sum1(IMVGetLive1, 0, internal->dim_IMVGetLive1) + odin_sum1(IMVGetLive2, 0, internal->dim_IMVGetLive2) + odin_sum1(IMVGetDie1, 0, internal->dim_IMVGetDie1) + odin_sum1(IMVGetDie2, 0, internal->dim_IMVGetDie2);
+  double hosp_occ = odin_sum1(IOxGetLive1, 0, internal->dim_IOxGetLive1) + odin_sum1(IOxGetLive2, 0, internal->dim_IOxGetLive2) - internal->gamma_get_ox_survive * odin_sum1(IOxGetLive2, 0, internal->dim_IOxGetLive2) + odin_sum1(IOxGetDie1, 0, internal->dim_IOxGetDie1) + odin_sum1(IOxGetDie2, 0, internal->dim_IOxGetDie2) - internal->gamma_get_ox_die * odin_sum1(IOxGetDie2, 0, internal->dim_IOxGetDie2) + odin_sum1(IRec1, 0, internal->dim_IRec1) + odin_sum1(IRec2, 0, internal->dim_IRec2) - internal->gamma_rec * odin_sum1(IRec2, 0, internal->dim_IRec2);
+  double ICU_occ = odin_sum1(IMVGetLive1, 0, internal->dim_IMVGetLive1) + odin_sum1(IMVGetLive2, 0, internal->dim_IMVGetLive2) - internal->gamma_get_mv_survive * odin_sum1(IMVGetLive2, 0, internal->dim_IMVGetLive2) + odin_sum1(IMVGetDie1, 0, internal->dim_IMVGetDie1) + odin_sum1(IMVGetDie2, 0, internal->dim_IMVGetDie2) - internal->gamma_get_mv_die * odin_sum1(IMVGetDie2, 0, internal->dim_IMVGetDie2);
   for (int i = 1; i <= internal->dim_D_1; ++i) {
     int j = 1;
     dstatedt[internal->offset_variable_D + i - 1 + internal->dim_D_1 * (j - 1)] = (internal->gamma_get_ox_die * IOxGetDie2[internal->dim_IOxGetDie2_1 * (j - 1) + i - 1]) + (internal->gamma_not_get_ox_die * IOxNotGetDie2[internal->dim_IOxNotGetDie2_1 * (j - 1) + i - 1]) + (internal->gamma_get_mv_die * IMVGetDie2[internal->dim_IMVGetDie2_1 * (j - 1) + i - 1]) + (internal->gamma_not_get_mv_die * IMVNotGetDie2[internal->dim_IMVNotGetDie2_1 * (j - 1) + i - 1]);
@@ -3160,31 +2977,123 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
   cinterpolate_eval(t, internal->interpolate_hosp_bed_capacity, &hosp_bed_capacity);
   double ICU_bed_capacity = 0.0;
   cinterpolate_eval(t, internal->interpolate_ICU_bed_capacity, &ICU_bed_capacity);
-  for (int i = 1; i <= internal->dim_IMV_dist_weighting_1; ++i) {
-    for (int j = 1; j <= internal->dim_IMV_dist_weighting_2; ++j) {
-      internal->IMV_dist_weighting[i - 1 + internal->dim_IMV_dist_weighting_1 * (j - 1)] = internal->number_requiring_IMV[internal->dim_number_requiring_IMV_1 * (j - 1) + i - 1] * internal->p_dist[internal->dim_p_dist_1 * (j - 1) + i - 1];
-    }
-  }
   double mv = 0.0;
   cinterpolate_eval(t, internal->interpolate_mv, &mv);
-  for (int i = 1; i <= internal->dim_Ox_dist_weighting_1; ++i) {
-    for (int j = 1; j <= internal->dim_Ox_dist_weighting_2; ++j) {
-      internal->Ox_dist_weighting[i - 1 + internal->dim_Ox_dist_weighting_1 * (j - 1)] = internal->number_requiring_Ox[internal->dim_number_requiring_Ox_1 * (j - 1) + i - 1] * internal->p_dist[internal->dim_p_dist_1 * (j - 1) + i - 1];
-    }
-  }
   double total_number_requiring_IMV = odin_sum1(internal->number_requiring_IMV, 0, internal->dim_number_requiring_IMV);
   double total_number_requiring_ox = odin_sum1(internal->number_requiring_Ox, 0, internal->dim_number_requiring_Ox);
-  double current_free_hosp = hosp_bed_capacity - hosp_occ + internal->gamma_get_ox_die * odin_sum1(IOxGetDie2, 0, internal->dim_IOxGetDie2) + internal->gamma_get_ox_survive * odin_sum1(IOxGetLive2, 0, internal->dim_IOxGetLive2) + internal->gamma_rec * odin_sum1(IRec2, 0, internal->dim_IRec2) - internal->gamma_get_mv_survive * odin_sum1(IMVGetLive2, 0, internal->dim_IMVGetLive2);
-  double current_free_ICUs = ICU_bed_capacity - ICU_occ + internal->gamma_get_mv_survive * odin_sum1(IMVGetLive2, 0, internal->dim_IMVGetLive2) + internal->gamma_get_mv_die * odin_sum1(IMVGetDie2, 0, internal->dim_IMVGetDie2);
   cinterpolate_eval(t, internal->interpolate_m, internal->m);
+  double p_oxygen = ((total_number_requiring_ox <= (hosp_bed_capacity - hosp_occ)) || total_number_requiring_ox <= 0 ? 1 : (hosp_bed_capacity - hosp_occ) / (double) total_number_requiring_ox);
+  double p_ventilation = (total_number_requiring_IMV <= (ICU_bed_capacity - ICU_occ) || total_number_requiring_IMV <= 0 ? 1 : (ICU_bed_capacity - ICU_occ) / (double) total_number_requiring_IMV);
   double vr_den = (odin_sum1(internal->vr_temp, 0, internal->dim_vr_temp) <= mv ? mv : odin_sum1(internal->vr_temp, 0, internal->dim_vr_temp));
+  for (int i = 1; i <= internal->dim_IMVGetDie1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IMVGetDie1 + i - 1 + internal->dim_IMVGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * p_ventilation * internal->prob_severe_death_treatment[i - 1]) - (internal->gamma_get_mv_die * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVGetDie1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IMVGetDie1 + i - 1 + internal->dim_IMVGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * p_ventilation * internal->prob_severe_death_treatment[i - 1]) - (internal->gamma_get_mv_die * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVGetDie1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IMVGetDie1 + i - 1 + internal->dim_IMVGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * p_ventilation * internal->prob_severe_death_treatment[i - 1]) - (internal->gamma_get_mv_die * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]);
+    }
+  }
+  for (int i = 1; i <= internal->dim_IMVGetLive1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IMVGetLive1 + i - 1 + internal->dim_IMVGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * p_ventilation * (1 - internal->prob_severe_death_treatment[i - 1])) - (internal->gamma_get_mv_survive * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVGetLive1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IMVGetLive1 + i - 1 + internal->dim_IMVGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * p_ventilation * (1 - internal->prob_severe_death_treatment[i - 1])) - (internal->gamma_get_mv_survive * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVGetLive1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IMVGetLive1 + i - 1 + internal->dim_IMVGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * p_ventilation * (1 - internal->prob_severe_death_treatment[i - 1])) - (internal->gamma_get_mv_survive * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]);
+    }
+  }
+  for (int i = 1; i <= internal->dim_IMVNotGetDie1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IMVNotGetDie1 + i - 1 + internal->dim_IMVNotGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * (1 - p_ventilation) * internal->prob_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_mv_die * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVNotGetDie1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IMVNotGetDie1 + i - 1 + internal->dim_IMVNotGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * (1 - p_ventilation) * internal->prob_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_mv_die * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVNotGetDie1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IMVNotGetDie1 + i - 1 + internal->dim_IMVNotGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * (1 - p_ventilation) * internal->prob_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_mv_die * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]);
+    }
+  }
+  for (int i = 1; i <= internal->dim_IMVNotGetLive1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IMVNotGetLive1 + i - 1 + internal->dim_IMVNotGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * (1 - p_ventilation) * (1 - internal->prob_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVNotGetLive1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IMVNotGetLive1 + i - 1 + internal->dim_IMVNotGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * (1 - p_ventilation) * (1 - internal->prob_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IMVNotGetLive1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IMVNotGetLive1 + i - 1 + internal->dim_IMVNotGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * internal->prob_severe[i - 1] * (1 - p_ventilation) * (1 - internal->prob_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]);
+    }
+  }
+  for (int i = 1; i <= internal->dim_IOxGetDie1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IOxGetDie1 + i - 1 + internal->dim_IOxGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * p_oxygen * internal->prob_non_severe_death_treatment[i - 1]) - internal->gamma_get_ox_die * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1];
+  }
+  for (int i = 1; i <= internal->dim_IOxGetDie1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IOxGetDie1 + i - 1 + internal->dim_IOxGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * p_oxygen * internal->prob_non_severe_death_treatment[i - 1]) - internal->gamma_get_ox_die * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1] - (internal->gamma_vaccine[j - 1] * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IOxGetDie1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IOxGetDie1 + i - 1 + internal->dim_IOxGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * p_oxygen * internal->prob_non_severe_death_treatment[i - 1]) - internal->gamma_get_ox_die * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1] - (internal->gamma_vaccine[j - 1] * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1]);
+    }
+  }
+  for (int i = 1; i <= internal->dim_IOxGetLive1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IOxGetLive1 + i - 1 + internal->dim_IOxGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * p_oxygen * (1 - internal->prob_non_severe_death_treatment[i - 1])) - (internal->gamma_get_ox_survive * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IOxGetLive1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IOxGetLive1 + i - 1 + internal->dim_IOxGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * p_oxygen * (1 - internal->prob_non_severe_death_treatment[i - 1])) - (internal->gamma_get_ox_survive * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IOxGetLive1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IOxGetLive1 + i - 1 + internal->dim_IOxGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * p_oxygen * (1 - internal->prob_non_severe_death_treatment[i - 1])) - (internal->gamma_get_ox_survive * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]);
+    }
+  }
+  for (int i = 1; i <= internal->dim_IOxNotGetDie1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IOxNotGetDie1 + i - 1 + internal->dim_IOxNotGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * (1 - p_oxygen) * internal->prob_non_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_ox_die * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IOxNotGetDie1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IOxNotGetDie1 + i - 1 + internal->dim_IOxNotGetDie1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * (1 - p_oxygen) * internal->prob_non_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_ox_die * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IOxNotGetDie1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IOxNotGetDie1 + i - 1 + internal->dim_IOxNotGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * (1 - p_oxygen) * internal->prob_non_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_ox_die * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]);
+    }
+  }
+  for (int i = 1; i <= internal->dim_IOxNotGetLive1_1; ++i) {
+    int j = 1;
+    dstatedt[internal->offset_variable_IOxNotGetLive1 + i - 1 + internal->dim_IOxNotGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * (1 - p_oxygen) * (1 - internal->prob_non_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_ox_survive * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IOxNotGetLive1_1; ++i) {
+    int j = 2;
+    dstatedt[internal->offset_variable_IOxNotGetLive1 + i - 1 + internal->dim_IOxNotGetLive1_1 * (j - 1)] = (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * (1 - p_oxygen) * (1 - internal->prob_non_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_ox_survive * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]);
+  }
+  for (int i = 1; i <= internal->dim_IOxNotGetLive1_1; ++i) {
+    for (int j = 3; j <= internal->N_vaccine; ++j) {
+      dstatedt[internal->offset_variable_IOxNotGetLive1 + i - 1 + internal->dim_IOxNotGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1 - 1) + i - 1]) + (internal->gamma_ICase * ICase2[internal->dim_ICase2_1 * (j - 1) + i - 1] * (1 - internal->prob_severe[i - 1]) * (1 - p_oxygen) * (1 - internal->prob_non_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_ox_survive * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]);
+    }
+  }
   for (int i = 1; i <= internal->dim_s_ij_1; ++i) {
     for (int j = 1; j <= internal->dim_s_ij_2; ++j) {
       internal->s_ij[i - 1 + internal->dim_s_ij_1 * (j - 1)] = internal->m[internal->dim_m_1 * (j - 1) + i - 1] * internal->temp[j - 1];
     }
   }
-  double total_number_get_hosp = (current_free_hosp <= 0 ? 0 : ((current_free_hosp - total_number_requiring_ox >= 0 ? total_number_requiring_ox : (current_free_hosp))));
-  double total_number_get_IMV = (current_free_ICUs <= 0 ? 0 : ((current_free_ICUs - total_number_requiring_IMV >= 0 ? total_number_requiring_IMV : (current_free_ICUs))));
   double vr = mv / (double) vr_den;
   for (int i = 1; i <= internal->dim_E2_1; ++i) {
     int j = 1;
@@ -3231,16 +3140,6 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
   for (int i = 1; i <= internal->dim_lambda; ++i) {
     internal->lambda[i - 1] = beta * odin_sum2(internal->s_ij, i - 1, i, 0, internal->dim_s_ij_2, internal->dim_s_ij_1);
   }
-  for (int i = 1; i <= internal->dim_number_get_IMV_1; ++i) {
-    for (int j = 1; j <= internal->dim_number_get_IMV_2; ++j) {
-      internal->number_get_IMV[i - 1 + internal->dim_number_get_IMV_1 * (j - 1)] = (total_number_requiring_IMV == 0 ? 0 : internal->IMV_dist_weighting[internal->dim_IMV_dist_weighting_1 * (j - 1) + i - 1] / (double) odin_sum1(internal->IMV_dist_weighting, 0, internal->dim_IMV_dist_weighting) * total_number_get_IMV);
-    }
-  }
-  for (int i = 1; i <= internal->dim_number_get_Ox_1; ++i) {
-    for (int j = 1; j <= internal->dim_number_get_Ox_2; ++j) {
-      internal->number_get_Ox[i - 1 + internal->dim_number_get_Ox_1 * (j - 1)] = (total_number_requiring_ox == 0 ? 0 : internal->Ox_dist_weighting[internal->dim_Ox_dist_weighting_1 * (j - 1) + i - 1] / (double) odin_sum1(internal->Ox_dist_weighting, 0, internal->dim_Ox_dist_weighting) * total_number_get_hosp);
-    }
-  }
   for (int i = 1; i <= internal->dim_E1_1; ++i) {
     int j = 1;
     dstatedt[internal->offset_variable_E1 + i - 1 + internal->dim_E1_1 * (j - 1)] = (internal->lambda[i - 1] * internal->vaccine_efficacy_infection[internal->dim_vaccine_efficacy_infection_1 * (j - 1) + i - 1] * S[internal->dim_S_1 * (j - 1) + i - 1]) - (internal->gamma_E * E1[internal->dim_E1_1 * (j - 1) + i - 1]) - (vr * internal->vaccination_target[i - 1] * E1[internal->dim_E1_1 * (j - 1) + i - 1]);
@@ -3254,118 +3153,9 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
       dstatedt[internal->offset_variable_E1 + i - 1 + internal->dim_E1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * E1[internal->dim_E1_1 * (j - 1 - 1) + i - 1]) + (internal->lambda[i - 1] * internal->vaccine_efficacy_infection[internal->dim_vaccine_efficacy_infection_1 * (j - 1) + i - 1] * S[internal->dim_S_1 * (j - 1) + i - 1]) - (internal->gamma_E * E1[internal->dim_E1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * E1[internal->dim_E1_1 * (j - 1) + i - 1]);
     }
   }
-  for (int i = 1; i <= internal->dim_H_1; ++i) {
-    for (int j = 1; j <= internal->dim_H_2; ++j) {
-      dstatedt[internal->offset_variable_H + i - 1 + internal->dim_H_1 * (j - 1)] = internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1] + internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1];
-    }
-  }
   for (int i = 1; i <= internal->dim_I_1; ++i) {
     for (int j = 1; j <= internal->dim_I_2; ++j) {
       dstatedt[internal->offset_variable_I + i - 1 + internal->dim_I_1 * (j - 1)] = (internal->lambda[i - 1] * internal->vaccine_efficacy_infection[internal->dim_vaccine_efficacy_infection_1 * (j - 1) + i - 1] * S[internal->dim_S_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IMVGetDie1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IMVGetDie1 + i - 1 + internal->dim_IMVGetDie1_1 * (j - 1)] = (internal->prob_severe_death_treatment[i - 1] * internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) - (internal->gamma_get_mv_die * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVGetDie1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IMVGetDie1 + i - 1 + internal->dim_IMVGetDie1_1 * (j - 1)] = (internal->prob_severe_death_treatment[i - 1] * internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) - (internal->gamma_get_mv_die * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVGetDie1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IMVGetDie1 + i - 1 + internal->dim_IMVGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1 - 1) + i - 1]) + (internal->prob_severe_death_treatment[i - 1] * internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) - (internal->gamma_get_mv_die * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetDie1[internal->dim_IMVGetDie1_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IMVGetLive1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IMVGetLive1 + i - 1 + internal->dim_IMVGetLive1_1 * (j - 1)] = ((1 - internal->prob_severe_death_treatment[i - 1]) * internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) - (internal->gamma_get_mv_survive * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVGetLive1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IMVGetLive1 + i - 1 + internal->dim_IMVGetLive1_1 * (j - 1)] = ((1 - internal->prob_severe_death_treatment[i - 1]) * internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) - (internal->gamma_get_mv_survive * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVGetLive1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IMVGetLive1 + i - 1 + internal->dim_IMVGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1 - 1) + i - 1]) + ((1 - internal->prob_severe_death_treatment[i - 1]) * internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) - (internal->gamma_get_mv_survive * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVGetLive1[internal->dim_IMVGetLive1_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IMVNotGetDie1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IMVNotGetDie1 + i - 1 + internal->dim_IMVNotGetDie1_1 * (j - 1)] = ((internal->number_requiring_IMV[internal->dim_number_requiring_IMV_1 * (j - 1) + i - 1] - internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) * internal->prob_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_mv_die * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVNotGetDie1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IMVNotGetDie1 + i - 1 + internal->dim_IMVNotGetDie1_1 * (j - 1)] = ((internal->number_requiring_IMV[internal->dim_number_requiring_IMV_1 * (j - 1) + i - 1] - internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) * internal->prob_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_mv_die * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVNotGetDie1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IMVNotGetDie1 + i - 1 + internal->dim_IMVNotGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1 - 1) + i - 1]) + ((internal->number_requiring_IMV[internal->dim_number_requiring_IMV_1 * (j - 1) + i - 1] - internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) * internal->prob_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_mv_die * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetDie1[internal->dim_IMVNotGetDie1_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IMVNotGetLive1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IMVNotGetLive1 + i - 1 + internal->dim_IMVNotGetLive1_1 * (j - 1)] = ((internal->number_requiring_IMV[internal->dim_number_requiring_IMV_1 * (j - 1) + i - 1] - internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) * (1 - internal->prob_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVNotGetLive1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IMVNotGetLive1 + i - 1 + internal->dim_IMVNotGetLive1_1 * (j - 1)] = ((internal->number_requiring_IMV[internal->dim_number_requiring_IMV_1 * (j - 1) + i - 1] - internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) * (1 - internal->prob_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IMVNotGetLive1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IMVNotGetLive1 + i - 1 + internal->dim_IMVNotGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1 - 1) + i - 1]) + ((internal->number_requiring_IMV[internal->dim_number_requiring_IMV_1 * (j - 1) + i - 1] - internal->number_get_IMV[internal->dim_number_get_IMV_1 * (j - 1) + i - 1]) * (1 - internal->prob_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_mv_survive * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IMVNotGetLive1[internal->dim_IMVNotGetLive1_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IOxGetDie1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IOxGetDie1 + i - 1 + internal->dim_IOxGetDie1_1 * (j - 1)] = (internal->prob_non_severe_death_treatment[i - 1] * internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) - internal->gamma_get_ox_die * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1];
-  }
-  for (int i = 1; i <= internal->dim_IOxGetDie1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IOxGetDie1 + i - 1 + internal->dim_IOxGetDie1_1 * (j - 1)] = (internal->prob_non_severe_death_treatment[i - 1] * internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) - internal->gamma_get_ox_die * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1] - (internal->gamma_vaccine[j - 1] * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IOxGetDie1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IOxGetDie1 + i - 1 + internal->dim_IOxGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1 - 1) + i - 1]) + (internal->prob_non_severe_death_treatment[i - 1] * internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) - internal->gamma_get_ox_die * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1] - (internal->gamma_vaccine[j - 1] * IOxGetDie1[internal->dim_IOxGetDie1_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IOxGetLive1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IOxGetLive1 + i - 1 + internal->dim_IOxGetLive1_1 * (j - 1)] = ((1 - internal->prob_non_severe_death_treatment[i - 1]) * internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) - (internal->gamma_get_ox_survive * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IOxGetLive1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IOxGetLive1 + i - 1 + internal->dim_IOxGetLive1_1 * (j - 1)] = ((1 - internal->prob_non_severe_death_treatment[i - 1]) * internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) - (internal->gamma_get_ox_survive * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IOxGetLive1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IOxGetLive1 + i - 1 + internal->dim_IOxGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1 - 1) + i - 1]) + ((1 - internal->prob_non_severe_death_treatment[i - 1]) * internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) - (internal->gamma_get_ox_survive * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxGetLive1[internal->dim_IOxGetLive1_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IOxNotGetDie1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IOxNotGetDie1 + i - 1 + internal->dim_IOxNotGetDie1_1 * (j - 1)] = ((internal->number_requiring_Ox[internal->dim_number_requiring_Ox_1 * (j - 1) + i - 1] - internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) * internal->prob_non_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_ox_die * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IOxNotGetDie1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IOxNotGetDie1 + i - 1 + internal->dim_IOxNotGetDie1_1 * (j - 1)] = ((internal->number_requiring_Ox[internal->dim_number_requiring_Ox_1 * (j - 1) + i - 1] - internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) * internal->prob_non_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_ox_die * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IOxNotGetDie1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IOxNotGetDie1 + i - 1 + internal->dim_IOxNotGetDie1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1 - 1) + i - 1]) + ((internal->number_requiring_Ox[internal->dim_number_requiring_Ox_1 * (j - 1) + i - 1] - internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) * internal->prob_non_severe_death_no_treatment[i - 1]) - (internal->gamma_not_get_ox_die * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetDie1[internal->dim_IOxNotGetDie1_1 * (j - 1) + i - 1]);
-    }
-  }
-  for (int i = 1; i <= internal->dim_IOxNotGetLive1_1; ++i) {
-    int j = 1;
-    dstatedt[internal->offset_variable_IOxNotGetLive1 + i - 1 + internal->dim_IOxNotGetLive1_1 * (j - 1)] = ((internal->number_requiring_Ox[internal->dim_number_requiring_Ox_1 * (j - 1) + i - 1] - internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) * (1 - internal->prob_non_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_ox_survive * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IOxNotGetLive1_1; ++i) {
-    int j = 2;
-    dstatedt[internal->offset_variable_IOxNotGetLive1 + i - 1 + internal->dim_IOxNotGetLive1_1 * (j - 1)] = ((internal->number_requiring_Ox[internal->dim_number_requiring_Ox_1 * (j - 1) + i - 1] - internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) * (1 - internal->prob_non_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_ox_survive * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]);
-  }
-  for (int i = 1; i <= internal->dim_IOxNotGetLive1_1; ++i) {
-    for (int j = 3; j <= internal->N_vaccine; ++j) {
-      dstatedt[internal->offset_variable_IOxNotGetLive1 + i - 1 + internal->dim_IOxNotGetLive1_1 * (j - 1)] = (internal->gamma_vaccine[j - 1 - 1] * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1 - 1) + i - 1]) + ((internal->number_requiring_Ox[internal->dim_number_requiring_Ox_1 * (j - 1) + i - 1] - internal->number_get_Ox[internal->dim_number_get_Ox_1 * (j - 1) + i - 1]) * (1 - internal->prob_non_severe_death_no_treatment[i - 1])) - (internal->gamma_not_get_ox_survive * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]) - (internal->gamma_vaccine[j - 1] * IOxNotGetLive1[internal->dim_IOxNotGetLive1_1 * (j - 1) + i - 1]);
     }
   }
   for (int i = 1; i <= internal->dim_S_1; ++i) {
@@ -3382,7 +3172,6 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
     }
   }
   if (output) {
-    double * H = state + internal->offset_variable_H;
     double * I = state + internal->offset_variable_I;
     double * V = state + 0;
     for (int i = 1; i <= internal->dim_priorvaccinated; ++i) {
@@ -3462,23 +3251,6 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
         }
       }
     }
-    // delay block for Hlag
-    {
-      const double t_true = t;
-      const double t = t_true - internal->dt;
-      double *H;
-      if (t <= internal->initial_t) {
-        H = internal->initial_H;
-      } else {
-        lagvalue(t, internal->vaccine_use_dde, internal->delay_index_Hlag, internal->dim_delay_Hlag, internal->delay_state_Hlag);
-        H = internal->delay_state_Hlag + 0;
-      }
-      for (int i = 1; i <= internal->dim_Hlag_1; ++i) {
-        for (int j = 1; j <= internal->dim_Hlag_2; ++j) {
-          internal->Hlag[i - 1 + internal->dim_Hlag_1 * (j - 1)] = H[internal->dim_H_1 * (j - 1) + i - 1];
-        }
-      }
-    }
     // delay block for Ilag
     {
       const double t_true = t;
@@ -3501,9 +3273,6 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
     }
     for (int i = 1; i <= internal->dim_deaths; ++i) {
       output[internal->offset_output_deaths + i - 1] = odin_sum2(D, i - 1, i, 0, internal->dim_D_2, internal->dim_D_1) - odin_sum2(internal->Dlag, i - 1, i, 0, internal->dim_Dlag_2, internal->dim_Dlag_1);
-    }
-    for (int i = 1; i <= internal->dim_hospitalisations; ++i) {
-      output[internal->offset_output_hospitalisations + i - 1] = odin_sum2(H, i - 1, i, 0, internal->dim_H_2, internal->dim_H_1) - odin_sum2(internal->Hlag, i - 1, i, 0, internal->dim_Hlag_2, internal->dim_Hlag_1);
     }
     for (int i = 1; i <= internal->dim_infections; ++i) {
       output[internal->offset_output_infections + i - 1] = odin_sum2(I, i - 1, i, 0, internal->dim_I_2, internal->dim_I_1) - odin_sum2(internal->Ilag, i - 1, i, 0, internal->dim_Ilag_2, internal->dim_Ilag_1);
@@ -3545,7 +3314,6 @@ void vaccine_output_dde(size_t n_eq, double t, double * state, size_t n_output, 
   double * IRec1 = state + internal->offset_variable_IRec1;
   double * IRec2 = state + internal->offset_variable_IRec2;
   double * D = state + internal->offset_variable_D;
-  double * H = state + internal->offset_variable_H;
   double * I = state + internal->offset_variable_I;
   double * V = state + 0;
   for (int i = 1; i <= internal->dim_priorvaccinated; ++i) {
@@ -3625,23 +3393,6 @@ void vaccine_output_dde(size_t n_eq, double t, double * state, size_t n_output, 
       }
     }
   }
-  // delay block for Hlag
-  {
-    const double t_true = t;
-    const double t = t_true - internal->dt;
-    double *H;
-    if (t <= internal->initial_t) {
-      H = internal->initial_H;
-    } else {
-      lagvalue(t, internal->vaccine_use_dde, internal->delay_index_Hlag, internal->dim_delay_Hlag, internal->delay_state_Hlag);
-      H = internal->delay_state_Hlag + 0;
-    }
-    for (int i = 1; i <= internal->dim_Hlag_1; ++i) {
-      for (int j = 1; j <= internal->dim_Hlag_2; ++j) {
-        internal->Hlag[i - 1 + internal->dim_Hlag_1 * (j - 1)] = H[internal->dim_H_1 * (j - 1) + i - 1];
-      }
-    }
-  }
   // delay block for Ilag
   {
     const double t_true = t;
@@ -3665,9 +3416,6 @@ void vaccine_output_dde(size_t n_eq, double t, double * state, size_t n_output, 
   for (int i = 1; i <= internal->dim_deaths; ++i) {
     output[internal->offset_output_deaths + i - 1] = odin_sum2(D, i - 1, i, 0, internal->dim_D_2, internal->dim_D_1) - odin_sum2(internal->Dlag, i - 1, i, 0, internal->dim_Dlag_2, internal->dim_Dlag_1);
   }
-  for (int i = 1; i <= internal->dim_hospitalisations; ++i) {
-    output[internal->offset_output_hospitalisations + i - 1] = odin_sum2(H, i - 1, i, 0, internal->dim_H_2, internal->dim_H_1) - odin_sum2(internal->Hlag, i - 1, i, 0, internal->dim_Hlag_2, internal->dim_Hlag_1);
-  }
   for (int i = 1; i <= internal->dim_infections; ++i) {
     output[internal->offset_output_infections + i - 1] = odin_sum2(I, i - 1, i, 0, internal->dim_I_2, internal->dim_I_1) - odin_sum2(internal->Ilag, i - 1, i, 0, internal->dim_Ilag_2, internal->dim_Ilag_1);
   }
@@ -3675,7 +3423,7 @@ void vaccine_output_dde(size_t n_eq, double t, double * state, size_t n_output, 
 SEXP vaccine_rhs_r(SEXP internal_p, SEXP t, SEXP state) {
   SEXP dstatedt = PROTECT(allocVector(REALSXP, LENGTH(state)));
   vaccine_internal *internal = vaccine_get_internal(internal_p, 1);
-  SEXP output_ptr = PROTECT(allocVector(REALSXP, internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_hospitalisations + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated + internal->dim_priorvaccinated + internal->dim_N));
+  SEXP output_ptr = PROTECT(allocVector(REALSXP, internal->dim_E + internal->dim_IMildout + internal->dim_R + internal->dim_ICase + internal->dim_IRec + internal->dim_hospital_occupancy + internal->dim_ICU_occupancy + internal->dim_hospital_demand + internal->dim_ICU_demand + internal->dim_IICU + internal->dim_IHospital + internal->dim_deaths + internal->dim_infections + internal->dim_vaccines + internal->dim_unvaccinated + internal->dim_vaccinated + internal->dim_priorvaccinated + internal->dim_N));
   setAttrib(dstatedt, install("output"), output_ptr);
   UNPROTECT(1);
   double *output = REAL(output_ptr);
