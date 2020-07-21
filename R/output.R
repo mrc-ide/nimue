@@ -92,6 +92,12 @@ format <- function(x,
 format_internal <- function(x, compartments, summaries, reduce_age, index, time,
                             replicate){
 
+  # Convert cumulative outputs
+  i_convert <- unlist(index[grepl("_cumu", names(index))])
+  x$output[, i_convert, replicate] <- apply(x$output[,i_convert, replicate], 2, function(x){
+    x - dplyr::lag(x)
+  })
+  names(index)[grepl("_cumu", names(index))] <- sapply(strsplit(names(index)[grepl("_cumu", names(index))], "_"), `[`, 1)
 
   # Select variables and summary outputs
   get <- c(compartments, summaries)

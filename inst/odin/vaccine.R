@@ -470,24 +470,24 @@ output(IHospital[]) <- sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetD
 dim(IHospital) <- N_age
 
 # Hospitalisations
-deriv(H_cumu[,]) <- number_requiring_IMV[i,j] * p_ventilation + number_requiring_Ox[i,j] * p_oxygen
-dim(H_cumu) <- c(N_age, N_vaccine)
-initial(H_cumu[,]) <- 0
+deriv(hospitalisations_cumu[,]) <- number_requiring_IMV[i,j] * p_ventilation + number_requiring_Ox[i,j] * p_oxygen
+dim(hospitalisations_cumu) <- c(N_age, N_vaccine)
+initial(hospitalisations_cumu[,]) <- 0
 
 # Deaths
-output(D_cumu[,]) <- D[i,j]
-dim(D_cumu) <- c(N_age, N_vaccine)
+output(deaths_cumu[,]) <- D[i,j]
+dim(deaths_cumu) <- c(N_age, N_vaccine)
 
 # Infections
-deriv(I_cumu[,]) <- (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j])
-dim(I_cumu) <- c(N_age, N_vaccine)
-initial(I_cumu[,]) <- 0
+deriv(infections_cumu[,]) <- (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j])
+dim(infections_cumu) <- c(N_age, N_vaccine)
+initial(infections_cumu[,]) <- 0
 
 # Vaccinations
-deriv(V_cumu[]) <- (vr * vaccination_target[i] * S[i,1]) + (vr * vaccination_target[i] * E1[i,1]) + (vr * vaccination_target[i] * E2[i,1]) +
+deriv(vaccines_cumu[]) <- (vr * vaccination_target[i] * S[i,1]) + (vr * vaccination_target[i] * E1[i,1]) + (vr * vaccination_target[i] * E2[i,1]) +
    (vr * vaccination_target[i] * R1[i,1]) + (vr * vaccination_target[i] * R2[i,1])
- dim(V_cumu) <- N_age
-initial(V_cumu[]) <- 0
+ dim(vaccines_cumu) <- N_age
+initial(vaccines_cumu[]) <- 0
 
 # Unvaccinated
 output(unvaccinated[]) <- sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(ICase1[i,1]) + sum(ICase2[i,1]) +

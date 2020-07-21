@@ -187,10 +187,10 @@ test_that("Time-varying works", {
   )
 
   # Check individuals in youngest age group reaching V
-  t_v <- format(m1, "vaccines", NULL)
-  expect_equal(sum(dplyr::filter(t_v, t < 10)$value), 0)
-  expect_gt(sum(dplyr::filter(t_v, t >= 10, t <20)$value), 0)
-  expect_equal(sum(dplyr::filter(t_v, t >= 21)$value), 0)
+  t_v <- format(m1, NULL, "vaccines")
+  expect_equal(sum(dplyr::filter(t_v, t < 10)$value, na.rm = TRUE), 0)
+  expect_gt(sum(dplyr::filter(t_v, t >= 10, t <20)$value, na.rm = TRUE), 0)
+  expect_equal(sum(dplyr::filter(t_v, t >= 21)$value, na.rm = TRUE), 0)
 })
 
 test_that("Efficacy against infection works", {
@@ -243,9 +243,9 @@ test_that("Efficacy against infection works", {
     vaccine_efficacy_disease = rep(0, 17)
   )
 
-  i1 <- sum(format(m1, NULL, "infections")$value)
-  i2 <- sum(format(m2, NULL, "infections")$value)
-  i3 <- sum(format(m3, NULL, "infections")$value)
+  i1 <- sum(format(m1, NULL, "infections")$value, na.rm = TRUE)
+  i2 <- sum(format(m2, NULL, "infections")$value, na.rm = TRUE)
+  i3 <- sum(format(m3, NULL, "infections")$value, na.rm = TRUE)
 
   expect_gt(i1, i2)
   expect_gt(i2, i3)
@@ -301,9 +301,9 @@ test_that("Efficacy against disease works", {
     vaccine_efficacy_infection = rep(0, 17)
   )
 
-  i1 <- sum(format(m1, NULL, "deaths")$value)
-  i2 <- sum(format(m2, NULL, "deaths")$value)
-  i3 <- sum(format(m3, NULL, "deaths")$value)
+  i1 <- sum(format(m1, NULL, "deaths")$value, na.rm = TRUE)
+  i2 <- sum(format(m2, NULL, "deaths")$value, na.rm = TRUE)
+  i3 <- sum(format(m3, NULL, "deaths")$value, na.rm = TRUE)
 
   expect_gt(i1, i2)
   expect_gt(i2, i3)
