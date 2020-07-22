@@ -7,14 +7,14 @@
 #' @param compartments Vector of compartment names, e.g. \code{c("S", "R")}, or sub-compartment names, e.g. \code{c("S", "E1", "E2")}
 #' @param summaries Vector of summary names, which may be:
 #' \itemize{
-#'       \item{"deaths"}{ Deaths per time step }
-#'       \item{"infections"}{ Infections per time step. New infections (note this is currently a slightly different definitionto the main Squire mode)}
-#'       \item{"hospitilisations"}{ Hospitalisations per time step (Note this takes into account hospital capacity)}
+#'       \item{"deaths"}{ Deaths per day }
+#'       \item{"infections"}{ Infections per day. New infections (note this is currently a slightly different definitionto the main Squire mode)}
+#'       \item{"hospitilisations"}{ Hospitalisations per day (Note this takes into account hospital capacity)}
 #'       \item{"hospital_occupancy"}{ Occupied Hospital Beds }
 #'       \item{"ICU_occupancy"}{ Occupied ICU Beds }
 #'       \item{"hospital_demand}{ Required Hospital Beds }
 #'       \item{"ICU_demand}{ Required ICU Beds }
-#'       \item{"vaccinated"}{ Vaccines administered per time step}
+#'       \item{"vaccinated"}{ Vaccines administered per day}
 #'       }
 #' @param reduce_age Collapse age-dimension, calculating the total in the
 #'   compartment.
@@ -92,6 +92,12 @@ format <- function(x,
 format_internal <- function(x, compartments, summaries, reduce_age, index, time,
                             replicate){
 
+  # Convert cumulative outputs
+  i_convert <- unlist(index[grepl("_cumu", names(index))])
+  x$output[, i_convert, replicate] <- apply(x$output[,i_convert, replicate], 2, function(x){
+    x - dplyr::lag(x)
+  })
+  names(index)[grepl("_cumu", names(index))] <- sapply(strsplit(names(index)[grepl("_cumu", names(index))], "_"), `[`, 1)
 
   # Select variables and summary outputs
   get <- c(compartments, summaries)

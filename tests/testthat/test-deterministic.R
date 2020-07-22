@@ -13,7 +13,7 @@ test_that("compare deterministic vaccine model to SEEIR model", {
     hosp_bed_capacity = 100000,
     ICU_bed_capacity = 1000000,
     seed = 1,
-    dt = 0.5,
+    day_return = TRUE,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100,
@@ -29,15 +29,14 @@ test_that("compare deterministic vaccine model to SEEIR model", {
     dur_R = Inf,
     max_vaccine = 0,
     seed = 1,
-    dt = 0.5,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100,
   )
   oi2 <- odin_index(m2$model)
 
-  # Compare shared compartments
-  compare_compartments <- names(oi1)[names(oi1) %in% names(oi2)][-1]
+  # Compare shared compartments (ones we expect to be equal)
+  compare_compartments <- names(oi1)[names(oi1) %in% names(oi2)][2:7]
 
   for(i in seq_along(compare_compartments)){
     # Isolare squire output
@@ -45,10 +44,10 @@ test_that("compare deterministic vaccine model to SEEIR model", {
     # Isolate nimue output and collapse vaccine compartments if needed
     if(is.matrix(oi2[[compare_compartments[i]]])){
       t2 <- apply(oi2[[compare_compartments[i]]], 1, function(x, y){
-        rowSums(y[1:199,x,1])
+        rowSums(y[,x,1])
       }, y = m2$output)
     } else {
-      t2 <- m2$output[1:199,unlist(oi2[compare_compartments[i]]),]
+      t2 <- m2$output[,unlist(oi2[compare_compartments[i]]),]
     }
     # Clear attributes
     attributes(t1) <- NULL
@@ -62,7 +61,7 @@ test_that("compare deterministic vaccine model to SEEIR model", {
 
   # Check population size is constant at specified level
   expect_equal(format(m2, "N", NULL)$value,
-               rep(sum(pop$n), 200))
+               rep(sum(pop$n), 100))
 
 })
 
@@ -80,9 +79,8 @@ test_that("Vaccine on works", {
     dur_R = Inf,
     max_vaccine = 10000,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
-    time_period = 10,
+    time_period = 100,
     seeding_cases = 20
   )
 
@@ -104,9 +102,8 @@ test_that("Vaccine on works", {
     dur_R = Inf,
     max_vaccine = 10000,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
-    time_period = 10,
+    time_period = 100,
     seeding_cases = 20,
     dur_V = Inf
   )
@@ -129,9 +126,8 @@ test_that("Vaccine on works", {
     dur_R = Inf,
     max_vaccine = 10000,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
-    time_period = 10,
+    time_period = 100,
     seeding_cases = 20,
     dur_vaccine_delay  = Inf
   )
@@ -160,7 +156,6 @@ test_that("Age targeting works", {
     max_vaccine = 10000,
     vaccination_target = c(1, rep(0, 16)),
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100
@@ -186,17 +181,16 @@ test_that("Time-varying works", {
     max_vaccine = c(0, 1000, 0),
     tt_vaccine = c(0, 10, 20),
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100
   )
 
   # Check individuals in youngest age group reaching V
-  t_v <- format(m1, "vaccines", NULL)
-  expect_equal(sum(dplyr::filter(t_v, t < 10)$value), 0)
-  expect_gt(sum(dplyr::filter(t_v, t >= 10, t <20)$value), 0)
-  expect_equal(sum(dplyr::filter(t_v, t >= 21)$value), 0)
+  t_v <- format(m1, NULL, "vaccines")
+  expect_equal(sum(dplyr::filter(t_v, t < 10)$value, na.rm = TRUE), 0)
+  expect_gt(sum(dplyr::filter(t_v, t >= 10, t <20)$value, na.rm = TRUE), 0)
+  expect_equal(sum(dplyr::filter(t_v, t >= 21)$value, na.rm = TRUE), 0)
 })
 
 test_that("Efficacy against infection works", {
@@ -249,9 +243,9 @@ test_that("Efficacy against infection works", {
     vaccine_efficacy_disease = rep(0, 17)
   )
 
-  i1 <- sum(format(m1, NULL, "infections")$value)
-  i2 <- sum(format(m2, NULL, "infections")$value)
-  i3 <- sum(format(m3, NULL, "infections")$value)
+  i1 <- sum(format(m1, NULL, "infections")$value, na.rm = TRUE)
+  i2 <- sum(format(m2, NULL, "infections")$value, na.rm = TRUE)
+  i3 <- sum(format(m3, NULL, "infections")$value, na.rm = TRUE)
 
   expect_gt(i1, i2)
   expect_gt(i2, i3)
@@ -307,9 +301,9 @@ test_that("Efficacy against disease works", {
     vaccine_efficacy_infection = rep(0, 17)
   )
 
-  i1 <- sum(format(m1, NULL, "deaths")$value)
-  i2 <- sum(format(m2, NULL, "deaths")$value)
-  i3 <- sum(format(m3, NULL, "deaths")$value)
+  i1 <- sum(format(m1, NULL, "deaths")$value, na.rm = TRUE)
+  i2 <- sum(format(m2, NULL, "deaths")$value, na.rm = TRUE)
+  i3 <- sum(format(m3, NULL, "deaths")$value, na.rm = TRUE)
 
   expect_gt(i1, i2)
   expect_gt(i2, i3)

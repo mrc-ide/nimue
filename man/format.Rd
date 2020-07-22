@@ -21,14 +21,14 @@ format(
 
 \item{summaries}{Vector of summary names, which may be:
 \itemize{
-      \item{"deaths"}{ Deaths per time step }
-      \item{"infections"}{ Infections per time step. New infections (note this is currently a slightly different definitionto the main Squire mode)}
-      \item{"hospitilisations"}{ Hospitalisations per time step (Note this takes into account hospital capacity)}
+      \item{"deaths"}{ Deaths per day }
+      \item{"infections"}{ Infections per day. New infections (note this is currently a slightly different definitionto the main Squire mode)}
+      \item{"hospitilisations"}{ Hospitalisations per day (Note this takes into account hospital capacity)}
       \item{"hospital_occupancy"}{ Occupied Hospital Beds }
       \item{"ICU_occupancy"}{ Occupied ICU Beds }
       \item{"hospital_demand}{ Required Hospital Beds }
       \item{"ICU_demand}{ Required ICU Beds }
-      \item{"vaccinated"}{ Vaccines administered per time step}
+      \item{"vaccinated"}{ Vaccines administered per day}
       }}
 
 \item{reduce_age}{Collapse age-dimension, calculating the total in the
