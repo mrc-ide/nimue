@@ -7,7 +7,7 @@ test_that("default parameter list works", {
   expect_type(d1, "list")
   expect_named(d1, c("prob_hosp", "prob_severe", "prob_non_severe_death_treatment",
                      "prob_non_severe_death_no_treatment", "prob_severe_death_treatment",
-                     "prob_severe_death_no_treatment",  "p_dist"))
+                     "prob_severe_death_no_treatment",  "p_dist", "rel_infectiousness"))
   v1 <- default_vaccine_pars()
   expect_type(v1, "list")
   expect_named(v1, c("dur_R", "vaccination_target", "dur_V", "vaccine_efficacy_infection",
@@ -167,8 +167,10 @@ test_that("beta_est_infectiousness value return checks", {
   expect_true(unique(as.numeric(m1$model$contents()$m)) == 1e-6)
 
   # grab infections
-  i1 <- format(m1, summaries = "infections") %>% filter(compartment == "infections")
-  i2 <- format(m2, summaries = "infections") %>% filter(compartment == "infections")
+  i1 <- format(m1, summaries = "infections")
+  i1 <- i1[i1$compartment == "infections",]
+  i2 <- format(m2, summaries = "infections")
+  i2 <- i2[i2$compartment == "infections",]
 
   # check that they are comparable totals
   expect_lt(abs(sum(i1$value[-1])-sum(i2$value[-1])), 0.5)
