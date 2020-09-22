@@ -19,29 +19,31 @@
 #' @param seeding_cases Initial number of cases seeding the epidemic
 #' @param seed Random seed used for simulations. Deafult = runif(1, 0, 10000)
 #' @param prob_hosp probability of hospitalisation by age.
-#'   Default = c(0.001127564, 0.000960857, 0.001774408, 0.003628171,
-#'   0.008100662, 0.015590734, 0.024597885, 0.035377529,
-#'   0.04385549, 0.058495518, 0.08747709, 0.109730508,
-#'   0.153943118, 0.177242143, 0.221362219, 0.267628264)
+#'   Default = c(0.000744192, 0.000634166,0.001171109, 0.002394593, 0.005346437,
+#'   0.010289885, 0.016234604, 0.023349169, 0.028944623, 0.038607042,
+#'   0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
+#'   0.176634654 ,0.180000000)
 #' @param prob_severe Probability of developing severe symptoms by age.
-#'   Default = c(3.73755e-05, 3.18497e-05, 5.88166e-05, 0.000120264,
-#'   0.000268514, 0.000516788, 0.00081535, 0.001242525,
-#'   0.001729275, 0.002880196, 0.00598205, 0.010821894,
-#'   0.022736324, 0.035911156, 0.056362032, 0.081467057)
+#'   Default = c(0.05022296,	0.05022296,	0.05022296,	0.05022296,	0.05022296,
+#'   0.05022296,	0.05022296,	0.053214942, 0.05974426,	0.074602879,
+#'   0.103612417, 0.149427991, 0.223777304,	0.306985918,
+#'   0.385779555, 0.461217861, 0.709444444)
 #' @param prob_non_severe_death_treatment Probability of death from non severe
 #'   treated infection.
-#'   Default = c(0.0125702, 0.0125702, 0.0125702, 0.0125702,
-#'   0.0125702, 0.0125702, 0.0125702, 0.013361147,
-#'   0.015104687, 0.019164124, 0.027477519, 0.041762108,
-#'   0.068531658, 0.105302319, 0.149305732, 0.20349534)
+#'   Default = c(0.0125702,	0.0125702,	0.0125702,	0.0125702,
+#'   0.0125702,	0.0125702,	0.0125702,	0.013361147,
+#'   0.015104687,	0.019164124,	0.027477519,	0.041762108,
+#'   0.068531658,	0.105302319,	0.149305732,	0.20349534,	0.5804312)
 #' @param prob_severe_death_treatment Probability of death from severe infection
-#'   that is treated. Default = rep(0.5, 16)
+#'   that is treated. Default = rep(0.5, 17)
 #' @param prob_non_severe_death_no_treatment Probability of death in non severe
 #'   hospital inections that aren't treated
 #' @param prob_severe_death_no_treatment Probability of death from severe infection
-#'   that is not treated. Default = rep(0.95, 16)
+#'   that is not treated. Default = rep(0.95, 17)
 #' @param p_dist Preferentiality of age group receiving treatment relative to
 #'   other age groups when demand exceeds healthcare capacity.
+#' @param rel_infectiousness Relative infectiousness per age category relative
+#'   to maximum infectiousness category. Default = rep(1, 17)
 #' @param dur_E Mean duration of incubation period (days). Default = 4.6
 #' @param dur_IMild Mean duration of mild infection (days). Default = 2.1
 #' @param dur_ICase Mean duration from symptom onset to hospitil admission (days).
@@ -65,6 +67,10 @@
 #' @param tt_hosp_beds Times at which hospital bed capacity changes (Default = 0 = doesn't change)
 #' @param tt_ICU_beds Times at which ICU bed capacity changes (Default = 0 = doesn't change)
 #' @param seeding_cases Initial number of cases seeding the epidemic
+#' @param seeding_age_order Vector specifying the order in which seeds are allocated to ages.
+#'   If NULL, seeds are distributed randomly within working ages. If specified, must be a vector
+#'   of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
+#'   to the youngest age group, then the second youngest and so on. Default = NULL
 #' @param dur_R Mean duration of naturally acquired immunity (days)
 #' @param vaccination_target Index of age group targets for vaccination. Must be 0
 #' (not vaccinated) or 1 (vaccinated) for each age group.
@@ -109,6 +115,9 @@ run <- function(
   prob_severe_death_no_treatment = probs$prob_severe_death_no_treatment,
   p_dist = probs$p_dist,
 
+  # onward infectiousness
+  rel_infectiousness = probs$rel_infectiousness,
+
   # durations
   dur_E  = 4.6,
   dur_IMild = 2.1,
@@ -142,7 +151,8 @@ run <- function(
   tt_hosp_beds = 0,
   tt_ICU_beds = 0,
 
-  seeding_cases = 20
+  seeding_cases = 20,
+  seeding_age_order = NULL
 ) {
 
   # Grab function arguments
@@ -160,6 +170,7 @@ run <- function(
                      time_period = time_period,
                      dt = dt,
                      seeding_cases = seeding_cases,
+                     seeding_age_order = seeding_age_order,
                      prob_hosp = prob_hosp,
                      prob_severe = prob_severe,
                      prob_non_severe_death_treatment = prob_non_severe_death_treatment,
@@ -167,6 +178,7 @@ run <- function(
                      prob_severe_death_treatment = prob_severe_death_treatment,
                      prob_severe_death_no_treatment = prob_severe_death_no_treatment,
                      p_dist = p_dist,
+                     rel_infectiousness = rel_infectiousness,
                      dur_E = dur_E,
                      dur_IMild = dur_IMild,
                      dur_ICase = dur_ICase,

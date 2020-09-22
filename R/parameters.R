@@ -21,7 +21,8 @@ default_probs <- function() {
     prob_non_severe_death_no_treatment = rep(0.6, length(prob_hosp)),
     prob_severe_death_treatment = rep(0.5, length(prob_hosp)),
     prob_severe_death_no_treatment = rep(0.95, length(prob_hosp)),
-    p_dist = rep(1, length(prob_hosp))
+    p_dist = rep(1, length(prob_hosp)),
+    rel_infectiousness = rep(1, length(prob_hosp))
   )
 }
 
@@ -65,6 +66,7 @@ parameters <- function(
   time_period = 365,
   dt = 0.1,
   seeding_cases,
+  seeding_age_order = NULL,
 
   # Parameters
   # Probabilities
@@ -75,6 +77,8 @@ parameters <- function(
   prob_severe_death_treatment = probs$prob_severe_death_treatment,
   prob_severe_death_no_treatment = probs$prob_severe_death_no_treatment,
   p_dist = probs$p_dist,
+
+  rel_infectiousness = probs$rel_infectiousness,
 
   # Durations
   dur_E,
@@ -108,6 +112,7 @@ parameters <- function(
   ICU_bed_capacity,
   tt_hosp_beds,
   tt_ICU_beds
+
 
 ) {
 
@@ -158,7 +163,7 @@ parameters <- function(
   # ----------------------------------------------------------------------------
 
   # Initialise initial conditions
-  mod_init <- init(population, seeding_cases)
+  mod_init <- init(population, seeding_cases, seeding_age_order)
 
   # Convert contact matrices to input matrices
   matrices_set <- squire:::matrix_set_explicit(contact_matrix_set, population)
@@ -201,6 +206,7 @@ parameters <- function(
   assert_length(prob_non_severe_death_no_treatment, length(population))
   assert_length(prob_severe_death_treatment, length(population))
   assert_length(prob_severe_death_no_treatment, length(population))
+  assert_length(rel_infectiousness, length(population))
   assert_length(p_dist, length(population))
 
   assert_numeric(prob_hosp, length(population))
@@ -209,6 +215,7 @@ parameters <- function(
   assert_numeric(prob_non_severe_death_no_treatment, length(population))
   assert_numeric(prob_severe_death_treatment, length(population))
   assert_numeric(prob_severe_death_no_treatment, length(population))
+  assert_numeric(rel_infectiousness, length(population))
   assert_numeric(p_dist, length(population))
 
   assert_leq(prob_hosp, 1)
@@ -217,6 +224,7 @@ parameters <- function(
   assert_leq(prob_non_severe_death_no_treatment, 1)
   assert_leq(prob_severe_death_treatment, 1)
   assert_leq(prob_severe_death_no_treatment, 1)
+  assert_leq(rel_infectiousness, 1)
   assert_leq(p_dist, 1)
 
   assert_greq(prob_hosp, 0)
@@ -225,6 +233,7 @@ parameters <- function(
   assert_greq(prob_non_severe_death_no_treatment, 0)
   assert_greq(prob_severe_death_treatment, 0)
   assert_greq(prob_severe_death_no_treatment, 0)
+  assert_greq(rel_infectiousness, 0)
   assert_greq(p_dist, 0)
 
 
@@ -250,10 +259,11 @@ parameters <- function(
 
   if (is.null(beta_set)) {
     baseline_matrix <- squire:::process_contact_matrix_scaled_age(contact_matrix_set[[1]], population)
-    beta_set <- squire::beta_est_explicit(dur_IMild = dur_IMild,
+    beta_set <- beta_est_infectiousness(dur_IMild = dur_IMild,
                                           dur_ICase = dur_ICase,
                                           prob_hosp = prob_hosp,
                                           mixing_matrix = baseline_matrix,
+                                          rel_infectiousness = rel_infectiousness,
                                           R0 = R0)
   }
 
@@ -297,6 +307,7 @@ parameters <- function(
                  prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
                  prob_severe_death_treatment = prob_severe_death_treatment,
                  prob_severe_death_no_treatment = prob_severe_death_no_treatment,
+                 rel_infectiousness = rel_infectiousness,
                  p_dist = p_dist,
                  hosp_beds = hosp_bed_capacity,
                  ICU_beds = ICU_bed_capacity,
@@ -319,4 +330,54 @@ parameters <- function(
   class(pars) <- c("vaccine_parameters", "nimue_parameters")
 
   return(pars)
+}
+
+#' Estimate beta parameter for explicit model
+#'
+#' @param dur_IMild Duration of mild infectiousness (days)
+#' @param dur_ICase Delay between symptom onset and requiring hospitalisation (days)
+#' @param prob_hosp Probability of hospitilisation by ages
+#' @param rel_infectiousness Relative infectiousness of age categories relative
+#'   to maximum infectiousness age category
+#' @param mixing_matrix Mixing matrix
+#' @param R0 Basic reproduction number
+#'
+#' @return Beta parameter
+#' @export
+#'
+# #' @examples
+beta_est_infectiousness <- function(dur_IMild,
+                                    dur_ICase,
+                                    prob_hosp,
+                                    rel_infectiousness,
+                                    mixing_matrix,
+                                    R0) {
+
+  # assertions
+  assert_single_pos(dur_ICase, zero_allowed = FALSE)
+  assert_single_pos(dur_IMild, zero_allowed = FALSE)
+  assert_numeric(prob_hosp)
+  assert_numeric(rel_infectiousness)
+  assert_same_length(prob_hosp, rel_infectiousness)
+  assert_numeric(mixing_matrix)
+  assert_square_matrix(mixing_matrix)
+  assert_same_length(mixing_matrix[,1], prob_hosp)
+  assert_pos(R0, zero_allowed = FALSE)
+
+  if(sum(is.na(prob_hosp)) > 0) {
+    stop("prob_hosp must not contain NAs")
+  }
+
+  if(sum(is.na(rel_infectiousness)) > 0) {
+    stop("rel_infectiousness must not contain NAs")
+  }
+
+  if(sum(is.na(mixing_matrix)) > 0) {
+    stop("mixing_matrix must not contain NAs")
+  }
+
+  relative_R0_by_age <- prob_hosp*dur_ICase + (1-prob_hosp)*dur_IMild
+  adjusted_eigen <- Re(eigen(mixing_matrix*relative_R0_by_age*rel_infectiousness)$values[1])
+  R0 / adjusted_eigen
+
 }

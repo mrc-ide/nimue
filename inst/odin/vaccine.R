@@ -397,6 +397,9 @@ dim(prob_severe_death_treatment) <- N_age
 prob_severe_death_no_treatment[] <- user() # probability of dying from severe disease (i.e. requiring mechanical ventilation) by age given you do NOT receive appropriate treatment (proxy here is whether an ICU bed is available)
 dim(prob_severe_death_no_treatment) <- N_age
 
+rel_infectiousness[] <- user() # Relative infectiousness of age categories relative to maximum infectiousness age category
+dim(rel_infectiousness) <- N_age
+
 # Infections Requiring Oxygen (a general Hosptial Bed)
 hosp_occ <- sum(IOxGetLive1) + sum(IOxGetLive2) - gamma_get_ox_survive * sum(IOxGetLive2) + sum(IOxGetDie1) + sum(IOxGetDie2) - gamma_get_ox_die * sum(IOxGetDie2) + sum(IRec1) + sum(IRec2) - gamma_rec * sum(IRec2) # Summing number of infections in compartments that use general hospital beds
 number_requiring_Ox[,] <- gamma_ICase * ICase2[i,j] * (1 - prob_severe[i])
@@ -438,7 +441,7 @@ dim(beta_set) <- length(tt_beta)
 temp[] <- sum(IMild[i,]) + sum(ICase1[i,]) + sum(ICase2[i,])
 dim(temp) <- N_age
 
-s_ij[,] <- m[i, j] * temp[j]
+s_ij[,] <- m[i, j] * temp[j] * rel_infectiousness[j]
 dim(s_ij) <- c(N_age, N_age)
 
 lambda[] <- beta * sum(s_ij[i, ])
