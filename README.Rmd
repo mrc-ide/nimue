@@ -31,45 +31,15 @@ knitr::opts_chunk$set(
 
 :warning: As with any mathematical model, it is easy to misconfigure inputs and therefore get meaningless outputs. Please contact the authors if you intend to publish results using `nimue`.
 
-The goal of nimue is to ...
+Nimue is built on the shoulders of [squire](https://mrc-ide.github.io/squire/) and [sircovid](https://mrc-ide.github.io/sircovid/)
 
 Nimue is named after the [Lady of the Lake](https://en.wikipedia.org/wiki/Lady_of_the_Lake)
 
 ## Installation
 
-You can install the released version of nimue from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("nimue")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("mrc-ide/nimue")
 ```
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(nimue)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!

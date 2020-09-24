@@ -1,0 +1,47 @@
+---
+title: "Run"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Run}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, echo = TRUE, results = "hide", warning = FALSE, message = FALSE}
+library(nimue)
+library(ggplot2)
+library(dplyr)
+```
+
+Run the model using the `run()` function. Details on specification of the model run via function arguments may be view via `?run()`.
+
+### Deterministic 
+
+```{r, echo = TRUE}
+# Run the determinstic model with an example population
+det_run <- run(
+  population = squire::get_population(country = "United Kingdom")$n,
+  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom")
+)
+# Format the output selecting specific compartments and summaries
+det_out <- format(det_run, compartments = c("S", "E", "IMild", "ICase", "R", "D"),
+                  summaries = c("vaccines", "unvaccinated", "vaccinated", "priorvaccinated"))
+```
+
+
+### Plot
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 3, fig.align = "center"}
+# Plot outputs
+ggplot(det_out, aes(x = t, y = value)) +
+  geom_line(size = 1) +
+  facet_wrap(~ compartment, scale = "free_y", ncol = 5) +
+  theme_bw(base_size = 8)
+```
