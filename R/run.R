@@ -72,8 +72,6 @@
 #'   of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 #'   to the youngest age group, then the second youngest and so on. Default = NULL
 #' @param dur_R Mean duration of naturally acquired immunity (days)
-#' @param vaccination_target Index of age group targets for vaccination. Must be 0
-#' (not vaccinated) or 1 (vaccinated) for each age group.
 #' @param dur_V Mean duration of vaccine-derived immunity (days)
 #' @param vaccine_efficacy_infection Efficacy of vaccine against infection (by age).
 #' An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.
@@ -83,6 +81,7 @@
 #' @param max_vaccine The maximum number of individuals who can be vaccinated per day.
 #' @param tt_vaccine Time change points for vaccine capacity (\code{max_vaccine}).
 #' @param dur_vaccine_delay Mean duration of period from vaccination to vaccine protection.
+#' @param vaccine_coverage_mat Vaccine coverage targets by age (columns) and priority (row)
 #'
 #' @return Simulation output
 #' @export
@@ -137,13 +136,13 @@ run <- function(
 
   # vaccine
   dur_R = vaccine_pars$dur_R,
-  vaccination_target = vaccine_pars$vaccination_target,
   dur_V = vaccine_pars$dur_V,
   vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
   vaccine_efficacy_disease = vaccine_pars$vaccine_efficacy_disease,
   max_vaccine = vaccine_pars$max_vaccine,
   tt_vaccine = vaccine_pars$tt_vaccine,
   dur_vaccine_delay = vaccine_pars$dur_vaccine_delay,
+  vaccine_coverage_mat = vaccine_pars$vaccine_coverage_mat,
 
   # health system capacity
   hosp_bed_capacity = NULL,
@@ -196,13 +195,13 @@ run <- function(
                      ICU_bed_capacity = ICU_bed_capacity,
                      tt_hosp_beds = tt_hosp_beds,
                      tt_ICU_beds = tt_ICU_beds,
-                     vaccination_target = vaccination_target,
                      dur_V = dur_V,
                      vaccine_efficacy_infection = vaccine_efficacy_infection,
                      vaccine_efficacy_disease = vaccine_efficacy_disease,
                      max_vaccine = max_vaccine,
                      tt_vaccine = tt_vaccine ,
-                     dur_vaccine_delay = dur_vaccine_delay)
+                     dur_vaccine_delay = dur_vaccine_delay,
+                     vaccine_coverage_mat = vaccine_coverage_mat)
 
   # Set model type
   replicates <- 1

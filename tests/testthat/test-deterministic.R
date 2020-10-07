@@ -1,5 +1,5 @@
 context("Deterministic model")
-library(nimue)
+# library(nimue)
 library(squire)
 
 test_that("compare deterministic vaccine model to SEEIR model", {
@@ -142,30 +142,30 @@ test_that("Vaccine on works", {
 })
 
 
-test_that("Age targeting works", {
-  pop <- get_population("Angola")
-  mm <- get_mixing_matrix("Angola")
-
-  # Vaccine model 100% efficacy against infection yougest age group
-  m1 <- run(
-    population = pop$n,
-    contact_matrix_set = mm,
-    hosp_bed_capacity = 100000,
-    ICU_bed_capacity = 1000000,
-    dur_R = Inf,
-    max_vaccine = 10000,
-    vaccination_target = c(1, rep(0, 16)),
-    seed = 1,
-    replicates = 1,
-    seeding_cases = 20,
-    time_period = 100
-  )
-
-  # Check individuals in youngest age group reaching V
-  age_v <- format(m1, NULL, "vaccinated",  reduce_age = FALSE)
-  expect_gt(sum(dplyr::filter(age_v, age_group == "0-5")$value), 0)
-  expect_equal(sum(dplyr::filter(age_v, age_group != "0-5")$value), 0)
-})
+# test_that("Age targeting works", {
+#   pop <- get_population("Angola")
+#   mm <- get_mixing_matrix("Angola")
+#
+#   # Vaccine model 100% efficacy against infection yougest age group
+#   m1 <- run(
+#     population = pop$n,
+#     contact_matrix_set = mm,
+#     hosp_bed_capacity = 100000,
+#     ICU_bed_capacity = 1000000,
+#     dur_R = Inf,
+#     max_vaccine = 10000,
+#     vaccination_target = c(1, rep(0, 16)),
+#     seed = 1,
+#     replicates = 1,
+#     seeding_cases = 20,
+#     time_period = 100
+#   )
+#
+#   # Check individuals in youngest age group reaching V
+#   age_v <- format(m1, NULL, "vaccinated",  reduce_age = FALSE)
+#   expect_gt(sum(dplyr::filter(age_v, age_group == "0-5")$value), 0)
+#   expect_equal(sum(dplyr::filter(age_v, age_group != "0-5")$value), 0)
+# })
 
 test_that("Time-varying works", {
   pop <- get_population("Angola")
@@ -205,7 +205,6 @@ test_that("Efficacy against infection works", {
     ICU_bed_capacity = 1000000,
     dur_R = Inf,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100
@@ -218,11 +217,10 @@ test_that("Efficacy against infection works", {
     ICU_bed_capacity = 1000000,
     dur_R = Inf,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100,
-    max_vaccine = 1000000,
+    max_vaccine = 10000,
     vaccine_efficacy_infection = rep(0.5, 17),
     vaccine_efficacy_disease = rep(0, 17)
   )
@@ -234,11 +232,10 @@ test_that("Efficacy against infection works", {
     ICU_bed_capacity = 1000000,
     dur_R = Inf,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100,
-    max_vaccine = 1000000,
+    max_vaccine = 10000,
     vaccine_efficacy_infection = rep(1, 17),
     vaccine_efficacy_disease = rep(0, 17)
   )
@@ -263,7 +260,6 @@ test_that("Efficacy against disease works", {
     ICU_bed_capacity = 1000000,
     dur_R = Inf,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100
@@ -276,11 +272,10 @@ test_that("Efficacy against disease works", {
     ICU_bed_capacity = 1000000,
     dur_R = Inf,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100,
-    max_vaccine = 1000000,
+    max_vaccine = 10000,
     vaccine_efficacy_disease = rep(0.5, 17),
     vaccine_efficacy_infection = rep(0, 17)
   )
@@ -292,11 +287,10 @@ test_that("Efficacy against disease works", {
     ICU_bed_capacity = 1000000,
     dur_R = Inf,
     seed = 1,
-    dt = 0.1,
     replicates = 1,
     seeding_cases = 20,
     time_period = 100,
-    max_vaccine = 1000000,
+    max_vaccine = 10000,
     vaccine_efficacy_disease = rep(1, 17),
     vaccine_efficacy_infection = rep(0, 17)
   )

@@ -33,13 +33,13 @@ probs <- default_probs()
 #' @return list of default vaccine parameters
 default_vaccine_pars <- function() {
   list(dur_R = Inf,
-       vaccination_target = rep(1, 17),
        dur_V = 365,
        vaccine_efficacy_infection = rep(0.95, 17),
        vaccine_efficacy_disease = rep(0.95, 17),
        max_vaccine = 1000,
        tt_vaccine = 0,
-       dur_vaccine_delay = 14)
+       dur_vaccine_delay = 14,
+       vaccine_coverage_mat = matrix(0.8, ncol = 17, nrow = 1))
 }
 
 vaccine_pars <- default_vaccine_pars()
@@ -99,13 +99,13 @@ parameters <- function(
   dur_R,
 
   # Vaccine
-  vaccination_target,
   dur_V,
   vaccine_efficacy_infection,
   vaccine_efficacy_disease,
   max_vaccine,
   tt_vaccine,
   dur_vaccine_delay,
+  vaccine_coverage_mat,
 
   # Health system capacity
   hosp_bed_capacity,
@@ -168,6 +168,11 @@ parameters <- function(
   # Convert contact matrices to input matrices
   matrices_set <- squire:::matrix_set_explicit(contact_matrix_set, population)
 
+  # If a vector is put in for matrix targeting
+  if(is.vector(vaccine_coverage_mat)){
+    vaccine_coverage_mat <- matrix(vaccine_coverage_mat, ncol = 17)
+  }
+
   # Input checks
   # ----------------------------------------------------------------------------
   mc <- squire:::matrix_check(population[-1], contact_matrix_set)
@@ -178,7 +183,7 @@ parameters <- function(
   stopifnot(length(max_vaccine) == length(tt_vaccine))
   tc <- lapply(list(tt_R0/dt, tt_contact_matrix/dt), squire:::check_time_change, time_period/dt)
   tc2 <- lapply(list(tt_hosp_beds/dt, tt_ICU_beds/dt), squire:::check_time_change, time_period/dt)
-  stopifnot(all(vaccination_target %in% 0:1))
+  stopifnot(ncol(vaccine_coverage_mat) == 17)
 
   assert_pos(dt)
   assert_pos(dur_E)
@@ -320,11 +325,12 @@ parameters <- function(
                  dt = dt,
                  population = population,
                  contact_matrix_set = contact_matrix_set,
-                 vaccination_target = vaccination_target,
                  max_vaccine = max_vaccine,
                  tt_vaccine = tt_vaccine,
                  vaccine_efficacy_infection = vaccine_efficacy_infection,
+                 vaccine_coverage_mat = vaccine_coverage_mat,
                  N_vaccine = 6,
+                 N_prioritisation_steps = nrow(vaccine_coverage_mat),
                  gamma_vaccine = gamma_vaccine))
 
   class(pars) <- c("vaccine_parameters", "nimue_parameters")

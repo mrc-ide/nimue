@@ -37,13 +37,13 @@ parameters(
   dur_not_get_mv_die,
   dur_rec,
   dur_R,
-  vaccination_target,
   dur_V,
   vaccine_efficacy_infection,
   vaccine_efficacy_disease,
   max_vaccine,
   tt_vaccine,
   dur_vaccine_delay,
+  vaccine_coverage_mat,
   hosp_bed_capacity,
   ICU_bed_capacity,
   tt_hosp_beds,
@@ -148,9 +148,6 @@ death. Default = 1}
 
 \item{dur_R}{Mean duration of naturally acquired immunity (days)}
 
-\item{vaccination_target}{Index of age group targets for vaccination. Must be 0
-(not vaccinated) or 1 (vaccinated) for each age group.}
-
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
 \item{vaccine_efficacy_infection}{Efficacy of vaccine against infection (by age).
@@ -165,6 +162,8 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 \item{tt_vaccine}{Time change points for vaccine capacity (\code{max_vaccine}).}
 
 \item{dur_vaccine_delay}{Mean duration of period from vaccination to vaccine protection.}
+
+\item{vaccine_coverage_mat}{Vaccine coverage targets by age (columns) and priority (row)}
 
 \item{hosp_bed_capacity}{General bed capacity. Can be single number of vector if capacity time-varies.}
 

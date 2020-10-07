@@ -1,5 +1,5 @@
 context("Parameters")
-library(nimue)
+#library(nimue)
 library(squire)
 
 test_that("default parameter list works", {
@@ -10,8 +10,9 @@ test_that("default parameter list works", {
                      "prob_severe_death_no_treatment",  "p_dist", "rel_infectiousness"))
   v1 <- default_vaccine_pars()
   expect_type(v1, "list")
-  expect_named(v1, c("dur_R", "vaccination_target", "dur_V", "vaccine_efficacy_infection",
-                     "vaccine_efficacy_disease", "max_vaccine", "tt_vaccine", "dur_vaccine_delay"))
+  expect_named(v1, c("dur_R", "dur_V", "vaccine_efficacy_infection",
+                     "vaccine_efficacy_disease", "max_vaccine", "tt_vaccine", "dur_vaccine_delay",
+                     "vaccine_coverage_mat"))
 })
 
 

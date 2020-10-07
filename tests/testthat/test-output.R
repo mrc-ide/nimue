@@ -1,5 +1,5 @@
 context("Output")
-library(nimue)
+#library(nimue)
 library(squire)
 
 test_that("output works", {

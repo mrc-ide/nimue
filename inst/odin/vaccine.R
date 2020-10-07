@@ -4,7 +4,7 @@
 
 ### Initial setup ##############################################################
 N_age <- user() # Number of age groups
-N_vaccine <- user() # Numebr of vaccine groups
+N_vaccine <- user() # Number of vaccine groups
 ################################################################################
 
 ### S: susceptible #############################################################
@@ -340,8 +340,13 @@ deriv(D[,3:N_vaccine]) <- (gamma_vaccine[j-1] * D[i,j-1]) + (gamma_get_ox_die * 
 ### Vaccination capacity #######################################################
 ################################################################################
 # Vaccination
-vaccination_target[] <- user() # 0/1 index of targeted age groups
-dim(vaccination_target) <- N_age
+#vaccination_target[] <- user() # 0/1 index of targeted age groups
+#dim(vaccination_target) <- N_age
+
+# Vaccine prioritisation coverage matrix
+N_prioritisation_steps <- user()
+vaccine_coverage_mat[,] <- user()
+dim(vaccine_coverage_mat) <- c(N_prioritisation_steps, N_age)
 
 vaccine_efficacy_infection[,] <- user() # Reduction in lambda from vaccination by age and vaccination status
 dim(vaccine_efficacy_infection) <- c(N_age, N_vaccine)
@@ -355,6 +360,38 @@ tt_vaccine[] <- user()
 max_vaccine[] <- user()
 dim(tt_vaccine) <- user()
 dim(max_vaccine) <- length(tt_vaccine)
+
+
+# Track the proportion who have received vaccine in each age group
+pr[] <- (sum(S[i,2:6]) + sum(E1[i,2:6]) + sum(E2[i,2:6]) + sum(IMild[i,2:6]) + sum(ICase1[i,2:6]) + sum(ICase2[i,2:6]) +
+           sum(IMVGetLive1[i,2:6]) + sum(IMVGetLive2[i,2:6]) +
+           sum(IMVGetDie1[i,2:6]) + sum(IMVGetDie2[i,2:6]) + sum(IMVNotGetLive1[i,2:6]) + sum(IMVNotGetLive2[i,2:6]) + sum(IMVNotGetDie1[i,2:6]) + sum(IMVNotGetDie2[i,2:6]) +
+           sum(IOxGetLive1[i,2:6]) + sum(IOxGetLive2[i,2:6]) + sum(IOxGetDie1[i,2:6]) + sum(IOxGetDie2[i,2:6]) + sum(IOxNotGetLive1[i,2:6]) + sum(IOxNotGetLive2[i,2:6]) +
+           sum(IOxNotGetDie1[i,2:6]) + sum(IOxNotGetDie2[i,2:6]) +
+           sum(IRec1[i,2:6]) + sum(IRec2[i,2:6]) +
+           sum(R1[i,2:6]) + sum(R2[i,2:6]) + sum(D[i,2:6])) /
+  (sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICase1[i,]) + sum(ICase2[i,]) +
+     sum(IMVGetLive1[i,]) + sum(IMVGetLive2[i,]) +
+     sum(IMVGetDie1[i,]) + sum(IMVGetDie2[i,]) + sum(IMVNotGetLive1[i,]) + sum(IMVNotGetLive2[i,]) + sum(IMVNotGetDie1[i,]) + sum(IMVNotGetDie2[i,]) +
+     sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetDie1[i,]) + sum(IOxGetDie2[i,]) + sum(IOxNotGetLive1[i,]) + sum(IOxNotGetLive2[i,]) +
+     sum(IOxNotGetDie1[i,]) + sum(IOxNotGetDie2[i,]) +
+     sum(IRec1[i,]) + sum(IRec2[i,]) +
+     sum(R1[i,]) + sum(R2[i,]) + sum(D[i,]))
+dim(pr) <- N_age
+output(prop_received[]) <- pr[i]
+dim(prop_received) <- N_age
+
+# Isolate age groups below current target coverage which must be targeted
+vaccination_target_mat[,] <- if(pr[j] < vaccine_coverage_mat[i,j]) 1 else 0
+dim(vaccination_target_mat) <- c(N_prioritisation_steps, N_age)
+#vaccine_target_vec[] <- if(sum(vaccination_target_mat[i,]) == 0) 0  else 1
+#dim(vaccine_target_vec) <- N_prioritisation_steps
+#current_index <- N_prioritisation_steps - sum(vaccine_target_vec)
+
+# TODO: Where I have 1 here the "current index" forced as_integer should live
+vaccination_target[] <- vaccination_target_mat[1,i]
+dim(vaccination_target) <- N_age
+
 vr_temp[] <- S[i,1] * vaccination_target[i] + E1[i,1] * vaccination_target[i] + E2[i,1] * vaccination_target[i] + R1[i,1] * vaccination_target[i] + R2[i,1] * vaccination_target[i]
 dim(vr_temp) <- N_age
 # Catch so vaccination rate does not exceed 1 if the number of people available for vaccination < number of vaccines
@@ -488,8 +525,8 @@ initial(infections_cumu[,]) <- 0
 
 # Vaccinations
 deriv(vaccines_cumu[]) <- (vr * vaccination_target[i] * S[i,1]) + (vr * vaccination_target[i] * E1[i,1]) + (vr * vaccination_target[i] * E2[i,1]) +
-   (vr * vaccination_target[i] * R1[i,1]) + (vr * vaccination_target[i] * R2[i,1])
- dim(vaccines_cumu) <- N_age
+  (vr * vaccination_target[i] * R1[i,1]) + (vr * vaccination_target[i] * R2[i,1])
+dim(vaccines_cumu) <- N_age
 initial(vaccines_cumu[]) <- 0
 
 # Unvaccinated
@@ -529,4 +566,9 @@ output(N[]) <- sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICa
   sum(IRec1[i,]) + sum(IRec2[i,]) +
   sum(R1[i,]) + sum(R2[i,]) + sum(D[i,])
 dim(N) <- N_age
+################################################################################
+
+
+### New tracking ###############################################################
+
 ################################################################################
