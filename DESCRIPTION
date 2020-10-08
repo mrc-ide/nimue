@@ -1,7 +1,7 @@
 Package: nimue
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(
   person("Peter", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre")),
   person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut")),
@@ -26,10 +26,11 @@ Imports:
     magrittr,
     abind,
     rlang,
-    ggplot2
+    ggplot2,
+    tidyr
 Depends: R (>= 3.1.0)
 Remotes:
     mrc-ide/dde,
-    mrc-ide/odin,
+    mrc-ide/odin@i199-integers,
     mrc-ide/squire
 VignetteBuilder: knitr

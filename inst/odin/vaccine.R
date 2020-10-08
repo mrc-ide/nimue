@@ -363,40 +363,48 @@ dim(max_vaccine) <- length(tt_vaccine)
 
 
 # Track the proportion who have received vaccine in each age group
-pr[] <- (sum(S[i,2:6]) + sum(E1[i,2:6]) + sum(E2[i,2:6]) + sum(IMild[i,2:6]) + sum(ICase1[i,2:6]) + sum(ICase2[i,2:6]) +
-           sum(IMVGetLive1[i,2:6]) + sum(IMVGetLive2[i,2:6]) +
-           sum(IMVGetDie1[i,2:6]) + sum(IMVGetDie2[i,2:6]) + sum(IMVNotGetLive1[i,2:6]) + sum(IMVNotGetLive2[i,2:6]) + sum(IMVNotGetDie1[i,2:6]) + sum(IMVNotGetDie2[i,2:6]) +
-           sum(IOxGetLive1[i,2:6]) + sum(IOxGetLive2[i,2:6]) + sum(IOxGetDie1[i,2:6]) + sum(IOxGetDie2[i,2:6]) + sum(IOxNotGetLive1[i,2:6]) + sum(IOxNotGetLive2[i,2:6]) +
-           sum(IOxNotGetDie1[i,2:6]) + sum(IOxNotGetDie2[i,2:6]) +
-           sum(IRec1[i,2:6]) + sum(IRec2[i,2:6]) +
-           sum(R1[i,2:6]) + sum(R2[i,2:6]) + sum(D[i,2:6])) /
-  (sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICase1[i,]) + sum(ICase2[i,]) +
-     sum(IMVGetLive1[i,]) + sum(IMVGetLive2[i,]) +
-     sum(IMVGetDie1[i,]) + sum(IMVGetDie2[i,]) + sum(IMVNotGetLive1[i,]) + sum(IMVNotGetLive2[i,]) + sum(IMVNotGetDie1[i,]) + sum(IMVNotGetDie2[i,]) +
-     sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetDie1[i,]) + sum(IOxGetDie2[i,]) + sum(IOxNotGetLive1[i,]) + sum(IOxNotGetLive2[i,]) +
-     sum(IOxNotGetDie1[i,]) + sum(IOxNotGetDie2[i,]) +
-     sum(IRec1[i,]) + sum(IRec2[i,]) +
-     sum(R1[i,]) + sum(R2[i,]) + sum(D[i,]))
+
+# Population size
+pop_size[] <- sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICase1[i,]) + sum(ICase2[i,]) +
+  sum(IMVGetLive1[i,]) + sum(IMVGetLive2[i,]) +
+  sum(IMVGetDie1[i,]) + sum(IMVGetDie2[i,]) + sum(IMVNotGetLive1[i,]) + sum(IMVNotGetLive2[i,]) + sum(IMVNotGetDie1[i,]) + sum(IMVNotGetDie2[i,]) +
+  sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetDie1[i,]) + sum(IOxGetDie2[i,]) + sum(IOxNotGetLive1[i,]) + sum(IOxNotGetLive2[i,]) +
+  sum(IOxNotGetDie1[i,]) + sum(IOxNotGetDie2[i,]) +
+  sum(IRec1[i,]) + sum(IRec2[i,]) +
+  sum(R1[i,]) + sum(R2[i,]) + sum(D[i,])
+dim(pop_size) <- N_age
+
+pr[] <- 1 - ((sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(ICase1[i,1]) + sum(ICase2[i,1]) +
+           sum(IMVGetLive1[i,1]) + sum(IMVGetLive2[i,1]) +
+           sum(IMVGetDie1[i,1]) + sum(IMVGetDie2[i,1]) + sum(IMVNotGetLive1[i,1]) + sum(IMVNotGetLive2[i,1]) + sum(IMVNotGetDie1[i,1]) + sum(IMVNotGetDie2[i,1]) +
+           sum(IOxGetLive1[i,1]) + sum(IOxGetLive2[i,1]) + sum(IOxGetDie1[i,1]) + sum(IOxGetDie2[i,1]) + sum(IOxNotGetLive1[i,1]) + sum(IOxNotGetLive2[i,1]) +
+           sum(IOxNotGetDie1[i,1]) + sum(IOxNotGetDie2[i,1]) +
+           sum(IRec1[i,1]) + sum(IRec2[i,1]) +
+           sum(R1[i,1]) + sum(R2[i,1]) + sum(D[i,1])) / (pop_size[i]))
 dim(pr) <- N_age
-output(prop_received[]) <- pr[i]
-dim(prop_received) <- N_age
+#output(prop_received[]) <- pr[i]
+#dim(prop_received) <- N_age
 
 # Isolate age groups below current target coverage which must be targeted
 vaccination_target_mat[,] <- if(pr[j] < vaccine_coverage_mat[i,j]) 1 else 0
 dim(vaccination_target_mat) <- c(N_prioritisation_steps, N_age)
-#vaccine_target_vec[] <- if(sum(vaccination_target_mat[i,]) == 0) 0  else 1
-#dim(vaccine_target_vec) <- N_prioritisation_steps
-#current_index <- N_prioritisation_steps - sum(vaccine_target_vec)
 
-# TODO: Where I have 1 here the "current index" forced as_integer should live
-vaccination_target[] <- vaccination_target_mat[1,i]
+vaccine_target_vec[] <- if(sum(vaccination_target_mat[i,]) == 0) 1 else 0
+dim(vaccine_target_vec) <- N_prioritisation_steps
+current_index <- min(sum(vaccine_target_vec) + 1, N_prioritisation_steps)
+
+vaccination_target[] <- vaccination_target_mat[as.integer(current_index),i]
 dim(vaccination_target) <- N_age
 
 vr_temp[] <- S[i,1] * vaccination_target[i] + E1[i,1] * vaccination_target[i] + E2[i,1] * vaccination_target[i] + R1[i,1] * vaccination_target[i] + R2[i,1] * vaccination_target[i]
 dim(vr_temp) <- N_age
 # Catch so vaccination rate does not exceed 1 if the number of people available for vaccination < number of vaccines
 vr_den <- if(sum(vr_temp) <= mv) mv else sum(vr_temp)
-vr <- mv / vr_den # Vaccination rate to achieve capacity given number in vaccine-eligible population
+vr <- mv / vr_den  # Vaccination rate to achieve capacity given number in vaccine-eligible population
+#output(vrr) <- vr
+#output(vtr) <- sum(vr_temp)
+#output(vtar[]) <- vaccination_target[i]
+#dim(vtar) <- N_age
 ################################################################################
 ################################################################################
 
@@ -557,18 +565,7 @@ output(priorvaccinated[]) <- sum(S[i,6]) + sum(E1[i,6]) + sum(E2[i,6]) + sum(IMi
   sum(R1[i,6]) + sum(R2[i,6]) + sum(D[i,6])
 dim(priorvaccinated) <- N_age
 
-# Population size
-output(N[]) <- sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICase1[i,]) + sum(ICase2[i,]) +
-  sum(IMVGetLive1[i,]) + sum(IMVGetLive2[i,]) +
-  sum(IMVGetDie1[i,]) + sum(IMVGetDie2[i,]) + sum(IMVNotGetLive1[i,]) + sum(IMVNotGetLive2[i,]) + sum(IMVNotGetDie1[i,]) + sum(IMVNotGetDie2[i,]) +
-  sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetDie1[i,]) + sum(IOxGetDie2[i,]) + sum(IOxNotGetLive1[i,]) + sum(IOxNotGetLive2[i,]) +
-  sum(IOxNotGetDie1[i,]) + sum(IOxNotGetDie2[i,]) +
-  sum(IRec1[i,]) + sum(IRec2[i,]) +
-  sum(R1[i,]) + sum(R2[i,]) + sum(D[i,])
+output(N[]) <- pop_size[i]
 dim(N) <- N_age
 ################################################################################
 
-
-### New tracking ###############################################################
-
-################################################################################
