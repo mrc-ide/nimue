@@ -3044,7 +3044,7 @@ void vaccine_rhs(vaccine_internal* internal, double t, double * state, double * 
     internal->vr_temp[i - 1] = S[internal->dim_S_1 * 0 + i - 1] * internal->vaccination_target[i - 1] + E1[internal->dim_E1_1 * 0 + i - 1] * internal->vaccination_target[i - 1] + E2[internal->dim_E2_1 * 0 + i - 1] * internal->vaccination_target[i - 1] + R1[internal->dim_R1_1 * 0 + i - 1] * internal->vaccination_target[i - 1] + R2[internal->dim_R2_1 * 0 + i - 1] * internal->vaccination_target[i - 1];
   }
   double vr_den = (odin_sum1(internal->vr_temp, 0, internal->dim_vr_temp) <= mv ? mv : odin_sum1(internal->vr_temp, 0, internal->dim_vr_temp));
-  double vr = mv / (double) vr_den;
+  double vr = (mv == 0 ? 0 : mv / (double) vr_den);
   for (int i = 1; i <= internal->dim_E1_1; ++i) {
     int j = 1;
     dstatedt[internal->offset_variable_E1 + i - 1 + internal->dim_E1_1 * (j - 1)] = (internal->lambda[i - 1] * internal->vaccine_efficacy_infection[internal->dim_vaccine_efficacy_infection_1 * (j - 1) + i - 1] * S[internal->dim_S_1 * (j - 1) + i - 1]) - (internal->gamma_E * E1[internal->dim_E1_1 * (j - 1) + i - 1]) - (vr * internal->vaccination_target[i - 1] * E1[internal->dim_E1_1 * (j - 1) + i - 1]);
