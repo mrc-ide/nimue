@@ -340,9 +340,6 @@ deriv(D[,3:N_vaccine]) <- (gamma_vaccine[j-1] * D[i,j-1]) + (gamma_get_ox_die * 
 ### Vaccination capacity #######################################################
 ################################################################################
 # Vaccination
-#vaccination_target[] <- user() # 0/1 index of targeted age groups
-#dim(vaccination_target) <- N_age
-
 # Vaccine prioritisation coverage matrix
 N_prioritisation_steps <- user()
 vaccine_coverage_mat[,] <- user()
@@ -373,7 +370,7 @@ pop_size[] <- sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICas
   sum(IRec1[i,]) + sum(IRec2[i,]) +
   sum(R1[i,]) + sum(R2[i,]) + sum(D[i,])
 dim(pop_size) <- N_age
-
+# Proportion who have received vaccine
 pr[] <- 1 - ((sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(ICase1[i,1]) + sum(ICase2[i,1]) +
            sum(IMVGetLive1[i,1]) + sum(IMVGetLive2[i,1]) +
            sum(IMVGetDie1[i,1]) + sum(IMVGetDie2[i,1]) + sum(IMVNotGetLive1[i,1]) + sum(IMVNotGetLive2[i,1]) + sum(IMVNotGetDie1[i,1]) + sum(IMVNotGetDie2[i,1]) +
@@ -382,8 +379,6 @@ pr[] <- 1 - ((sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(
            sum(IRec1[i,1]) + sum(IRec2[i,1]) +
            sum(R1[i,1]) + sum(R2[i,1]) + sum(D[i,1])) / (pop_size[i]))
 dim(pr) <- N_age
-#output(prop_received[]) <- pr[i]
-#dim(prop_received) <- N_age
 
 # Isolate age groups below current target coverage which must be targeted
 vaccination_target_mat[,] <- if(pr[j] < vaccine_coverage_mat[i,j]) 1 else 0
@@ -400,11 +395,7 @@ vr_temp[] <- S[i,1] * vaccination_target[i] + E1[i,1] * vaccination_target[i] + 
 dim(vr_temp) <- N_age
 # Catch so vaccination rate does not exceed 1 if the number of people available for vaccination < number of vaccines
 vr_den <- if(sum(vr_temp) <= mv) mv else sum(vr_temp)
-vr <- mv / vr_den  # Vaccination rate to achieve capacity given number in vaccine-eligible population
-#output(vrr) <- vr
-#output(vtr) <- sum(vr_temp)
-#output(vtar[]) <- vaccination_target[i]
-#dim(vtar) <- N_age
+vr <- if(mv == 0) 0 else mv / vr_den  # Vaccination rate to achieve capacity given number in vaccine-eligible population
 ################################################################################
 ################################################################################
 
