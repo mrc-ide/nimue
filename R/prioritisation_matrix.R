@@ -1,6 +1,6 @@
 
 #' Prioritisation matrix
-#' 
+#'
 #' Choose from one of four preset prioritisation matrices.
 #'
 #' @param strategy Prioritisation strategy
@@ -8,7 +8,7 @@
 #'  \item{"All"}{"Target all age groups"}
 #'  \item{"Elderly"}{"Prioritise by most elderly first, working to younger age groups at each step"}
 #'  \item{"Working Elderly Children"}{"Prioritise working ages followed by elderly followed by children"}
-#'  \item{"Risk Elderly Working Children"}{"Prioritise a sub-population of thoe working age, followed by elderly, followed by remiaining working age followed by children"}  
+#'  \item{"Risk Elderly Working Children"}{"Prioritise a sub-population of thoe working age, followed by elderly, followed by remiaining working age followed by children"}
 #' }
 #' @param max_coverage Maximum coverage in any one age group
 #' @param risk_proportion Proportion of working age individuals to prioritise if "Risk Elderly Working Children" is choosen
@@ -70,7 +70,7 @@ p_elderly <- function(max_coverage){
 #' @return Prioritisation coverage matrix
 p_working_elderly_children <- function(max_coverage){
   m <- matrix(0, ncol = 17, nrow = 3)
-  m[1, 4:12] <- max_coverage
+  m[1, 4:13] <- max_coverage
   m[2, 4:17] <- max_coverage
   m[3, ] <- max_coverage
   return(m)
@@ -83,8 +83,8 @@ p_working_elderly_children <- function(max_coverage){
 #' @return Prioritisation coverage matrix
 p_risk_elderly_working_children <- function(max_coverage, risk_proportion){
   m <- matrix(0, ncol = 17, nrow = 4)
-  m[, 4:12] <- max_coverage * risk_proportion
-  m[2, 13:17] <- max_coverage
+  m[, 4:13] <- max_coverage * risk_proportion
+  m[2, 14:17] <- max_coverage
   m[3, 4:17] <- max_coverage
   m[4,] <- max_coverage
   return(m)
