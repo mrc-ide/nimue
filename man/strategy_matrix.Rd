@@ -12,7 +12,7 @@ strategy_matrix(strategy, max_coverage = 0.8, risk_proportion = 0)
  \item{"All"}{"Target all age groups"}
  \item{"Elderly"}{"Prioritise by most elderly first, working to younger age groups at each step"}
  \item{"Working Elderly Children"}{"Prioritise working ages followed by elderly followed by children"}
- \item{"Risk Elderly Working Children"}{"Prioritise a sub-population of thoe working age, followed by elderly, followed by remiaining working age followed by children"}  
+ \item{"Risk Elderly Working Children"}{"Prioritise a sub-population of thoe working age, followed by elderly, followed by remiaining working age followed by children"}
 }}
 
 \item{max_coverage}{Maximum coverage in any one age group}
