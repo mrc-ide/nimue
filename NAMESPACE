@@ -3,6 +3,7 @@
 export(beta_est_infectiousness)
 export(format)
 export(run)
+export(run_odin)
 importFrom(dde,difeq)
 importFrom(magrittr,"%>%")
 importFrom(odin,odin)

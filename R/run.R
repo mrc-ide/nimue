@@ -204,20 +204,7 @@ run <- function(
                      tt_vaccine = tt_vaccine ,
                      dur_vaccine_delay = dur_vaccine_delay)
 
-  # Set model type
-  replicates <- 1
-  mod_gen = vaccine
-
-  # Running the Model
-  mod <- mod_gen(user = pars, unused_user_action = "ignore")
-
-  # Daily output by default
-  t <- round(seq(from = 1, to = time_period))
-
-  results <- mod$run(t, replicate = replicates)
-
-  # coerce to array
-  results <- array(results, dim = c(dim(results), 1), dimnames = dimnames(results))
+  results <- run_odin(pars)
 
   # Summarise inputs
   parameters <- args
@@ -228,8 +215,34 @@ run <- function(
   parameters$seeding_cases <- pars$E1_0
   parameters$contact_matrix_set <- pars$contact_matrix_set
 
-  out <- list(output = results, parameters = parameters, model = mod)
+  out <- list(
+    output = results,
+    parameters = parameters,
+    odin_parameters = pars,
+    model = mod
+  )
   out <- structure(out, class = "nimue_simulation")
   return(out)
 
+}
+
+#' Run the odin model directly
+#' @param pars a vaccine_parameters object
+#' @param mod_gen an odin model generation function (either odin or odin.js)
+#' @return Simulation output
+#' @export
+run_odin <- function(pars, mod_gen = vaccine) {
+  # Set model type
+  replicates <- 1
+
+  # Running the Model
+  mod <- mod_gen(user = pars, unused_user_action = "ignore")
+
+  # Daily output by default
+  t <- round(seq(from = 1, to = time_period))
+
+  results <- mod$run(t, replicate = replicates)
+
+  # coerce to array
+  array(results, dim = c(dim(results), 1), dimnames = dimnames(results))
 }
