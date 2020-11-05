@@ -216,7 +216,7 @@ run <- function(
   parameters$seeding_cases <- pars$E1_0
   parameters$contact_matrix_set <- pars$contact_matrix_set
 
-  out <- list(output = results, parameters = parameters, model = mod)
+  out <- list(output = results, parameters = parameters, model = mod, odin_parameters = pars)
   out <- structure(out, class = "nimue_simulation")
   return(out)
 
