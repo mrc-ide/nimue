@@ -123,17 +123,18 @@ run <- function(
   dur_IMild = 2.1,
   dur_ICase = 4.5,
 
-  dur_get_ox_survive = 9.5,
-  dur_get_ox_die = 7.6,
-  dur_not_get_ox_survive = 9.5*0.5,
-  dur_not_get_ox_die = 7.6*0.5,
+  # hospital durations
+  dur_get_ox_survive = durs$dur_get_ox_survive,
+  dur_get_ox_die = durs$dur_get_ox_die,
+  dur_not_get_ox_survive = durs$dur_not_get_ox_survive,
+  dur_not_get_ox_die = durs$dur_not_get_ox_die,
 
-  dur_get_mv_survive = 11.3,
-  dur_get_mv_die = 10.1,
-  dur_not_get_mv_survive = 11.3*0.5,
-  dur_not_get_mv_die = 1,
+  dur_get_mv_survive = durs$dur_get_mv_survive,
+  dur_get_mv_die = durs$dur_get_mv_die,
+  dur_not_get_mv_survive = durs$dur_get_mv_survive,
+  dur_not_get_mv_die = durs$dur_get_mv_die,
 
-  dur_rec = 3.4,
+  dur_rec = durs$dur_rec,
 
   # vaccine
   dur_R = vaccine_pars$dur_R,
@@ -233,7 +234,7 @@ run <- function(
   parameters$seeding_cases <- pars$E1_0
   parameters$contact_matrix_set <- pars$contact_matrix_set
 
-  out <- list(output = results, parameters = parameters, model = mod)
+  out <- list(output = results, parameters = parameters, model = mod, odin_parameters = pars)
   out <- structure(out, class = "nimue_simulation")
   return(out)
 

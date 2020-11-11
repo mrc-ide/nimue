@@ -2,7 +2,8 @@
 % Please edit documentation in R/parameters.R
 \name{default_probs}
 \alias{default_probs}
-\title{Return the default probabilities for modelling}
+\title{Return the default probabilities for modelling defined in \code{squire}
+For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}}
 \usage{
 default_probs()
 }
@@ -10,5 +11,6 @@ default_probs()
 list of default probabilities
 }
 \description{
-Return the default probabilities for modelling
+Return the default probabilities for modelling defined in \code{squire}
+For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
 }

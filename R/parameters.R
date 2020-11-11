@@ -1,4 +1,5 @@
-#' Return the default probabilities for modelling
+#' Return the default probabilities for modelling defined in \code{squire}
+#' For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
 #' @return list of default probabilities
 default_probs <- function() {
   c(squire:::default_probs(), list(rel_infectiousness = rep(1, 17)))
@@ -6,6 +7,14 @@ default_probs <- function() {
 
 probs <- default_probs()
 
+#' Return the default hospital durations for modelling defined in \code{squire}
+#' For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
+#' @return list of default durations
+default_durations <- function() {
+  squire:::default_durations()
+}
+
+durs <- default_durations()
 
 #' Return the default vaccine parameters for modelling
 #' @return list of default vaccine parameters
