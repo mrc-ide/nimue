@@ -13,7 +13,6 @@ parameters(
   tt_R0 = 0,
   beta_set = NULL,
   time_period = 365,
-  dt = 0.1,
   seeding_cases,
   seeding_age_order = NULL,
   prob_hosp = probs$prob_hosp,
@@ -72,8 +71,6 @@ NULL, which will generate this based on the \code{country}.}
 Default = NULL, which causes beta to be estimated from R0}
 
 \item{time_period}{Length of simulation. Default = 365}
-
-\item{dt}{Time Step. Default = 0.1}
 
 \item{seeding_cases}{Initial number of cases seeding the epidemic}
 
