@@ -13,7 +13,6 @@ run(
   tt_R0 = 0,
   beta_set = NULL,
   time_period = 365,
-  dt = 0.1,
   replicates = 10,
   seed = stats::runif(1, 0, 1e+08),
   prob_hosp = probs$prob_hosp,
@@ -24,9 +23,9 @@ run(
   prob_severe_death_no_treatment = probs$prob_severe_death_no_treatment,
   p_dist = probs$p_dist,
   rel_infectiousness = probs$rel_infectiousness,
-  dur_E = 4.6,
-  dur_IMild = 2.1,
-  dur_ICase = 4.5,
+  dur_E = durs$dur_E,
+  dur_IMild = durs$dur_IMild,
+  dur_ICase = durs$dur_ICase,
   dur_get_ox_survive = durs$dur_get_ox_survive,
   dur_get_ox_die = durs$dur_get_ox_die,
   dur_not_get_ox_survive = durs$dur_not_get_ox_survive,
@@ -75,8 +74,6 @@ NULL, which will generate this based on the \code{country}.}
 Default = NULL, which causes beta to be estimated from R0}
 
 \item{time_period}{Length of simulation. Default = 365}
-
-\item{dt}{Time Step. Default = 0.1}
 
 \item{replicates}{Number of replicates. Default = 10}
 
