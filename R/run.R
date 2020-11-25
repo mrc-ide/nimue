@@ -14,7 +14,6 @@
 #' @param beta_set Alternative parameterisation via beta rather than R0.
 #'   Default = NULL, which causes beta to be estimated from R0
 #' @param time_period Length of simulation. Default = 365
-#' @param dt Time Step. Default = 0.1
 #' @param replicates  Number of replicates. Default = 10
 #' @param seeding_cases Initial number of cases seeding the epidemic
 #' @param seed Random seed used for simulations. Deafult = runif(1, 0, 10000)
@@ -101,7 +100,6 @@ run <- function(
 
   # initial state, duration, reps
   time_period = 365,
-  dt = 0.1,
   replicates = 10,
   seed = stats::runif(1, 0, 100000000),
 
@@ -119,9 +117,9 @@ run <- function(
   rel_infectiousness = probs$rel_infectiousness,
 
   # durations
-  dur_E  = 4.6,
-  dur_IMild = 2.1,
-  dur_ICase = 4.5,
+  dur_E  = durs$dur_E,
+  dur_IMild = durs$dur_IMild,
+  dur_ICase = durs$dur_ICase,
 
   # hospital durations
   dur_get_ox_survive = durs$dur_get_ox_survive,
@@ -170,7 +168,6 @@ run <- function(
                      tt_R0 = tt_R0 ,
                      beta_set = beta_set,
                      time_period = time_period,
-                     dt = dt,
                      seeding_cases = seeding_cases,
                      seeding_age_order = seeding_age_order,
                      prob_hosp = prob_hosp,

@@ -51,7 +51,6 @@ parameters <- function(
 
   # Initial state, duration, reps
   time_period = 365,
-  dt = 0.1,
   seeding_cases,
   seeding_age_order = NULL,
 
@@ -168,11 +167,8 @@ parameters <- function(
   stopifnot(length(hosp_bed_capacity) == length(tt_hosp_beds))
   stopifnot(length(ICU_bed_capacity) == length(tt_ICU_beds))
   stopifnot(length(max_vaccine) == length(tt_vaccine))
-  tc <- lapply(list(tt_R0/dt, tt_contact_matrix/dt), squire:::check_time_change, time_period/dt)
-  tc2 <- lapply(list(tt_hosp_beds/dt, tt_ICU_beds/dt), squire:::check_time_change, time_period/dt)
   stopifnot(ncol(vaccine_coverage_mat) == 17)
 
-  assert_pos(dt)
   assert_pos(dur_E)
   assert_pos(dur_IMild)
   assert_pos(dur_ICase)
@@ -309,7 +305,6 @@ parameters <- function(
                  mix_mat_set = matrices_set,
                  tt_beta = tt_R0,
                  beta_set = beta_set,
-                 dt = dt,
                  population = population,
                  contact_matrix_set = contact_matrix_set,
                  max_vaccine = max_vaccine,
