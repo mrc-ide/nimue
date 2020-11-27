@@ -3,6 +3,9 @@
 test_that("Tracking of proportion who have recieved vaccine works", {
   suppressWarnings(library(dplyr))
   suppressWarnings(library(tidyr))
+
+  expect_error(strategy_matrix("wrong"), "Strategy must be one of: All, Elderly, Working Elderly Children, Risk Elderly Working Children,
+         Risk Elderly Working Children step")
   # Run with no vaccine
   r0 <- run("Angola", max_vaccine = 0, time_period = 50)
   # Run with small amount of vaccine
@@ -28,6 +31,16 @@ test_that("Tracking of proportion who have recieved vaccine works", {
   m4 <- strategy_matrix("Risk Elderly Working Children", risk_proportion = 0.3)
   r7 <- run("Angola", max_vaccine = 1e6, time_period = 50,
             vaccine_coverage_mat = m4)
+  # Run with "Risk Elderly Working Children stepped" strategy
+  m5 <- strategy_matrix("Risk Elderly Working Children step", risk_proportion = 0.3)
+  r8 <- run("Angola", max_vaccine = 1e6, time_period = 50,
+            vaccine_coverage_mat = m5)
+
+  expect_is(m1, "matrix")
+  expect_is(m2, "matrix")
+  expect_is(m3, "matrix")
+  expect_is(m4, "matrix")
+  expect_is(m5, "matrix")
 
   # Extract the proportion vaccinated (by age)
   get_pv <- function(x){
@@ -65,7 +78,17 @@ test_that("Tracking of proportion who have recieved vaccine works", {
   p7 <- get_pv(r7)
   d4 <- which(diff(filter(p7, age_group == "35-40")$prop_vaccinated)>0)[1]
   d5 <- which(diff(filter(p7, age_group == "80+")$prop_vaccinated)>0)[1]
+  d5b <- which(diff(filter(p7, age_group == "75-80")$prop_vaccinated)>0)[1]
   d6 <- which(diff(filter(p7, age_group == "0-5")$prop_vaccinated)>0)[1]
   expect_gt(d5, d4)
   expect_gt(d6, d5)
+  p8 <- get_pv(r8)
+  d7 <- which(diff(filter(p8, age_group == "35-40")$prop_vaccinated)>0)[1]
+  d8 <- which(diff(filter(p8, age_group == "80+")$prop_vaccinated)>0)[1]
+  d8b <- which(diff(filter(p8, age_group == "75-80")$prop_vaccinated)>0)[1]
+  d9 <- which(diff(filter(p8, age_group == "0-5")$prop_vaccinated)>0)[1]
+  expect_equal(d4, d7)
+  expect_equal(d5, d8)
+  expect_gt(d9, d6)
+  expect_gt(d8b, d5b)
 })
