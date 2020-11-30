@@ -19,7 +19,7 @@ Suggests:
     rmarkdown
 RoxygenNote: 7.1.1
 Imports: 
-    odin (>= 1.0.3),
+    odin (>= 1.0.8),
     squire (>= 0.5.7),
     dplyr,
     magrittr,
@@ -29,6 +29,6 @@ Imports:
     tidyr
 Depends: R (>= 3.1.0)
 Remotes:
-    mrc-ide/odin@i199-integers,
+    mrc-ide/odin,
     mrc-ide/squire
 VignetteBuilder: knitr
