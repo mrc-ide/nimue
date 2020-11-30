@@ -129,8 +129,8 @@ run <- function(
 
   dur_get_mv_survive = durs$dur_get_mv_survive,
   dur_get_mv_die = durs$dur_get_mv_die,
-  dur_not_get_mv_survive = durs$dur_get_mv_survive,
-  dur_not_get_mv_die = durs$dur_get_mv_die,
+  dur_not_get_mv_survive = durs$dur_not_get_mv_survive,
+  dur_not_get_mv_die = durs$dur_not_get_mv_die,
 
   dur_rec = durs$dur_rec,
 
