@@ -3,7 +3,7 @@
 export(beta_est_infectiousness)
 export(format)
 export(run)
-importFrom(dde,difeq)
+export(strategy_matrix)
 importFrom(magrittr,"%>%")
 importFrom(odin,odin)
 importFrom(rlang,.data)

@@ -13,7 +13,6 @@ run(
   tt_R0 = 0,
   beta_set = NULL,
   time_period = 365,
-  dt = 0.1,
   replicates = 10,
   seed = stats::runif(1, 0, 1e+08),
   prob_hosp = probs$prob_hosp,
@@ -24,32 +23,33 @@ run(
   prob_severe_death_no_treatment = probs$prob_severe_death_no_treatment,
   p_dist = probs$p_dist,
   rel_infectiousness = probs$rel_infectiousness,
-  dur_E = 4.6,
-  dur_IMild = 2.1,
-  dur_ICase = 4.5,
-  dur_get_ox_survive = 9.5,
-  dur_get_ox_die = 7.6,
-  dur_not_get_ox_survive = 9.5 * 0.5,
-  dur_not_get_ox_die = 7.6 * 0.5,
-  dur_get_mv_survive = 11.3,
-  dur_get_mv_die = 10.1,
-  dur_not_get_mv_survive = 11.3 * 0.5,
-  dur_not_get_mv_die = 1,
-  dur_rec = 3.4,
+  dur_E = durs$dur_E,
+  dur_IMild = durs$dur_IMild,
+  dur_ICase = durs$dur_ICase,
+  dur_get_ox_survive = durs$dur_get_ox_survive,
+  dur_get_ox_die = durs$dur_get_ox_die,
+  dur_not_get_ox_survive = durs$dur_not_get_ox_survive,
+  dur_not_get_ox_die = durs$dur_not_get_ox_die,
+  dur_get_mv_survive = durs$dur_get_mv_survive,
+  dur_get_mv_die = durs$dur_get_mv_die,
+  dur_not_get_mv_survive = durs$dur_not_get_mv_survive,
+  dur_not_get_mv_die = durs$dur_not_get_mv_die,
+  dur_rec = durs$dur_rec,
   dur_R = vaccine_pars$dur_R,
-  vaccination_target = vaccine_pars$vaccination_target,
   dur_V = vaccine_pars$dur_V,
   vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
   vaccine_efficacy_disease = vaccine_pars$vaccine_efficacy_disease,
   max_vaccine = vaccine_pars$max_vaccine,
   tt_vaccine = vaccine_pars$tt_vaccine,
   dur_vaccine_delay = vaccine_pars$dur_vaccine_delay,
+  vaccine_coverage_mat = vaccine_pars$vaccine_coverage_mat,
   hosp_bed_capacity = NULL,
   ICU_bed_capacity = NULL,
   tt_hosp_beds = 0,
   tt_ICU_beds = 0,
   seeding_cases = 20,
-  seeding_age_order = NULL
+  seeding_age_order = NULL,
+  rk = TRUE
 )
 }
 \arguments{
@@ -74,8 +74,6 @@ NULL, which will generate this based on the \code{country}.}
 Default = NULL, which causes beta to be estimated from R0}
 
 \item{time_period}{Length of simulation. Default = 365}
-
-\item{dt}{Time Step. Default = 0.1}
 
 \item{replicates}{Number of replicates. Default = 10}
 
@@ -147,9 +145,6 @@ death. Default = 1}
 
 \item{dur_R}{Mean duration of naturally acquired immunity (days)}
 
-\item{vaccination_target}{Index of age group targets for vaccination. Must be 0
-(not vaccinated) or 1 (vaccinated) for each age group.}
-
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
 \item{vaccine_efficacy_infection}{Efficacy of vaccine against infection (by age).
@@ -165,6 +160,8 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 
 \item{dur_vaccine_delay}{Mean duration of period from vaccination to vaccine protection.}
 
+\item{vaccine_coverage_mat}{Vaccine coverage targets by age (columns) and priority (row)}
+
 \item{hosp_bed_capacity}{General bed capacity. Can be single number of vector if capacity time-varies.}
 
 \item{ICU_bed_capacity}{ICU bed capacity. Can be single number of vector if capacity time-varies.}
@@ -179,6 +176,8 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 If NULL, seeds are distributed randomly within working ages. If specified, must be a vector
 of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 to the youngest age group, then the second youngest and so on. Default = NULL}
+
+\item{rk}{Use rk4 solver with a fixed timestep}
 }
 \value{
 Simulation output
