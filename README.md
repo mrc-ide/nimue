@@ -31,7 +31,10 @@ if you intend to publish results using `nimue`.
 
 Nimue is built on the shoulders of
 [squire](https://mrc-ide.github.io/squire/) and
-[sircovid](https://mrc-ide.github.io/sircovid/)
+[sircovid](https://mrc-ide.github.io/sircovid/). The [squire
+website](https://mrc-ide.github.io/squire/) is the best initial
+reference to refer to for base model structure and parameterisation
+details.
 
 Nimue is named after the [Lady of the
 Lake](https://en.wikipedia.org/wiki/Lady_of_the_Lake)

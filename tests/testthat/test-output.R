@@ -1,5 +1,5 @@
 context("Output")
-library(nimue)
+#library(nimue)
 library(squire)
 
 test_that("output works", {
@@ -12,7 +12,6 @@ test_that("output works", {
     population = pop$n,
     contact_matrix_set = mm,
     seed = 1,
-    dt = 1,
     replicates = 1,
     seeding_cases = 20
   )

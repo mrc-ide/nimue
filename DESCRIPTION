@@ -1,9 +1,12 @@
 Package: nimue
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1.5
-Authors@R: person("Peter", "Winskill", email = "p.winskill@imperial.ac.uk",
-  role = c("aut", "cre"))
+Version: 0.1.12
+Authors@R: c(
+  person("Peter", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre")),
+  person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut")),
+  person("Alexandra", "Hogan", email = "a.hogan@imperial.ac.uk", role = c("aut"))
+  )
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
@@ -16,17 +19,16 @@ Suggests:
     rmarkdown
 RoxygenNote: 7.1.1
 Imports: 
-    odin (>= 1.0.3),
-    dde (>= 1.0.2),
-    squire (>= 0.4.2),
+    odin (>= 1.0.8),
+    squire (>= 0.5.7),
     dplyr,
     magrittr,
     abind,
     rlang,
-    ggplot2
+    ggplot2,
+    tidyr
 Depends: R (>= 3.1.0)
 Remotes:
-    mrc-ide/dde,
     mrc-ide/odin,
     mrc-ide/squire
 VignetteBuilder: knitr
