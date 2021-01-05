@@ -81,9 +81,9 @@
 #' @param tt_vaccine Time change points for vaccine capacity (\code{max_vaccine}).
 #' @param dur_vaccine_delay Mean duration of period from vaccination to vaccine protection.
 #' @param vaccine_coverage_mat Vaccine coverage targets by age (columns) and priority (row)
-#' @param solver define solver to use (rk4, dp54 or odin_default)
-#' @param rtol The per-step relative tolerance (if solver = "dp54"). The total accuracy will be less than this.
-#' @param atol The per-step absolute tolerance (if solver = "dp54").
+#' @param run_default Run with dfault rk4 fixed stepsize
+#' @param return_raw Return raw ouput from run
+#' @param ... Additional arguments for solver
 #'
 #' @return Simulation output
 #' @export
@@ -154,9 +154,9 @@ run <- function(
 
   seeding_cases = 20,
   seeding_age_order = NULL,
-  solver = "rk4",
-  rtol = 1e-06,
-  atol = 1e-06
+  run_default = TRUE,
+  return_raw = FALSE,
+  ...
 ) {
 
   # Grab function arguments
@@ -217,14 +217,13 @@ run <- function(
   # Daily output by default
   t <- round(seq(from = 1, to = time_period))
 
-  if(solver == "rk4"){
+  if(run_default){
     results <- mod$run(t, replicate = replicates, method = "rk4", hini = 0.05)
+  } else {
+    results <- mod$run(t, replicate = replicates, ...)
   }
-  if(solver == "dp54"){
-    results <- mod$run(t, replicate = replicates, use_dde = TRUE, rtol = rtol, atol = atol)
-  }
-  if(solver == "odin_default"){
-    results <- mod$run(t, replicate = replicates)
+  if(return_raw){
+    return(results)
   }
 
   # coerce to array
