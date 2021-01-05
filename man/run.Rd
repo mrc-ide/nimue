@@ -49,7 +49,9 @@ run(
   tt_ICU_beds = 0,
   seeding_cases = 20,
   seeding_age_order = NULL,
-  rk = TRUE
+  solver = "rk4",
+  rtol = 1e-06,
+  atol = 1e-06
 )
 }
 \arguments{
@@ -177,7 +179,11 @@ If NULL, seeds are distributed randomly within working ages. If specified, must 
 of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 to the youngest age group, then the second youngest and so on. Default = NULL}
 
-\item{rk}{Use rk4 solver with a fixed timestep}
+\item{solver}{define solver to use (rk4, dp54 or odin_default)}
+
+\item{rtol}{The per-step relative tolerance (if solver = "dp54"). The total accuracy will be less than this.}
+
+\item{atol}{The per-step absolute tolerance (if solver = "dp54").}
 }
 \value{
 Simulation output
