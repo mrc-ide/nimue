@@ -51,6 +51,7 @@ run(
   seeding_age_order = NULL,
   run_default = TRUE,
   return_raw = FALSE,
+  use_dde = FALSE,
   ...
 )
 }
@@ -182,6 +183,8 @@ to the youngest age group, then the second youngest and so on. Default = NULL}
 \item{run_default}{Run with dfault rk4 fixed stepsize}
 
 \item{return_raw}{Return raw ouput from run}
+
+\item{use_dde}{Use the dde solver (only has an effect if run_default is FALSE)}
 
 \item{...}{Additional arguments for solver}
 }
