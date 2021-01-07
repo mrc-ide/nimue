@@ -368,7 +368,7 @@ pop_size[] <- sum(S[i,]) + sum(E1[i,]) + sum(E2[i,]) + sum(IMild[i,]) + sum(ICas
   sum(IOxGetLive1[i,]) + sum(IOxGetLive2[i,]) + sum(IOxGetDie1[i,]) + sum(IOxGetDie2[i,]) + sum(IOxNotGetLive1[i,]) + sum(IOxNotGetLive2[i,]) +
   sum(IOxNotGetDie1[i,]) + sum(IOxNotGetDie2[i,]) +
   sum(IRec1[i,]) + sum(IRec2[i,]) +
-  sum(R1[i,]) + sum(R2[i,]) + sum(D[i,])
+  sum(R1[i,]) + sum(R2[i,])
 dim(pop_size) <- N_age
 # Proportion who have received vaccine
 pr[] <- 1 - ((sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(ICase1[i,1]) + sum(ICase2[i,1]) +
@@ -377,7 +377,7 @@ pr[] <- 1 - ((sum(S[i,1]) + sum(E1[i,1]) + sum(E2[i,1]) + sum(IMild[i,1]) + sum(
            sum(IOxGetLive1[i,1]) + sum(IOxGetLive2[i,1]) + sum(IOxGetDie1[i,1]) + sum(IOxGetDie2[i,1]) + sum(IOxNotGetLive1[i,1]) + sum(IOxNotGetLive2[i,1]) +
            sum(IOxNotGetDie1[i,1]) + sum(IOxNotGetDie2[i,1]) +
            sum(IRec1[i,1]) + sum(IRec2[i,1]) +
-           sum(R1[i,1]) + sum(R2[i,1]) + sum(D[i,1])) / (pop_size[i]))
+           sum(R1[i,1]) + sum(R2[i,1])) / (pop_size[i]))
 dim(pr) <- N_age
 
 # Isolate age groups below current target coverage which must be targeted
@@ -556,7 +556,7 @@ output(priorvaccinated[]) <- sum(S[i,6]) + sum(E1[i,6]) + sum(E2[i,6]) + sum(IMi
   sum(R1[i,6]) + sum(R2[i,6]) + sum(D[i,6])
 dim(priorvaccinated) <- N_age
 
-output(N[]) <- pop_size[i]
+output(N[]) <- pop_size[i] + sum(D[i,])
 dim(N) <- N_age
 ################################################################################
 
