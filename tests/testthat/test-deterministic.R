@@ -190,7 +190,7 @@ test_that("Time-varying works", {
   t_v <- format(m1, NULL, "vaccines")
   expect_equal(sum(dplyr::filter(t_v, t < 10)$value, na.rm = TRUE), 0)
   expect_gt(sum(dplyr::filter(t_v, t >= 10, t <20)$value, na.rm = TRUE), 0)
-  expect_equal(sum(dplyr::filter(t_v, t >= 21)$value, na.rm = TRUE), 0)
+  expect_equal(sum(dplyr::filter(t_v, t > 21)$value, na.rm = TRUE), 0)
 })
 
 test_that("Efficacy against infection works", {

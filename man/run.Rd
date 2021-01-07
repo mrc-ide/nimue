@@ -49,9 +49,7 @@ run(
   tt_ICU_beds = 0,
   seeding_cases = 20,
   seeding_age_order = NULL,
-  run_default = TRUE,
-  return_raw = FALSE,
-  use_dde = FALSE,
+  use_dde = TRUE,
   ...
 )
 }
@@ -180,11 +178,7 @@ If NULL, seeds are distributed randomly within working ages. If specified, must 
 of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 to the youngest age group, then the second youngest and so on. Default = NULL}
 
-\item{run_default}{Run with dfault rk4 fixed stepsize}
-
-\item{return_raw}{Return raw ouput from run}
-
-\item{use_dde}{Use the dde solver (only has an effect if run_default is FALSE)}
+\item{use_dde}{Use the dde solver (default is \code{TRUE})}
 
 \item{...}{Additional arguments for solver}
 }
