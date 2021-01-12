@@ -53,16 +53,10 @@ format <- function(x,
   # Extract time
   time <- x$output[,index$t,1]
 
-  # N replicates
-  replicates = dim(x$output)[3]
-  # Format over each replicate
-  output <- list()
-  for(i in 1:replicates){
-    output[[i]] <- format_internal(x = x, compartments = compartments, summaries = summaries,
-                                   reduce_age = reduce_age, index = index,
-                                   time = time, replicate = i)
-  }
-  output <- dplyr::bind_rows(output)
+  output <- format_internal(x = x, compartments = compartments, summaries = summaries,
+                            reduce_age = reduce_age, index = index,
+                            time = time, replicate = 1)
+
   # Set levels (order) of output variables
   output$compartment <- factor(output$compartment, levels = c(compartments, summaries))
 

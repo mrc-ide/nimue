@@ -81,7 +81,8 @@
 #' @param tt_vaccine Time change points for vaccine capacity (\code{max_vaccine}).
 #' @param dur_vaccine_delay Mean duration of period from vaccination to vaccine protection.
 #' @param vaccine_coverage_mat Vaccine coverage targets by age (columns) and priority (row)
-#' @param rk Use rk4 solver with a fixed timestep
+#' @param use_dde Use the dde solver (default is \code{TRUE})
+#' @param ... Additional arguments for solver
 #'
 #' @return Simulation output
 #' @export
@@ -152,7 +153,8 @@ run <- function(
 
   seeding_cases = 20,
   seeding_age_order = NULL,
-  rk = TRUE
+  use_dde = TRUE,
+  ...
 ) {
 
   # Grab function arguments
@@ -208,16 +210,13 @@ run <- function(
   mod_gen = vaccine
 
   # Running the Model
-  mod <- mod_gen(user = pars, unused_user_action = "ignore")
+  mod <- mod_gen(user = pars, unused_user_action = "ignore",
+                 use_dde = use_dde)
 
   # Daily output by default
   t <- round(seq(from = 1, to = time_period))
 
-  if(rk){
-    results <- mod$run(t, replicate = replicates, method = "rk4", hini = 0.05)
-  } else {
-    results <- mod$run(t, replicate = replicates)
-  }
+  results <- mod$run(t, ...)
 
   # coerce to array
   results <- array(results, dim = c(dim(results), 1), dimnames = dimnames(results))
