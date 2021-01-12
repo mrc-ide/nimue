@@ -141,32 +141,6 @@ test_that("Vaccine on works", {
   expect_equal(sum(m3$output[,S_index[,4:6],1]), 0)
 })
 
-
-# test_that("Age targeting works", {
-#   pop <- get_population("Angola")
-#   mm <- get_mixing_matrix("Angola")
-#
-#   # Vaccine model 100% efficacy against infection yougest age group
-#   m1 <- run(
-#     population = pop$n,
-#     contact_matrix_set = mm,
-#     hosp_bed_capacity = 100000,
-#     ICU_bed_capacity = 1000000,
-#     dur_R = Inf,
-#     max_vaccine = 10000,
-#     vaccination_target = c(1, rep(0, 16)),
-#     seed = 1,
-#     replicates = 1,
-#     seeding_cases = 20,
-#     time_period = 100
-#   )
-#
-#   # Check individuals in youngest age group reaching V
-#   age_v <- format(m1, NULL, "vaccinated",  reduce_age = FALSE)
-#   expect_gt(sum(dplyr::filter(age_v, age_group == "0-5")$value), 0)
-#   expect_equal(sum(dplyr::filter(age_v, age_group != "0-5")$value), 0)
-# })
-
 test_that("Time-varying works", {
   pop <- get_population("Angola")
   mm <- get_mixing_matrix("Angola")
@@ -190,7 +164,7 @@ test_that("Time-varying works", {
   t_v <- format(m1, NULL, "vaccines")
   expect_equal(sum(dplyr::filter(t_v, t < 10)$value, na.rm = TRUE), 0)
   expect_gt(sum(dplyr::filter(t_v, t >= 10, t <20)$value, na.rm = TRUE), 0)
-  expect_equal(sum(dplyr::filter(t_v, t >= 21)$value, na.rm = TRUE), 0)
+  expect_equal(sum(dplyr::filter(t_v, t > 21)$value, na.rm = TRUE), 0)
 })
 
 test_that("Efficacy against infection works", {
