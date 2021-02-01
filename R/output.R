@@ -19,6 +19,7 @@
 #' @param reduce_age Collapse age-dimension, calculating the total in the
 #'   compartment.
 #' @param date_0 Date of time 0 (e.g. "2020-03-01"), if specified a date column will be added
+#' @param replicate Which replicate is being formatted. Default = 1
 #'
 #' @return Formatted long data.frame
 #' @export
@@ -33,7 +34,8 @@ format <- function(x,
                                  "vaccines", "unvaccinated", "vaccinated", "priorvaccinated",
                                  "infections", "deaths"),
                    reduce_age = TRUE,
-                   date_0 = NULL){
+                   date_0 = NULL,
+                   replicate = 1){
 
   # Arg checks
   assert_custom_class(x, "nimue_simulation")
@@ -51,11 +53,11 @@ format <- function(x,
   }
 
   # Extract time
-  time <- x$output[,index$t,1]
+  time <- x$output[,index$time, replicate]
 
   output <- format_internal(x = x, compartments = compartments, summaries = summaries,
                             reduce_age = reduce_age, index = index,
-                            time = time, replicate = 1)
+                            time = time, replicate = replicate)
 
   # Set levels (order) of output variables
   output$compartment <- factor(output$compartment, levels = c(compartments, summaries))
@@ -154,9 +156,8 @@ collapse_age <- function(x){
 ## Index locations of outputs in odin model
 #' @noRd
 odin_index <- function(model) {
-  n_out <- environment(model$initialize)$private$n_out %||% 0
-  n_state <- length(model$initial(0))
-  model$transform_variables(seq_len(1L + n_state + n_out))
+  len <- length(model$.__enclos_env__$private$ynames)
+  model$transform_variables(seq_len(len))
 }
 
 #' @noRd
