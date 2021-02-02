@@ -47,7 +47,7 @@ test_that("pmcmc nimue", {
                        n_chains = 1,
                        replicates = 20,
                        burnin = 0,
-                       squire_model = nimue_deterministic_model(),
+                       squire_model = nimue_deterministic_model(use_dde = FALSE),
                        pars_init = pars_init,
                        pars_min = pars_min,
                        pars_max = pars_max,

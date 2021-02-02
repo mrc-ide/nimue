@@ -48,9 +48,9 @@ plot.nimue_simulation <- function(x,
   pd <- do.call(rbind, lapply(seq_len(dim(x$output)[3]), function(i) {
     format(x, compartments = comps, summaries = summs, replicate = i)
     })) %>%
-    dplyr::rename(y = value)
+    dplyr::rename(y = .data$value)
 
-  # replacting time with date if date_0 is provided
+  # replacing time with date if date_0 is provided
   if(!is.null(date_0)){
     assert_date(date_0)
     pd$date <- as.Date(pd$t + as.Date(date_0),

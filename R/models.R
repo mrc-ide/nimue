@@ -1,12 +1,12 @@
 #' Create a nimue model class for fitting with squire tools
 #'
 #' @title nimue model creation.
-#'
+#' @param use_dde Logical for using dde to solve. Default = TRUE
 #' We will use this structure to ensure that model fitting is flexible in the
 #' future as more models are added
 #'
 #' @export
-nimue_deterministic_model <- function() {
+nimue_deterministic_model <- function(use_dde = TRUE) {
 
   model_class <- "nimue_model"
 
@@ -115,7 +115,8 @@ nimue_deterministic_model <- function() {
                tt_ICU_beds = tt_ICU_beds,
                population = population,
                replicates = 1,
-               time_period = time_period)
+               time_period = time_period,
+               use_dde = use_dde)
 
     return(out)
 
