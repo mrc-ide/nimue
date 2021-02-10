@@ -72,9 +72,11 @@
 #'   to the youngest age group, then the second youngest and so on. Default = NULL
 #' @param dur_R Mean duration of naturally acquired immunity (days)
 #' @param dur_V Mean duration of vaccine-derived immunity (days)
-#' @param vaccine_efficacy_infection Efficacy of vaccine against infection (by age).
+#' @param vaccine_efficacy_infection Efficacy of vaccine against infection.
+#' This parameter must either be length 1 (a single efficacy for all age groups) or length 17 (an efficacy for each age group).
 #' An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.
-#' @param vaccine_efficacy_disease Efficacy of vaccine against severe (requiring hospitilisation) disease (by age).
+#' @param vaccine_efficacy_disease Efficacy of vaccine against severe (requiring hospitalisation) disease.
+#' This parameter must either be length 1 (a single efficacy for all age groups) or length 17 (an efficacy for each age group).
 #' An efficacy of 1 will reduce the probability of hospitalisation by 100 percent,
 #' an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent etc.
 #' @param max_vaccine The maximum number of individuals who can be vaccinated per day.
