@@ -32,7 +32,7 @@ test_that("pmcmc nimue", {
   date_contact_matrix_set_change <- NULL
   n_particles <- 2
 
-  # proposal kernel covriance
+  # proposal kernel covariances
   proposal_kernel <- matrix(0.5, ncol=length(pars_init), nrow = length(pars_init))
   diag(proposal_kernel) <- 1
   rownames(proposal_kernel) <- colnames(proposal_kernel) <- names(pars_init)
