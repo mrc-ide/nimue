@@ -14,6 +14,8 @@
 #' @param particle_fit If the squire_simulation provided is the result of
 #'   running the particle filter, do we want to just plot the fit. Default =
 #'   FALSE
+#' @param date_0 Date of time 0 (e.g. "2020-03-01"), if specified a date column
+#'   will be added
 #' @param ... additional arguments affecting the plot produced.
 #'
 #' @export

@@ -38,6 +38,9 @@ passed to the \code{fun} argument of \code{\link[ggplot2]{stat_summary}}}
 but can be set to, \code{"date"}, if \code{date_0} provided), which will
 cause the date to be plotted rather than time.}
 
+\item{date_0}{Date of time 0 (e.g. "2020-03-01"), if specified a date column
+will be added}
+
 \item{particle_fit}{If the squire_simulation provided is the result of
 running the particle filter, do we want to just plot the fit. Default =
 FALSE}
