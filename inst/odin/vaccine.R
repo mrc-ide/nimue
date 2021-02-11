@@ -7,6 +7,11 @@ N_age <- user() # Number of age groups
 N_vaccine <- user() # Number of vaccine groups
 ################################################################################
 
+## Time output to line up with squire fitting infrastructure
+time <- t
+output(time) <- TRUE
+
+
 ### S: susceptible #############################################################
 dim(S) <- c(N_age, N_vaccine)
 
