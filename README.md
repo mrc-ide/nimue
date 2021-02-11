@@ -64,7 +64,9 @@ us to caetgorise people into 4 groups:
 4.  Previously vaccinated - those who were previously protected by the
     vaccinate but are no longer so.
 
-\[Add structure figure here\]
+#### Schematic of the vaccination model structure
+
+<img src="man/figures/structure.png" align="center" width="500" />
 
 Nimue includes the flexibility to model different generic vaccine
 profiles, distribution and prioritisation approaches:
@@ -90,7 +92,7 @@ in this case selecting just the output for infections:
 ``` r
 # Format output, selecting a subset and naming the run.
 output1 <- format(run1, summaries = "infections", compartments = NULL) %>%
-  mutate(name = "Simple run")
+  mutate(Run = "Simple run")
 # Plot
 ggplot(output1, aes(x = t, y = value))  +
   geom_line(col = "darkblue", size = 1) +
@@ -103,14 +105,14 @@ ggplot(output1, aes(x = t, y = value))  +
 
 We can add in a very simple vaccination scenario, with a highly
 efficacious (95%), infection blocking vaccine that is distributed very
-quickly (500,000 individuals per day):
+quickly (500,000 individuals per day), and compare the results:
 
 ``` r
 run2 <- run(country = "France", max_vaccine = 500000, vaccine_efficacy_infection = rep(0.95, 17))
 output2 <- format(run2, summaries = "infections", compartments = NULL) %>%
-  mutate(name = "Efficacious vaccine")
+  mutate(Run = "Efficacious vaccine")
 
-ggplot(bind_rows(output1, output2), aes(x = t, y = value, col = name))  +
+ggplot(bind_rows(output1, output2), aes(x = t, y = value, col = Run))  +
   geom_line(size = 1) +
   ylab("Infections") + 
   xlab("Time") + 
@@ -118,3 +120,6 @@ ggplot(bind_rows(output1, output2), aes(x = t, y = value, col = name))  +
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+To see demonstrations of full vaccine functionality please see the LINKs
+here.
