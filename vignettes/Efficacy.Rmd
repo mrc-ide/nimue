@@ -24,14 +24,13 @@ We can parameterise the mode of action of the vaccine to be infection-blocking, 
 
 ### No vaccine
 
+First, let's start with a counterfactual run with no vaccination:
+
 ```{r, echo = TRUE}
-# Run the determinstic model with an example population and no vaccination
-no_vaccine <- run(
-  population = squire::get_population(country = "United Kingdom")$n,
-  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  max_vaccine = 0
-)
-# Format the output selecting infection and deaths (note these are output per timestep)
+# Run the model with an example population and no vaccination
+no_vaccine <- run(country = "United Kingdom", 
+                  max_vaccine = 0)
+# Format the output selecting infection and deaths
 out1 <- format(no_vaccine, compartments = NULL, summaries = c("infections", "deaths")) %>%
   mutate(Name = "No vaccine")
 
@@ -39,52 +38,50 @@ out1 <- format(no_vaccine, compartments = NULL, summaries = c("infections", "dea
 
 ### Infection-blocking vaccine
 
+Next, we can run with an infection-blocking vaccine:
+
 ```{r, echo = TRUE}
 # Run the determinstic model with an example population and infection-blocking vaccine
-infection_blocking <- run(
-  population = squire::get_population(country = "United Kingdom")$n,
-  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  max_vaccine = 200000,
-  dur_V = 5000,
-  vaccine_efficacy_disease = rep(0, 17),
-  vaccine_efficacy_infection = rep(0.9, 17)
-)
+infection_blocking <- run(country = "United Kingdom",  
+                          max_vaccine = 200000,
+                          vaccine_efficacy_disease = rep(0, 17),
+                          vaccine_efficacy_infection = rep(0.9, 17))
 # Format the output selecting infection and deaths
 out2 <- format(infection_blocking, compartments = NULL, summaries = c("infections", "deaths")) %>%
-  mutate(Name = "Infection")
+  mutate(Name = "Infection blocking")
 
 ```
 
 ### Anti-disease vaccine
 
+And finally, a run with a disease-blocking vaccine:
 ```{r, echo = TRUE}
 # Run the determinstic model with an example population and anti-disease vaccine
-disease_blocking <- run(
-  population = squire::get_population(country = "United Kingdom")$n,
-  contact_matrix_set = squire::get_mixing_matrix(country = "United Kingdom"),
-  max_vaccine = 200000,
-  dur_V = 5000,
-  vaccine_efficacy_disease = rep(0.9, 17),
-  vaccine_efficacy_infection = rep(0, 17)
-)
+disease_blocking <- run(country = "United Kingdom",  
+                          max_vaccine = 200000,
+                          vaccine_efficacy_disease = rep(0.9, 17),
+                          vaccine_efficacy_infection = rep(0, 17))
 # Format the output selecting infection and deaths
 out3 <- format(disease_blocking, compartments = NULL, summaries = c("infections", "deaths")) %>%
-  mutate(Name = "Disease")
+  mutate(Name = "Disease  blocking")
 
 ```
 
 
-### Plot
+### Compare
 ```{r, echo = TRUE, fig.width = 7, fig.height = 3, fig.align = "center"}
 # Create plot data.frame
-pd <- bind_rows(out1, out2, out3) %>%
-  filter(round(t, 3) %% 1 == 0) %>%
-  mutate(compartment = case_when(compartment == "deaths" ~ "Mortality",
-                                 compartment == "infections" ~ "Infection"))
+pd <- bind_rows(out1, out2, out3)
 # Plot outputs
 ggplot(pd, aes(x = t, y = value, group = Name, col = Name)) +
   geom_line(size = 1) +
-  facet_wrap(~ compartment, scale = "free_y", ncol = 2) +
+  facet_wrap(~ compartment, scales = "free_y", ncol = 2) +
   xlim(0, 200) +
+  xlab("Time") + 
   theme_bw()
 ```
+
+### Multiple properties
+
+It is possible to parameterise the vaccine to be both infection blocking and disease blocking. If doing so, be careful as
+these efficacies compound (blocking an infection, by definition, also blocks any downstream consequences).

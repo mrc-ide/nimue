@@ -121,5 +121,9 @@ ggplot(bind_rows(output1, output2), aes(x = t, y = value, col = Run))  +
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
-To see demonstrations of full vaccine functionality please see the LINKs
-here.
+To see demonstrations of full vaccine functionality please see the
+articles on:
+
+1.  Efficacy
+2.  Supply
+3.  Coverage and Prioritisation

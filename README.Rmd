@@ -107,4 +107,8 @@ ggplot(bind_rows(output1, output2), aes(x = t, y = value, col = Run))  +
   theme_bw()
 ```
 
-To see demonstrations of full vaccine functionality please see the LINKs here.
+To see demonstrations of full vaccine functionality please see the articles on:
+
+1. Efficacy
+2. Supply
+3. Coverage and Prioritisation
