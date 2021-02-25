@@ -278,3 +278,15 @@ test_that("Efficacy against disease works", {
 })
 
 
+test_that("Efficacy parameterisation options work", {
+  run1 <- run(country = "France", max_vaccine = 5000000, vaccine_efficacy_infection = rep(0.9, 17), seed = 1)
+  run2 <- run(country = "France", max_vaccine = 5000000, vaccine_efficacy_infection = 0.9, seed = 1)
+  expect_identical(run1$output, run2$output)
+
+  run3 <- run(country = "France", max_vaccine = 5000000, vaccine_efficacy_disease = rep(0.9, 17), seed = 1)
+  run4 <- run(country = "France", max_vaccine = 5000000, vaccine_efficacy_disease = 0.9, seed = 1)
+  expect_identical(run3$output, run4$output)
+
+  expect_error(run(country = "France", vaccine_efficacy_infection = rep(0.9, 2)), "Parameter vaccine_efficacy_infection must be length 1 or length 17")
+  expect_error(run(country = "France", vaccine_efficacy_disease = rep(0.9, 2)), "Parameter vaccine_efficacy_disease must be length 1 or length 17")
+})
