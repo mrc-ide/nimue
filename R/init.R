@@ -4,7 +4,10 @@
 #' @inheritParams run
 #'
 #' @return Checked initial values data.frame
-init <- function(population, seeding_cases, seeding_age_order = NULL){
+init <- function(population, seeding_cases, seeding_age_order = NULL,
+                 init = NULL){
+
+  if (is.null(init)) {
 
   if (length(population) != 17) {
     stop("population must be divided up into 17x 5-year age bands spanning 0 to 80+")
@@ -50,6 +53,7 @@ init <- function(population, seeding_cases, seeding_age_order = NULL){
       E1_0 = E1_0
     ), empties)
 
+  }
 
   return(init)
 }

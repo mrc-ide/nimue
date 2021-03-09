@@ -15,6 +15,7 @@ parameters(
   time_period = 365,
   seeding_cases,
   seeding_age_order = NULL,
+  init = NULL,
   prob_hosp = probs$prob_hosp,
   prob_severe = probs$prob_severe,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
@@ -78,6 +79,10 @@ Default = NULL, which causes beta to be estimated from R0}
 If NULL, seeds are distributed randomly within working ages. If specified, must be a vector
 of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 to the youngest age group, then the second youngest and so on. Default = NULL}
+
+\item{init}{Initial conditions for simulation provided. Allows overriding
+if initial conditions start with an already infected population etc.
+Default = NULL.}
 
 \item{prob_hosp}{probability of hospitalisation by age.
 Default = c(0.000744192, 0.000634166,0.001171109, 0.002394593, 0.005346437,

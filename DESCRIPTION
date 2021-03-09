@@ -20,7 +20,7 @@ Suggests:
 RoxygenNote: 7.1.1
 Imports: 
     odin (>= 1.1.0),
-    squire (>= 0.6.3),
+    squire (>= 0.6.4),
     dplyr,
     magrittr,
     abind,

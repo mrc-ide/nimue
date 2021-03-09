@@ -32,6 +32,13 @@ plot.nimue_simulation <- function(x,
                                   particle_fit = FALSE,
                                   ...) {
 
+  # are we just wanting to plot the fit to data
+  if (particle_fit & !is.null(x$pmcmc_results)) {
+    return(squire:::plot_pmcmc_sample(x, ...))
+  } else if (particle_fit & !is.null(x$scan_results)) {
+    return(squire:::plot_sample_grid_search(x, ...))
+  }
+
   # work out what compartments are being plotted
   compartments = c("S", "E",
                    "IMild", "ICase", "IICU", "IHospital",

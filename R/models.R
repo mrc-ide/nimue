@@ -90,6 +90,7 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
     # append extra pars for fitting
     pars$dt <- dt
     pars$prob_hosp_baseline <- pars$prob_hosp[,1]
+    pars$use_dde <- use_dde
 
     class(pars) <- c("vaccine_parameters", "squire_parameters")
     return(pars)
@@ -122,12 +123,18 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
 
   }
 
-  model <- list(odin_model = vaccine,
+  odin_model <- function(user, unused_user_action) {
+    vaccine(user = user, use_dde = use_dde, unused_user_action = "ignore")
+  }
+
+  model <- list(odin_model = odin_model,
                 generate_beta_func = beta_est_infectiousness,
                 parameter_func = parameters_func,
                 run_func = run_func,
-                compare_model = compare_model)
+                compare_model = compare_model,
+                use_dde = use_dde)
   class(model) <- c(model_class, "deterministic", "squire_model")
   model
 
 }
+

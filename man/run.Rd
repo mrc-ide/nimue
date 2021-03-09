@@ -49,6 +49,7 @@ run(
   tt_ICU_beds = 0,
   seeding_cases = 20,
   seeding_age_order = NULL,
+  init = NULL,
   use_dde = TRUE,
   ...
 )
@@ -177,6 +178,10 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 If NULL, seeds are distributed randomly within working ages. If specified, must be a vector
 of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 to the youngest age group, then the second youngest and so on. Default = NULL}
+
+\item{init}{Initial conditions for simulation provided. Allows overriding
+if initial conditions start with an already infected population etc.
+Default = NULL.}
 
 \item{use_dde}{Use the dde solver (default is \code{TRUE})}
 

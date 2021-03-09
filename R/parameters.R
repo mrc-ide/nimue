@@ -53,6 +53,7 @@ parameters <- function(
   time_period = 365,
   seeding_cases,
   seeding_age_order = NULL,
+  init = NULL,
 
   # Parameters
   # Probabilities
@@ -149,7 +150,7 @@ parameters <- function(
   # ----------------------------------------------------------------------------
 
   # Initialise initial conditions
-  mod_init <- init(population, seeding_cases, seeding_age_order)
+  mod_init <- init(population, seeding_cases, seeding_age_order, init)
 
   # Convert contact matrices to input matrices
   matrices_set <- squire:::matrix_set_explicit(contact_matrix_set, population)
