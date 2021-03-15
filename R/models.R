@@ -5,6 +5,8 @@
 #' We will use this structure to ensure that model fitting is flexible in the
 #' future as more models are added
 #'
+#' @details Wraps the squire pmcmc fitting infrastructure.
+#'
 #' @export
 nimue_deterministic_model <- function(use_dde = TRUE) {
 
