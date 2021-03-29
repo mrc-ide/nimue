@@ -151,21 +151,40 @@ death. Default = 1}
 
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
-\item{vaccine_efficacy_infection}{Efficacy of vaccine against infection (by age).
-An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.
-This can be provided as either a vector of length 17, with}
+\item{vaccine_efficacy_infection}{Efficacy of vaccine against infection.
+This parameter must either be length 1 numeric (a single efficacy for all
+age groups) or length 17 numeric vector (an efficacy for each age group).
+An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will
+reduce FOI by 20 percent etc.
+To specify changes in vaccine efficacy over time, vaccine efficacies must
+be provided as a list, with each list element being the efficacy at each
+time point specified by \code{tt_vaccine_efficacy_infection}. These
+efficacies must also be length 1 numeric (a single efficacy for all age
+groups)  or length 17 numeric vector (an efficacy for each age group)}
 
-\item{tt_vaccine_efficacy_infection}{Timing of vaccine efficacy against infection
-changes. Population average efficacy can change over time in response to changing
-vaccines being given and dosing strategy changes}
+\item{tt_vaccine_efficacy_infection}{Timing of changes in vaccine efficacy
+against infection. Default = 0, which assumes fixed efficacy over time.
+Must be the same length as the length of \code{vaccine_efficacy_infection}
+when provided as a list. Time changing efficacies can occur in response to
+changing vaccines being  given and dosing strategy changes.}
 
-\item{vaccine_efficacy_disease}{Efficacy of vaccine against severe (requiring hospitilisation) disease (by age).
-An efficacy of 1 will reduce the probability of hospitalisation by 100 percent,
-an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent etc.}
+\item{vaccine_efficacy_disease}{Efficacy of vaccine against severe
+(requiring hospitilisation) disease (by age). This parameter must either be
+length 1 numeric (a single efficacy for all age groups) or length 17
+numeric vector (an efficacy for each age group). An efficacy of 1 will
+reduce the probability of hospitalisation by 100 percent, an efficacy of
+0.2 will reduce the probability of hospitalisation by 20 percent etc.
+To specify changes in vaccine efficacy over time, vaccine efficacies must
+be provided as a list, with each list element being the efficacy at each
+time point specified by \code{tt_vaccine_efficacy_disease}. These
+efficacies must also be length 1 numeric (a single efficacy for all age
+groups)  or length 17 numeric vector (an efficacy for each age group).}
 
-\item{tt_vaccine_efficacy_disease}{Timing of vaccine efficacy against severe (requiring hospitilisation) disease
-changes. Population average efficacy can change over time in response to changing
-vaccines being given and dosing strategy changes}
+\item{tt_vaccine_efficacy_disease}{Timing of changes in vaccine efficacy
+against disease. Default = 0, which assumes fixed efficacy over time.
+Must be the same length as the length of \code{vaccine_efficacy_disease}
+when provided as a list. Time changing efficacies can occur in response to
+changing vaccines being  given and dosing strategy changes.}
 
 \item{max_vaccine}{The maximum number of individuals who can be vaccinated per day.}
 

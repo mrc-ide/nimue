@@ -265,11 +265,12 @@ parameters <- function(
   p_dist <- p_dist/mean(p_dist)
 
   # Format vaccine-specific parameters
-  # -------------------------------------------
   gamma_vaccine <- c(0, gamma_vaccine_delay, gamma_vaccine_delay, gamma_V, gamma_V, 0)
 
   # Vaccine efficacies are now time changing (if specified),
   # so we need to convert these to be interpolated by odin
+  # These functions also check that efficacies are correct length
+  # both in terms of age groups and in terms of required timepoints
 
   # First the vaccine efficacy infection
   vaccine_efficacy_infection_odin_array <- format_ve_i_for_odin(
@@ -395,6 +396,21 @@ if(!is.list(vaccine_efficacy_infection)){
 # check that the correct length agreement between tt_vaccine_efficacy_infection
 assert_length(vaccine_efficacy_infection, length(tt_vaccine_efficacy_infection))
 
+# now check that each vaccine efficacy is correct length (1 or 17)
+vaccine_efficacy_infection <- lapply(vaccine_efficacy_infection, function(ve_i) {
+
+  if(length(ve_i) == 1){
+    ve_i <- rep(ve_i, 17)
+  }
+
+  if(length(ve_i) != 17){
+    stop("Parameter vaccine_efficacy_infection must be length 1 or length 17")
+  }
+
+  return(ve_i)
+
+})
+
 # and now format so each list is the vaccine_efficacy_infection at each time
 # point for the 6 vaccine classes
 ve_i_list <- lapply(vaccine_efficacy_infection, function(ve_i) {
@@ -430,6 +446,21 @@ format_ve_d_for_odin <- function(vaccine_efficacy_disease,
 
   # check that the correct length agreement between tt_vaccine_efficacy_disease
   assert_length(vaccine_efficacy_disease, length(tt_vaccine_efficacy_disease))
+
+  # now check that each vaccine efficacy is correct length (1 or 17)
+  vaccine_efficacy_disease <- lapply(vaccine_efficacy_disease, function(ve_d) {
+
+    if(length(ve_d) == 1){
+      ve_d <- rep(ve_d, 17)
+    }
+
+    if(length(ve_d) != 17){
+      stop("Parameter vaccine_efficacy_disease must be length 1 or length 17")
+    }
+
+    return(ve_d)
+
+  })
 
   # and now format so each list is the prob_hosp at each time
   # point for the 6 vaccine classes
