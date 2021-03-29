@@ -38,7 +38,9 @@ run(
   dur_R = vaccine_pars$dur_R,
   dur_V = vaccine_pars$dur_V,
   vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
+  tt_vaccine_efficacy_infection = vaccine_pars$tt_vaccine_efficacy_infection,
   vaccine_efficacy_disease = vaccine_pars$vaccine_efficacy_disease,
+  tt_vaccine_efficacy_disease = vaccine_pars$tt_vaccine_efficacy_disease,
   max_vaccine = vaccine_pars$max_vaccine,
   tt_vaccine = vaccine_pars$tt_vaccine,
   dur_vaccine_delay = vaccine_pars$dur_vaccine_delay,
@@ -150,11 +152,20 @@ death. Default = 1}
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
 \item{vaccine_efficacy_infection}{Efficacy of vaccine against infection (by age).
-An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.}
+An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.
+This can be provided as either a vector of length 17, with}
+
+\item{tt_vaccine_efficacy_infection}{Timing of vaccine efficacy against infection
+changes. Population average efficacy can change over time in response to changing
+vaccines being given and dosing strategy changes}
 
 \item{vaccine_efficacy_disease}{Efficacy of vaccine against severe (requiring hospitilisation) disease (by age).
 An efficacy of 1 will reduce the probability of hospitalisation by 100 percent,
 an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent etc.}
+
+\item{tt_vaccine_efficacy_disease}{Timing of vaccine efficacy against severe (requiring hospitilisation) disease
+changes. Population average efficacy can change over time in response to changing
+vaccines being given and dosing strategy changes}
 
 \item{max_vaccine}{The maximum number of individuals who can be vaccinated per day.}
 

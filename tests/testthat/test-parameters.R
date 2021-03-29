@@ -10,8 +10,10 @@ test_that("default parameter list works", {
                      "prob_severe_death_no_treatment",  "p_dist", "rel_infectiousness"))
   v1 <- default_vaccine_pars()
   expect_type(v1, "list")
-  expect_named(v1, c("dur_R", "dur_V", "vaccine_efficacy_infection",
-                     "vaccine_efficacy_disease", "max_vaccine", "tt_vaccine", "dur_vaccine_delay",
+  expect_named(v1, c("dur_R", "dur_V",
+                     "vaccine_efficacy_infection", "tt_vaccine_efficacy_infection",
+                     "vaccine_efficacy_disease", "tt_vaccine_efficacy_disease",
+                     "max_vaccine", "tt_vaccine", "dur_vaccine_delay",
                      "vaccine_coverage_mat"))
 })
 
@@ -185,5 +187,67 @@ test_that("beta_est_infectiousness value return checks", {
   expect_lt(diff(i2$value[c(10,20)]),0.01)
   expect_lt(diff(i2$value[c(10,30)]),0.01)
   expect_lt(diff(i2$value[c(10,40)]),0.01)
+
+})
+
+# time varying vaccine efficacy parameters
+test_that("correct lengths on time varying efficacies", {
+
+  # check for correct length agreements
+  expect_error(
+    r <- nimue::run(country = "Iran", vaccine_efficacy_infection = list(rep(0.5,17),rep(0.9,17))) ,
+    "vaccine_efficacy_infection must be of length 1"
+  )
+
+  expect_error(
+    r <- nimue::run(country = "Iran", vaccine_efficacy_disease = list(rep(0.5,17),rep(0.9,17))) ,
+    "vaccine_efficacy_disease must be of length 1"
+  )
+
+  # check to see that it is being correctly interpolated in outputs
+  r <- run("Iran",
+           R0 = 1.5,
+           vaccine_efficacy_disease = list(rep(0,17),rep(1,17)),
+           tt_vaccine_efficacy_disease = c(0, 200),
+           vaccine_efficacy_infection = rep(0,17),
+           max_vaccine = c(1000000),
+           dur_V = Inf,
+           vaccine_coverage_mat = nimue::strategy_matrix("All", 1)
+  )
+
+  # if correct we should have deaths falling sharp the day after they have come in
+  output <- format(r, summaries = c("deaths", "infections"))
+  deaths <- output[output$compartment == "deaths",]
+  expect_gt(deaths$value[deaths$t == 201], deaths$value[deaths$t == 200])
+  expect_lt(deaths$value[deaths$t == 202], deaths$value[deaths$t == 201])
+
+  # but infections should stay increasing
+  infections <- output[output$compartment == "infections",]
+  expect_gt(infections$value[infections$t == 201], infections$value[infections$t == 200])
+  expect_gt(infections$value[infections$t == 202], infections$value[infections$t == 201])
+
+  # but if we flip the profiles round
+  r2 <- run("Iran",
+           R0 = 1.5,
+           vaccine_efficacy_disease = list(rep(0,17),rep(0,17)),
+           tt_vaccine_efficacy_disease = c(0, 200),
+           vaccine_efficacy_infection = list(rep(0,17), rep(1,17)),
+           tt_vaccine_efficacy_infection = c(0, 200),
+           max_vaccine = c(1000000),
+           dur_V = Inf,
+           vaccine_coverage_mat = nimue::strategy_matrix("All", 1)
+  )
+
+  # with them flipped deaths will still keep increasing due to the delay till admission etc
+  output2 <- format(r2, summaries = c("deaths", "infections"))
+  deaths2 <- output2[output2$compartment == "deaths",]
+  expect_gt(deaths2$value[deaths2$t == 201], deaths2$value[deaths2$t == 200])
+  expect_gt(deaths2$value[deaths2$t == 202], deaths2$value[deaths2$t == 201])
+
+  # but the way infections have been encoded these will fall immediately to 0
+  infections2 <- output2[output2$compartment == "infections",]
+  expect_gt(infections2$value[infections2$t == 200], infections2$value[infections2$t == 199])
+  expect_lt(infections2$value[infections2$t == 201], infections2$value[infections2$t == 200])
+
 
 })

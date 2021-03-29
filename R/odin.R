@@ -38,6 +38,7 @@ vaccine_ <- R6::R6Class(
              "prob_severe_death_no_treatment", "prob_severe_death_treatment",
              "R1_0", "R2_0", "rel_infectiousness", "S_0", "tt_beta",
              "tt_hosp_beds", "tt_ICU_beds", "tt_matrix", "tt_vaccine",
+             "tt_vaccine_efficacy_disease", "tt_vaccine_efficacy_infection",
              "vaccine_coverage_mat", "vaccine_efficacy_infection"),
 
     ## This is never called, but is used to ensure that R finds our

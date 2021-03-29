@@ -2,7 +2,7 @@
 #' For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
 #' @return list of default probabilities
 default_probs <- function() {
-  c(squire:::default_probs(), list(rel_infectiousness = rep(1, 17)))
+  c(squire::default_probs(), list(rel_infectiousness = rep(1, 17)))
 }
 
 probs <- default_probs()
@@ -11,7 +11,7 @@ probs <- default_probs()
 #' For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
 #' @return list of default durations
 default_durations <- function() {
-  squire:::default_durations()
+  squire::default_durations()
 }
 
 durs <- default_durations()
@@ -22,7 +22,9 @@ default_vaccine_pars <- function() {
   list(dur_R = Inf,
        dur_V = 365,
        vaccine_efficacy_infection = rep(0.95, 17),
+       tt_vaccine_efficacy_infection = 0,
        vaccine_efficacy_disease = rep(0.95, 17),
+       tt_vaccine_efficacy_disease = 0,
        max_vaccine = 1000,
        tt_vaccine = 0,
        dur_vaccine_delay = 14,
@@ -88,7 +90,9 @@ parameters <- function(
   # Vaccine
   dur_V,
   vaccine_efficacy_infection,
+  tt_vaccine_efficacy_infection,
   vaccine_efficacy_disease,
+  tt_vaccine_efficacy_disease,
   max_vaccine,
   tt_vaccine,
   dur_vaccine_delay,
@@ -261,18 +265,24 @@ parameters <- function(
   p_dist <- p_dist/mean(p_dist)
 
   # Format vaccine-specific parameters
-  vaccine_efficacy_infection = 1 - vaccine_efficacy_infection
-  prob_hosp_vaccine = (1 - vaccine_efficacy_disease) * prob_hosp
-
-  # age X vaccine efficacy parameters
-  prob_hosp <- matrix(c(prob_hosp, prob_hosp, prob_hosp,
-                        prob_hosp_vaccine, prob_hosp_vaccine,
-                        prob_hosp), nrow = 17, ncol = 6)
-  vaccine_efficacy_infection <- matrix(c(rep(1, 17 * 3),
-                                         vaccine_efficacy_infection, vaccine_efficacy_infection,
-                                         rep(1, 17)), nrow = 17, ncol = 6)
+  # -------------------------------------------
   gamma_vaccine <- c(0, gamma_vaccine_delay, gamma_vaccine_delay, gamma_V, gamma_V, 0)
 
+  # Vaccine efficacies are now time changing (if specified),
+  # so we need to convert these to be interpolated by odin
+
+  # First the vaccine efficacy infection
+  vaccine_efficacy_infection_odin_array <- format_ve_i_for_odin(
+    vaccine_efficacy_infection = vaccine_efficacy_infection,
+    tt_vaccine_efficacy_infection = tt_vaccine_efficacy_infection
+    )
+
+  # Second the vaccine efficacy disease affecting prob_hosp
+  prob_hosp_odin_array <- format_ve_d_for_odin(
+    vaccine_efficacy_disease = vaccine_efficacy_disease,
+    tt_vaccine_efficacy_disease = tt_vaccine_efficacy_disease,
+    prob_hosp = prob_hosp
+  )
 
   # Collate Parameters Into List
   pars <- c(mod_init,
@@ -290,7 +300,7 @@ parameters <- function(
                  gamma_not_get_mv_die = gamma_not_get_mv_die,
                  gamma_rec = gamma_rec,
                  gamma_R = gamma_R,
-                 prob_hosp = prob_hosp,
+                 prob_hosp = prob_hosp_odin_array,
                  prob_severe = prob_severe,
                  prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                  prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
@@ -310,7 +320,9 @@ parameters <- function(
                  contact_matrix_set = contact_matrix_set,
                  max_vaccine = max_vaccine,
                  tt_vaccine = tt_vaccine,
-                 vaccine_efficacy_infection = vaccine_efficacy_infection,
+                 vaccine_efficacy_infection = vaccine_efficacy_infection_odin_array,
+                 tt_vaccine_efficacy_infection = tt_vaccine_efficacy_infection,
+                 tt_vaccine_efficacy_disease = tt_vaccine_efficacy_disease,
                  vaccine_coverage_mat = vaccine_coverage_mat,
                  N_vaccine = 6,
                  N_prioritisation_steps = nrow(vaccine_coverage_mat),
@@ -368,5 +380,78 @@ beta_est_infectiousness <- function(dur_IMild,
   relative_R0_by_age <- prob_hosp*dur_ICase + (1-prob_hosp)*dur_IMild
   adjusted_eigen <- Re(eigen(mixing_matrix*relative_R0_by_age*rel_infectiousness)$values[1])
   R0 / adjusted_eigen
+
+}
+
+#' @noRd
+format_ve_i_for_odin <- function(vaccine_efficacy_infection,
+                                 tt_vaccine_efficacy_infection) {
+
+# If just provided as a vector then we put into a list ready for formatting
+if(!is.list(vaccine_efficacy_infection)){
+  vaccine_efficacy_infection <- list(vaccine_efficacy_infection)
+}
+
+# check that the correct length agreement between tt_vaccine_efficacy_infection
+assert_length(vaccine_efficacy_infection, length(tt_vaccine_efficacy_infection))
+
+# and now format so each list is the vaccine_efficacy_infection at each time
+# point for the 6 vaccine classes
+ve_i_list <- lapply(vaccine_efficacy_infection, function(ve_i) {
+
+  ve_i = 1 - ve_i
+  return(matrix(c(rep(1, 17 * 3),
+                  ve_i, ve_i,
+                  rep(1, 17)), nrow = 17, ncol = 6))
+
+})
+
+# and use this list to create an array that is in right format for odin
+vaccine_efficacy_infection_odin_array <- aperm(
+  array(unlist(ve_i_list), dim = c(dim(ve_i_list[[1]]), length(ve_i_list))),
+  c(3, 1, 2)
+)
+
+return(vaccine_efficacy_infection_odin_array)
+
+}
+
+
+#' @noRd
+format_ve_d_for_odin <- function(vaccine_efficacy_disease,
+                                 tt_vaccine_efficacy_disease,
+                                 prob_hosp) {
+
+
+  # If just provided as a vector then we put into a list ready for formatting
+  if(!is.list(vaccine_efficacy_disease)){
+    vaccine_efficacy_disease <- list(vaccine_efficacy_disease)
+  }
+
+  # check that the correct length agreement between tt_vaccine_efficacy_disease
+  assert_length(vaccine_efficacy_disease, length(tt_vaccine_efficacy_disease))
+
+  # and now format so each list is the prob_hosp at each time
+  # point for the 6 vaccine classes
+  prob_hosp_list <- lapply(vaccine_efficacy_disease, function(ve_d) {
+
+    prob_hosp_vaccine = (1 - ve_d) * prob_hosp
+
+    # age X vaccine efficacy parameters
+    prob_hosp <- matrix(c(prob_hosp, prob_hosp, prob_hosp,
+                          prob_hosp_vaccine, prob_hosp_vaccine,
+                          prob_hosp), nrow = 17, ncol = 6)
+
+    return(prob_hosp)
+
+  })
+
+  # and use this list to create an array that is in right format for odin
+  prob_hosp_odin_array <- aperm(
+    array(unlist(prob_hosp_list), dim = c(dim(prob_hosp_list[[1]]), length(prob_hosp_list))),
+    c(3, 1, 2)
+  )
+
+  return(prob_hosp_odin_array)
 
 }

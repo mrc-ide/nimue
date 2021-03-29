@@ -28,7 +28,9 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                               dur_R = vaccine_pars$dur_R,
                               dur_V = vaccine_pars$dur_V,
                               vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
+                              tt_vaccine_efficacy_infection = vaccine_pars$tt_vaccine_efficacy_infection,
                               vaccine_efficacy_disease = vaccine_pars$vaccine_efficacy_disease,
+                              tt_vaccine_efficacy_disease = vaccine_pars$tt_vaccine_efficacy_disease,
                               max_vaccine = vaccine_pars$max_vaccine,
                               tt_vaccine = vaccine_pars$tt_vaccine,
                               dur_vaccine_delay = vaccine_pars$dur_vaccine_delay,
@@ -81,7 +83,9 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                dur_R = dur_R,
                dur_V = dur_V,
                vaccine_efficacy_infection = vaccine_efficacy_infection,
+               tt_vaccine_efficacy_infection = tt_vaccine_efficacy_infection,
                vaccine_efficacy_disease = vaccine_efficacy_disease,
+               tt_vaccine_efficacy_disease = tt_vaccine_efficacy_disease,
                max_vaccine = max_vaccine,
                tt_vaccine = tt_vaccine ,
                dur_vaccine_delay = dur_vaccine_delay,
@@ -91,7 +95,7 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
 
     # append extra pars for fitting
     pars$dt <- dt
-    pars$prob_hosp_baseline <- pars$prob_hosp[,1]
+    pars$prob_hosp_baseline <- pars$prob_hosp[1, ,1]
     pars$use_dde <- use_dde
 
     class(pars) <- c("vaccine_parameters", "squire_parameters")
@@ -119,7 +123,8 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                population = population,
                replicates = 1,
                time_period = time_period,
-               use_dde = use_dde)
+               use_dde = use_dde,
+               ...)
 
     return(out)
 

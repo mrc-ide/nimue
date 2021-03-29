@@ -114,7 +114,7 @@ test_that("pmcmc with vaccine pars", {
   date_R0_change <- as.Date(int_unique$dates_change)
   date_vaccine_change <- date_R0_change - 30
   max_vaccine <- c(100000, 200000, 300000, 400000)
-  baseline_max_vacine <- 0
+  baseline_max_vaccine <- 0
   date_contact_matrix_set_change <- NULL
   n_particles <- 2
 
@@ -124,7 +124,7 @@ test_that("pmcmc with vaccine pars", {
   rownames(proposal_kernel) <- colnames(proposal_kernel) <- names(pars_init)
 
   out <- squire::pmcmc(data = data,
-                       n_mcmc = 10,
+                       n_mcmc = 100,
                        log_likelihood = NULL,
                        log_prior = NULL,
                        n_particles = 2,
@@ -142,11 +142,13 @@ test_that("pmcmc with vaccine pars", {
                        proposal_kernel = proposal_kernel,
                        R0_change = R0_change,
                        date_R0_change = date_R0_change,
-                       max_vaccine = max_vaccine,
-                       baseline_max_vaccine = baseline_max_vacine,
+                       max_vaccine = max_vaccine*10,
+                       baseline_max_vaccine = baseline_max_vaccine,
                        date_vaccine_change = date_vaccine_change,
-                       vaccine_efficacy_infection = rep(0.8,17),
-                       vaccine_efficacy_disease = rep(0.8,17),
+                       baseline_vaccine_efficacy_infection = rep(0.8,17),
+                       date_vaccine_efficacy_infection_change = date_R0_change,
+                       vaccine_efficacy_infection = list(rep(0.6,17), rep(0.7,17), rep(0.8,17), rep(0.9,17)),
+                       baseline_hosp_bed_capacity = 1000,
                        country = country)
 
   # basic argument out checks
@@ -178,7 +180,7 @@ test_that("pmcmc with vaccine pars", {
   expect_true("max_vaccine" %in% names(out$parameters))
   expect_equal(
     out$pmcmc_results$inputs$model_params$max_vaccine,
-    c(baseline_max_vacine, max_vaccine)
+    c(baseline_max_vaccine, max_vaccine*10)
   )
 
 
@@ -275,7 +277,7 @@ test_that("pmcmc vaccine can find", {
                        max_vaccine = max_vaccine,
                        baseline_max_vaccine = 0,
                        date_vaccine_change = date_vaccine_change,
-                       vaccine_efficacy_infection = rep(0.99,17),
+                       baseline_vaccine_efficacy_infection = rep(0.99,17),
                        start_adaptation = as.integer(n_mcmc/5),
                        country = "Iran")
 
@@ -303,7 +305,7 @@ test_that("pmcmc vaccine can find", {
                        max_vaccine = 0,
                        baseline_max_vaccine = 0,
                        date_vaccine_change = date_vaccine_change,
-                       vaccine_efficacy_infection = rep(0.99,17),
+                       baseline_vaccine_efficacy_infection = rep(0.99,17),
                        start_adaptation = as.integer(n_mcmc/5),
                        country = "Iran")
 

@@ -1,7 +1,7 @@
 Package: nimue
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1.15
+Version: 0.1.17
 Authors@R: c(
   person("Peter", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre")),
   person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut")),
@@ -20,7 +20,7 @@ Suggests:
 RoxygenNote: 7.1.1
 Imports: 
     odin (>= 1.1.0),
-    squire (>= 0.6.4),
+    squire (>= 0.6.5),
     dplyr,
     magrittr,
     abind,
