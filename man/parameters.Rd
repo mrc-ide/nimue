@@ -152,10 +152,12 @@ death. Default = 1}
 
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
-\item{vaccine_efficacy_infection}{Efficacy of vaccine against infection (by age).
+\item{vaccine_efficacy_infection}{Efficacy of vaccine against infection.
+This parameter must either be length 1 (a single efficacy for all age groups) or length 17 (an efficacy for each age group).
 An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.}
 
-\item{vaccine_efficacy_disease}{Efficacy of vaccine against severe (requiring hospitilisation) disease (by age).
+\item{vaccine_efficacy_disease}{Efficacy of vaccine against severe (requiring hospitalisation) disease.
+This parameter must either be length 1 (a single efficacy for all age groups) or length 17 (an efficacy for each age group).
 An efficacy of 1 will reduce the probability of hospitalisation by 100 percent,
 an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent etc.}
 

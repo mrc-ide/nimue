@@ -261,6 +261,19 @@ parameters <- function(
   p_dist <- p_dist/mean(p_dist)
 
   # Format vaccine-specific parameters
+  if(length(vaccine_efficacy_disease) == 1){
+    vaccine_efficacy_disease <- rep(vaccine_efficacy_disease, 17)
+  }
+  if(length(vaccine_efficacy_infection) == 1){
+    vaccine_efficacy_infection <- rep(vaccine_efficacy_infection, 17)
+  }
+  if(length(vaccine_efficacy_disease) != 17){
+    stop("Parameter vaccine_efficacy_disease must be length 1 or length 17")
+  }
+  if(length(vaccine_efficacy_infection) != 17){
+    stop("Parameter vaccine_efficacy_infection must be length 1 or length 17")
+  }
+
   vaccine_efficacy_infection = 1 - vaccine_efficacy_infection
   prob_hosp_vaccine = (1 - vaccine_efficacy_disease) * prob_hosp
 
