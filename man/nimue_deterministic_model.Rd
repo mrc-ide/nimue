@@ -14,3 +14,6 @@ future as more models are added}
 \description{
 Create a nimue model class for fitting with squire tools
 }
+\details{
+Wraps the squire pmcmc fitting infrastructure.
+}

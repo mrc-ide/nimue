@@ -19,9 +19,9 @@ S_0[,] <- user()
 dim(S_0) <- c(N_age, N_vaccine)
 initial(S[,]) <- S_0[i,j]
 
-deriv(S[,1]) <- (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (vr * vaccination_target[i] * S[i,j])
-deriv(S[,2]) <- (vr * vaccination_target[i] * S[i,j-1]) + (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (gamma_vaccine[j] * S[i,j])
-deriv(S[,3:N_vaccine]) <- (gamma_vaccine[j-1] * S[i,j-1]) + (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (gamma_vaccine[j] * S[i,j])
+deriv(S[,1]) <- (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection_t[i,j] * S[i,j]) - (vr * vaccination_target[i] * S[i,j])
+deriv(S[,2]) <- (vr * vaccination_target[i] * S[i,j-1]) + (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection_t[i,j] * S[i,j]) - (gamma_vaccine[j] * S[i,j])
+deriv(S[,3:N_vaccine]) <- (gamma_vaccine[j-1] * S[i,j-1]) + (gamma_R * R2[i,j]) - (lambda[i] * vaccine_efficacy_infection_t[i,j] * S[i,j]) - (gamma_vaccine[j] * S[i,j])
 ################################################################################
 
 ### E (E1 & E2): Latent ########################################################
@@ -38,9 +38,9 @@ initial(E2[,]) <- E2_0[i,j]
 
 gamma_E <- user() # rate of progression through latent infection
 
-deriv(E1[,1]) <- (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (gamma_E * E1[i,j]) - (vr * vaccination_target[i] * E1[i,j])
-deriv(E1[,2]) <- (vr * vaccination_target[i] * E1[i,j-1]) + (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (gamma_E * E1[i,j]) - (gamma_vaccine[j] * E1[i,j])
-deriv(E1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * E1[i,j-1]) + (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j]) - (gamma_E * E1[i,j]) - (gamma_vaccine[j] * E1[i,j])
+deriv(E1[,1]) <- (lambda[i] * vaccine_efficacy_infection_t[i,j] * S[i,j]) - (gamma_E * E1[i,j]) - (vr * vaccination_target[i] * E1[i,j])
+deriv(E1[,2]) <- (vr * vaccination_target[i] * E1[i,j-1]) + (lambda[i] * vaccine_efficacy_infection_t[i,j] * S[i,j]) - (gamma_E * E1[i,j]) - (gamma_vaccine[j] * E1[i,j])
+deriv(E1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * E1[i,j-1]) + (lambda[i] * vaccine_efficacy_infection_t[i,j] * S[i,j]) - (gamma_E * E1[i,j]) - (gamma_vaccine[j] * E1[i,j])
 
 deriv(E2[,1]) <- (gamma_E * E1[i,j]) - (gamma_E * E2[i,j]) - (vr * vaccination_target[i] * E2[i,j])
 deriv(E2[,2]) <- (vr * vaccination_target[i] * E2[i,j-1]) + (gamma_E * E1[i,j]) - (gamma_E * E2[i,j]) - (gamma_vaccine[j] * E2[i,j])
@@ -59,9 +59,9 @@ initial(IMild[,]) <- IMild_0[i,j]
 
 gamma_IMild <- user() # rate of progression from mild infection to recovery
 
-deriv(IMild[,1]) <- (gamma_E * E2[i,j] * (1 - prob_hosp[i,j])) - (gamma_IMild * IMild[i,j])
-deriv(IMild[,2]) <- (gamma_E * E2[i,j] * (1 - prob_hosp[i,j])) - (gamma_IMild * IMild[i,j]) - (gamma_vaccine[j] * IMild[i,j])
-deriv(IMild[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMild[i,j-1]) + (gamma_E * E2[i,j] * (1 - prob_hosp[i,j])) - (gamma_IMild * IMild[i,j]) - (gamma_vaccine[j] * IMild[i,j])
+deriv(IMild[,1]) <- (gamma_E * E2[i,j] * (1 - prob_hosp_t[i,j])) - (gamma_IMild * IMild[i,j])
+deriv(IMild[,2]) <- (gamma_E * E2[i,j] * (1 - prob_hosp_t[i,j])) - (gamma_IMild * IMild[i,j]) - (gamma_vaccine[j] * IMild[i,j])
+deriv(IMild[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMild[i,j-1]) + (gamma_E * E2[i,j] * (1 - prob_hosp_t[i,j])) - (gamma_IMild * IMild[i,j]) - (gamma_vaccine[j] * IMild[i,j])
 
 output(IMildout[]) <- sum(IMild[i,])
 dim(IMildout) <- N_age
@@ -107,9 +107,9 @@ initial(ICase2[,]) <- ICase2_0[i,j]
 
 gamma_ICase <- user() # rate of progression from symptom onset to requiring hospitalisation
 
-deriv(ICase1[,1]) <- (gamma_E * E2[i,j] * prob_hosp[i,j]) - (gamma_ICase * ICase1[i,j])
-deriv(ICase1[,2]) <- (gamma_E * E2[i,j] * prob_hosp[i,j]) - (gamma_ICase * ICase1[i,j]) - (gamma_vaccine[j] * ICase1[i,j])
-deriv(ICase1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * ICase1[i,j-1]) + (gamma_E * E2[i,j] * prob_hosp[i,j]) - (gamma_ICase * ICase1[i,j]) - (gamma_vaccine[j] * ICase1[i,j])
+deriv(ICase1[,1]) <- (gamma_E * E2[i,j] * prob_hosp_t[i,j]) - (gamma_ICase * ICase1[i,j])
+deriv(ICase1[,2]) <- (gamma_E * E2[i,j] * prob_hosp_t[i,j]) - (gamma_ICase * ICase1[i,j]) - (gamma_vaccine[j] * ICase1[i,j])
+deriv(ICase1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * ICase1[i,j-1]) + (gamma_E * E2[i,j] * prob_hosp_t[i,j]) - (gamma_ICase * ICase1[i,j]) - (gamma_vaccine[j] * ICase1[i,j])
 
 deriv(ICase2[,1]) <- (gamma_ICase * ICase1[i,j]) - (gamma_ICase * ICase2[i,j])
 deriv(ICase2[,2]) <- (gamma_ICase * ICase1[i,j]) - (gamma_ICase * ICase2[i,j]) - (gamma_vaccine[j] * ICase2[i,j])
@@ -350,8 +350,13 @@ N_prioritisation_steps <- user()
 vaccine_coverage_mat[,] <- user()
 dim(vaccine_coverage_mat) <- c(N_prioritisation_steps, N_age)
 
-vaccine_efficacy_infection[,] <- user() # Reduction in lambda from vaccination by age and vaccination status
-dim(vaccine_efficacy_infection) <- c(N_age, N_vaccine)
+# Generating Vaccine Efficacy Over Time
+vaccine_efficacy_infection_t[, ] <- interpolate(tt_vaccine_efficacy_infection, vaccine_efficacy_infection, "constant")
+dim(vaccine_efficacy_infection_t) <- c(N_age, N_vaccine)
+tt_vaccine_efficacy_infection[] <- user()
+vaccine_efficacy_infection[, ,] <- user()
+dim(tt_vaccine_efficacy_infection) <- user()
+dim(vaccine_efficacy_infection) <- c(length(tt_vaccine_efficacy_infection), N_age, N_vaccine)
 
 gamma_vaccine[] <- user() # Vector of vaccine progression parameters by vaccination status (First = 0 as handled separately as time-varying vaccination rate, Last = 0 as no progression from "previously vaccinated group)
 dim(gamma_vaccine) <- N_vaccine
@@ -420,8 +425,13 @@ ICU_beds[] <- user()
 dim(tt_ICU_beds) <- user()
 dim(ICU_beds) <- length(tt_ICU_beds)
 
-prob_hosp[,] <- user() # probability of requiring hospitalisation by age and vaccination status
-dim(prob_hosp) <- c(N_age, N_vaccine)
+# Generating prob_hosp Over Time
+prob_hosp_t[, ] <- interpolate(tt_vaccine_efficacy_disease, prob_hosp, "constant")
+dim(prob_hosp_t) <- c(N_age, N_vaccine)  # probability of requiring hospitalisation by age and vaccination status at time t
+tt_vaccine_efficacy_disease[] <- user()
+prob_hosp[, ,] <- user()
+dim(tt_vaccine_efficacy_disease) <- user()
+dim(prob_hosp) <- c(length(tt_vaccine_efficacy_disease), N_age, N_vaccine)
 
 prob_severe[] <- user() # probability of severe disease (requiring mechanical ventilation) by age
 dim(prob_severe) <- N_age
@@ -523,7 +533,7 @@ output(deaths_cumu[,]) <- D[i,j]
 dim(deaths_cumu) <- c(N_age, N_vaccine)
 
 # Infections
-deriv(infections_cumu[,]) <- (lambda[i] * vaccine_efficacy_infection[i,j] * S[i,j])
+deriv(infections_cumu[,]) <- (lambda[i] * vaccine_efficacy_infection_t[i,j] * S[i,j])
 dim(infections_cumu) <- c(N_age, N_vaccine)
 initial(infections_cumu[,]) <- 0
 

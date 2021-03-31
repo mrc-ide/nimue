@@ -5,6 +5,8 @@
 #' We will use this structure to ensure that model fitting is flexible in the
 #' future as more models are added
 #'
+#' @details Wraps the squire pmcmc fitting infrastructure.
+#'
 #' @export
 nimue_deterministic_model <- function(use_dde = TRUE) {
 
@@ -26,7 +28,9 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                               dur_R = vaccine_pars$dur_R,
                               dur_V = vaccine_pars$dur_V,
                               vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
+                              tt_vaccine_efficacy_infection = vaccine_pars$tt_vaccine_efficacy_infection,
                               vaccine_efficacy_disease = vaccine_pars$vaccine_efficacy_disease,
+                              tt_vaccine_efficacy_disease = vaccine_pars$tt_vaccine_efficacy_disease,
                               max_vaccine = vaccine_pars$max_vaccine,
                               tt_vaccine = vaccine_pars$tt_vaccine,
                               dur_vaccine_delay = vaccine_pars$dur_vaccine_delay,
@@ -79,7 +83,9 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                dur_R = dur_R,
                dur_V = dur_V,
                vaccine_efficacy_infection = vaccine_efficacy_infection,
+               tt_vaccine_efficacy_infection = tt_vaccine_efficacy_infection,
                vaccine_efficacy_disease = vaccine_efficacy_disease,
+               tt_vaccine_efficacy_disease = tt_vaccine_efficacy_disease,
                max_vaccine = max_vaccine,
                tt_vaccine = tt_vaccine ,
                dur_vaccine_delay = dur_vaccine_delay,
@@ -89,7 +95,8 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
 
     # append extra pars for fitting
     pars$dt <- dt
-    pars$prob_hosp_baseline <- pars$prob_hosp[,1]
+    pars$prob_hosp_baseline <- pars$prob_hosp[1, ,1]
+    pars$use_dde <- use_dde
 
     class(pars) <- c("vaccine_parameters", "squire_parameters")
     return(pars)
@@ -116,18 +123,25 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                population = population,
                replicates = 1,
                time_period = time_period,
-               use_dde = use_dde)
+               use_dde = use_dde,
+               ...)
 
     return(out)
 
   }
 
-  model <- list(odin_model = vaccine,
+  odin_model <- function(user, unused_user_action) {
+    vaccine(user = user, use_dde = use_dde, unused_user_action = "ignore")
+  }
+
+  model <- list(odin_model = odin_model,
                 generate_beta_func = beta_est_infectiousness,
                 parameter_func = parameters_func,
                 run_func = run_func,
-                compare_model = compare_model)
+                compare_model = compare_model,
+                use_dde = use_dde)
   class(model) <- c(model_class, "deterministic", "squire_model")
   model
 
 }
+
