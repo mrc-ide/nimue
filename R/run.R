@@ -70,15 +70,42 @@
 #'   If NULL, seeds are distributed randomly within working ages. If specified, must be a vector
 #'   of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 #'   to the youngest age group, then the second youngest and so on. Default = NULL
+#' @param init Initial conditions for simulation provided. Allows overriding
+#'   if initial conditions start with an already infected population etc.
+#'   Default = NULL.
 #' @param dur_R Mean duration of naturally acquired immunity (days)
 #' @param dur_V Mean duration of vaccine-derived immunity (days)
 #' @param vaccine_efficacy_infection Efficacy of vaccine against infection.
-#' This parameter must either be length 1 (a single efficacy for all age groups) or length 17 (an efficacy for each age group).
-#' An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.
-#' @param vaccine_efficacy_disease Efficacy of vaccine against severe (requiring hospitalisation) disease.
-#' This parameter must either be length 1 (a single efficacy for all age groups) or length 17 (an efficacy for each age group).
-#' An efficacy of 1 will reduce the probability of hospitalisation by 100 percent,
-#' an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent etc.
+#'   This parameter must either be length 1 numeric (a single efficacy for all
+#'   age groups) or length 17 numeric vector (an efficacy for each age group).
+#'   An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will
+#'   reduce FOI by 20 percent etc.
+#'   To specify changes in vaccine efficacy over time, vaccine efficacies must
+#'   be provided as a list, with each list element being the efficacy at each
+#'   time point specified by \code{tt_vaccine_efficacy_infection}. These
+#'   efficacies must also be length 1 numeric (a single efficacy for all age
+#'   groups)  or length 17 numeric vector (an efficacy for each age group)
+#' @param tt_vaccine_efficacy_infection Timing of changes in vaccine efficacy
+#'   against infection. Default = 0, which assumes fixed efficacy over time.
+#'   Must be the same length as the length of \code{vaccine_efficacy_infection}
+#'   when provided as a list. Time changing efficacies can occur in response to
+#'   changing vaccines being  given and dosing strategy changes.
+#' @param vaccine_efficacy_disease Efficacy of vaccine against severe
+#'   (requiring hospitilisation) disease (by age). This parameter must either be
+#'   length 1 numeric (a single efficacy for all age groups) or length 17
+#'   numeric vector (an efficacy for each age group). An efficacy of 1 will
+#'   reduce the probability of hospitalisation by 100 percent, an efficacy of
+#'   0.2 will reduce the probability of hospitalisation by 20 percent etc.
+#'   To specify changes in vaccine efficacy over time, vaccine efficacies must
+#'   be provided as a list, with each list element being the efficacy at each
+#'   time point specified by \code{tt_vaccine_efficacy_disease}. These
+#'   efficacies must also be length 1 numeric (a single efficacy for all age
+#'   groups)  or length 17 numeric vector (an efficacy for each age group).
+#' @param tt_vaccine_efficacy_disease Timing of changes in vaccine efficacy
+#'   against disease. Default = 0, which assumes fixed efficacy over time.
+#'   Must be the same length as the length of \code{vaccine_efficacy_disease}
+#'   when provided as a list. Time changing efficacies can occur in response to
+#'   changing vaccines being  given and dosing strategy changes.
 #' @param max_vaccine The maximum number of individuals who can be vaccinated per day.
 #' @param tt_vaccine Time change points for vaccine capacity (\code{max_vaccine}).
 #' @param dur_vaccine_delay Mean duration of period from vaccination to vaccine protection.
@@ -141,7 +168,9 @@ run <- function(
   dur_R = vaccine_pars$dur_R,
   dur_V = vaccine_pars$dur_V,
   vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
+  tt_vaccine_efficacy_infection = vaccine_pars$tt_vaccine_efficacy_infection,
   vaccine_efficacy_disease = vaccine_pars$vaccine_efficacy_disease,
+  tt_vaccine_efficacy_disease = vaccine_pars$tt_vaccine_efficacy_disease,
   max_vaccine = vaccine_pars$max_vaccine,
   tt_vaccine = vaccine_pars$tt_vaccine,
   dur_vaccine_delay = vaccine_pars$dur_vaccine_delay,
@@ -155,6 +184,7 @@ run <- function(
 
   seeding_cases = 20,
   seeding_age_order = NULL,
+  init = NULL,
   use_dde = TRUE,
   ...
 ) {
@@ -201,11 +231,14 @@ run <- function(
                      tt_ICU_beds = tt_ICU_beds,
                      dur_V = dur_V,
                      vaccine_efficacy_infection = vaccine_efficacy_infection,
+                     tt_vaccine_efficacy_infection = tt_vaccine_efficacy_infection,
                      vaccine_efficacy_disease = vaccine_efficacy_disease,
+                     tt_vaccine_efficacy_disease = tt_vaccine_efficacy_disease,
                      max_vaccine = max_vaccine,
-                     tt_vaccine = tt_vaccine ,
+                     tt_vaccine = tt_vaccine,
                      dur_vaccine_delay = dur_vaccine_delay,
-                     vaccine_coverage_mat = vaccine_coverage_mat)
+                     vaccine_coverage_mat = vaccine_coverage_mat,
+                     init = init)
 
   # Set model type
   replicates <- 1

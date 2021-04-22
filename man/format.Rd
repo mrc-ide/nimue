@@ -11,7 +11,8 @@ format(
     "ICU_demand", "ICU_occupancy", "vaccines", "unvaccinated", "vaccinated",
     "priorvaccinated", "infections", "deaths"),
   reduce_age = TRUE,
-  date_0 = NULL
+  date_0 = NULL,
+  replicate = 1
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ format(
 compartment.}
 
 \item{date_0}{Date of time 0 (e.g. "2020-03-01"), if specified a date column will be added}
+
+\item{replicate}{Which replicate is being formatted. Default = 1}
 }
 \value{
 Formatted long data.frame
