@@ -12,7 +12,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/superhero/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -45,6 +45,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -56,9 +58,16 @@
 
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -72,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nimue</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.17</span>
       </span>
     </div>
 
@@ -89,16 +98,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Coverage_and_Prioritisation.html">Coverage and Prioritisation</a>
+    </li>
+    <li>
       <a href="../articles/Efficacy.html">Efficacy</a>
     </li>
     <li>
-      <a href="../articles/Run.html">Run</a>
+      <a href="../articles/Model_equations.html">Model equations</a>
     </li>
     <li>
       <a href="../articles/Supply.html">Supply</a>
-    </li>
-    <li>
-      <a href="../articles/Target.html">Target</a>
     </li>
   </ul>
 </li>
@@ -127,51 +136,53 @@
     <p>Vaccine parameters</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parameters</span>(
-  country = <span class='kw'>NULL</span>,
-  population = <span class='kw'>NULL</span>,
-  tt_contact_matrix = <span class='fl'>0</span>,
-  contact_matrix_set = <span class='kw'>NULL</span>,
-  R0 = <span class='fl'>3</span>,
-  tt_R0 = <span class='fl'>0</span>,
-  beta_set = <span class='kw'>NULL</span>,
-  time_period = <span class='fl'>365</span>,
-  dt = <span class='fl'>0.1</span>,
-  <span class='kw'>seeding_cases</span>,
-  seeding_age_order = <span class='kw'>NULL</span>,
-  prob_hosp = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>prob_hosp</span>,
-  prob_severe = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>prob_severe</span>,
-  prob_non_severe_death_treatment = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>prob_non_severe_death_treatment</span>,
-  prob_non_severe_death_no_treatment = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>prob_non_severe_death_no_treatment</span>,
-  prob_severe_death_treatment = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>prob_severe_death_treatment</span>,
-  prob_severe_death_no_treatment = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>prob_severe_death_no_treatment</span>,
-  p_dist = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>p_dist</span>,
-  rel_infectiousness = <span class='kw'>probs</span><span class='op'>$</span><span class='kw'>rel_infectiousness</span>,
-  <span class='kw'>dur_E</span>,
-  <span class='kw'>dur_IMild</span>,
-  <span class='kw'>dur_ICase</span>,
-  <span class='kw'>dur_get_ox_survive</span>,
-  <span class='kw'>dur_get_ox_die</span>,
-  <span class='kw'>dur_not_get_ox_survive</span>,
-  <span class='kw'>dur_not_get_ox_die</span>,
-  <span class='kw'>dur_get_mv_survive</span>,
-  <span class='kw'>dur_get_mv_die</span>,
-  <span class='kw'>dur_not_get_mv_survive</span>,
-  <span class='kw'>dur_not_get_mv_die</span>,
-  <span class='kw'>dur_rec</span>,
-  <span class='kw'>dur_R</span>,
-  <span class='kw'>vaccination_target</span>,
-  <span class='kw'>dur_V</span>,
-  <span class='kw'>vaccine_efficacy_infection</span>,
-  <span class='kw'>vaccine_efficacy_disease</span>,
-  <span class='kw'>max_vaccine</span>,
-  <span class='kw'>tt_vaccine</span>,
-  <span class='kw'>dur_vaccine_delay</span>,
-  <span class='kw'>hosp_bed_capacity</span>,
-  <span class='kw'>ICU_bed_capacity</span>,
-  <span class='kw'>tt_hosp_beds</span>,
-  <span class='kw'>tt_ICU_beds</span>
-)</pre>
+    <pre class="usage"><span class='fu'>parameters</span><span class='op'>(</span>
+  country <span class='op'>=</span> <span class='cn'>NULL</span>,
+  population <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tt_contact_matrix <span class='op'>=</span> <span class='fl'>0</span>,
+  contact_matrix_set <span class='op'>=</span> <span class='cn'>NULL</span>,
+  R0 <span class='op'>=</span> <span class='fl'>3</span>,
+  tt_R0 <span class='op'>=</span> <span class='fl'>0</span>,
+  beta_set <span class='op'>=</span> <span class='cn'>NULL</span>,
+  time_period <span class='op'>=</span> <span class='fl'>365</span>,
+  <span class='va'>seeding_cases</span>,
+  seeding_age_order <span class='op'>=</span> <span class='cn'>NULL</span>,
+  init <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prob_hosp <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>prob_hosp</span>,
+  prob_severe <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>prob_severe</span>,
+  prob_non_severe_death_treatment <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>prob_non_severe_death_treatment</span>,
+  prob_non_severe_death_no_treatment <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>prob_non_severe_death_no_treatment</span>,
+  prob_severe_death_treatment <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>prob_severe_death_treatment</span>,
+  prob_severe_death_no_treatment <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>prob_severe_death_no_treatment</span>,
+  p_dist <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>p_dist</span>,
+  rel_infectiousness <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>rel_infectiousness</span>,
+  <span class='va'>dur_E</span>,
+  <span class='va'>dur_IMild</span>,
+  <span class='va'>dur_ICase</span>,
+  <span class='va'>dur_get_ox_survive</span>,
+  <span class='va'>dur_get_ox_die</span>,
+  <span class='va'>dur_not_get_ox_survive</span>,
+  <span class='va'>dur_not_get_ox_die</span>,
+  <span class='va'>dur_get_mv_survive</span>,
+  <span class='va'>dur_get_mv_die</span>,
+  <span class='va'>dur_not_get_mv_survive</span>,
+  <span class='va'>dur_not_get_mv_die</span>,
+  <span class='va'>dur_rec</span>,
+  <span class='va'>dur_R</span>,
+  <span class='va'>dur_V</span>,
+  <span class='va'>vaccine_efficacy_infection</span>,
+  <span class='va'>tt_vaccine_efficacy_infection</span>,
+  <span class='va'>vaccine_efficacy_disease</span>,
+  <span class='va'>tt_vaccine_efficacy_disease</span>,
+  <span class='va'>max_vaccine</span>,
+  <span class='va'>tt_vaccine</span>,
+  <span class='va'>dur_vaccine_delay</span>,
+  <span class='va'>vaccine_coverage_mat</span>,
+  <span class='va'>hosp_bed_capacity</span>,
+  <span class='va'>ICU_bed_capacity</span>,
+  <span class='va'>tt_hosp_beds</span>,
+  <span class='va'>tt_ICU_beds</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -215,10 +226,6 @@ Default = NULL, which causes beta to be estimated from R0</p></td>
       <td><p>Length of simulation. Default = 365</p></td>
     </tr>
     <tr>
-      <th>dt</th>
-      <td><p>Time Step. Default = 0.1</p></td>
-    </tr>
-    <tr>
       <th>seeding_cases</th>
       <td><p>Initial number of cases seeding the epidemic</p></td>
     </tr>
@@ -228,6 +235,12 @@ Default = NULL, which causes beta to be estimated from R0</p></td>
 If NULL, seeds are distributed randomly within working ages. If specified, must be a vector
 of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 to the youngest age group, then the second youngest and so on. Default = NULL</p></td>
+    </tr>
+    <tr>
+      <th>init</th>
+      <td><p>Initial conditions for simulation provided. Allows overriding
+if initial conditions start with an already infected population etc.
+Default = NULL.</p></td>
     </tr>
     <tr>
       <th>prob_hosp</th>
@@ -338,24 +351,51 @@ death. Default = 1</p></td>
       <td><p>Mean duration of naturally acquired immunity (days)</p></td>
     </tr>
     <tr>
-      <th>vaccination_target</th>
-      <td><p>Index of age group targets for vaccination. Must be 0
-(not vaccinated) or 1 (vaccinated) for each age group.</p></td>
-    </tr>
-    <tr>
       <th>dur_V</th>
       <td><p>Mean duration of vaccine-derived immunity (days)</p></td>
     </tr>
     <tr>
       <th>vaccine_efficacy_infection</th>
-      <td><p>Efficacy of vaccine against infection (by age).
-An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will reduce FOI by 20 percent etc.</p></td>
+      <td><p>Efficacy of vaccine against infection.
+This parameter must either be length 1 numeric (a single efficacy for all
+age groups) or length 17 numeric vector (an efficacy for each age group).
+An efficacy of 1 will reduce FOI by 100 percent, an efficacy of 0.2 will
+reduce FOI by 20 percent etc.
+To specify changes in vaccine efficacy over time, vaccine efficacies must
+be provided as a list, with each list element being the efficacy at each
+time point specified by <code>tt_vaccine_efficacy_infection</code>. These
+efficacies must also be length 1 numeric (a single efficacy for all age
+groups)  or length 17 numeric vector (an efficacy for each age group)</p></td>
+    </tr>
+    <tr>
+      <th>tt_vaccine_efficacy_infection</th>
+      <td><p>Timing of changes in vaccine efficacy
+against infection. Default = 0, which assumes fixed efficacy over time.
+Must be the same length as the length of <code>vaccine_efficacy_infection</code>
+when provided as a list. Time changing efficacies can occur in response to
+changing vaccines being  given and dosing strategy changes.</p></td>
     </tr>
     <tr>
       <th>vaccine_efficacy_disease</th>
-      <td><p>Efficacy of vaccine against severe (requiring hospitilisation) disease (by age).
-An efficacy of 1 will reduce the probability of hospitalisation by 100 percent,
-an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent etc.</p></td>
+      <td><p>Efficacy of vaccine against severe
+(requiring hospitilisation) disease (by age). This parameter must either be
+length 1 numeric (a single efficacy for all age groups) or length 17
+numeric vector (an efficacy for each age group). An efficacy of 1 will
+reduce the probability of hospitalisation by 100 percent, an efficacy of
+0.2 will reduce the probability of hospitalisation by 20 percent etc.
+To specify changes in vaccine efficacy over time, vaccine efficacies must
+be provided as a list, with each list element being the efficacy at each
+time point specified by <code>tt_vaccine_efficacy_disease</code>. These
+efficacies must also be length 1 numeric (a single efficacy for all age
+groups)  or length 17 numeric vector (an efficacy for each age group).</p></td>
+    </tr>
+    <tr>
+      <th>tt_vaccine_efficacy_disease</th>
+      <td><p>Timing of changes in vaccine efficacy
+against disease. Default = 0, which assumes fixed efficacy over time.
+Must be the same length as the length of <code>vaccine_efficacy_disease</code>
+when provided as a list. Time changing efficacies can occur in response to
+changing vaccines being  given and dosing strategy changes.</p></td>
     </tr>
     <tr>
       <th>max_vaccine</th>
@@ -368,6 +408,10 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
     <tr>
       <th>dur_vaccine_delay</th>
       <td><p>Mean duration of period from vaccination to vaccine protection.</p></td>
+    </tr>
+    <tr>
+      <th>vaccine_coverage_mat</th>
+      <td><p>Vaccine coverage targets by age (columns) and priority (row)</p></td>
     </tr>
     <tr>
       <th>hosp_bed_capacity</th>
@@ -402,11 +446,11 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Peter Winskill.</p>
+  <p><p>Developed by Peter Winskill, OJ Watson, Alexandra Hogan.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -414,6 +458,8 @@ an efficacy of 0.2 will reduce the probability of hospitalisation by 20 percent 
 
   
 
+
+  
 
   </body>
 </html>

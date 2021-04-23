@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Efficacy • nimue</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/superhero/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nimue</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.17</span>
       </span>
     </div>
 
@@ -48,16 +50,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Coverage_and_Prioritisation.html">Coverage and Prioritisation</a>
+    </li>
+    <li>
       <a href="../articles/Efficacy.html">Efficacy</a>
     </li>
     <li>
-      <a href="../articles/Run.html">Run</a>
+      <a href="../articles/Model_equations.html">Model equations</a>
     </li>
     <li>
       <a href="../articles/Supply.html">Supply</a>
-    </li>
-    <li>
-      <a href="../articles/Target.html">Target</a>
     </li>
   </ul>
 </li>
@@ -85,81 +87,71 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">nimue</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">nimue</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></code></pre></div>
 <p>We can parameterise the mode of action of the vaccine to be infection-blocking, anti-disease or both.</p>
 <div id="no-vaccine" class="section level3">
 <h3 class="hasAnchor">
-<a href="#no-vaccine" class="anchor"></a>No vaccine</h3>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co"># Run the determinstic model with an example population and no vaccination</span>
-<span class="kw">no_vaccine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span>(
-  population = <span class="kw">squire</span>::<span class="fu"><a href="https://rdrr.io/pkg/squire/man/get_population.html">get_population</a></span>(country = <span class="st">"United Kingdom"</span>)<span class="op">$</span><span class="kw">n</span>,
-  contact_matrix_set = <span class="kw">squire</span>::<span class="fu"><a href="https://rdrr.io/pkg/squire/man/get_mixing_matrix.html">get_mixing_matrix</a></span>(country = <span class="st">"United Kingdom"</span>),
-  max_vaccine = <span class="fl">0</span>
-)
-<span class="co"># Format the output selecting infection and deaths (note these are output per timestep)</span>
-<span class="kw">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span>(<span class="kw">no_vaccine</span>, compartments = <span class="kw">NULL</span>, summaries = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"infections"</span>, <span class="st">"deaths"</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(Name = <span class="st">"No vaccine"</span>)
-</pre></div>
+<a href="#no-vaccine" class="anchor" aria-hidden="true"></a>No vaccine</h3>
+<p>First, let’s start with a counterfactual run with no vaccination:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Run the model with an example population and no vaccination</span>
+<span class="va">no_vaccine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"United Kingdom"</span>, 
+                  max_vaccine <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="co"># Format the output selecting infection and deaths</span>
+<span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">no_vaccine</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="st">"No vaccine"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="infection-blocking-vaccine" class="section level3">
 <h3 class="hasAnchor">
-<a href="#infection-blocking-vaccine" class="anchor"></a>Infection-blocking vaccine</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># Run the determinstic model with an example population and infection-blocking vaccine</span>
-<span class="kw">infection_blocking</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span>(
-  population = <span class="kw">squire</span>::<span class="fu"><a href="https://rdrr.io/pkg/squire/man/get_population.html">get_population</a></span>(country = <span class="st">"United Kingdom"</span>)<span class="op">$</span><span class="kw">n</span>,
-  contact_matrix_set = <span class="kw">squire</span>::<span class="fu"><a href="https://rdrr.io/pkg/squire/man/get_mixing_matrix.html">get_mixing_matrix</a></span>(country = <span class="st">"United Kingdom"</span>),
-  max_vaccine = <span class="fl">200000</span>,
-  dur_V = <span class="fl">5000</span>,
-  vaccine_efficacy_disease = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fl">17</span>),
-  vaccine_efficacy_infection = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.9</span>, <span class="fl">17</span>)
-)
+<a href="#infection-blocking-vaccine" class="anchor" aria-hidden="true"></a>Infection-blocking vaccine</h3>
+<p>Next, we can run with an infection-blocking vaccine:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Run the determinstic model with an example population and infection-blocking vaccine</span>
+<span class="va">infection_blocking</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"United Kingdom"</span>,  
+                          max_vaccine <span class="op">=</span> <span class="fl">200000</span>,
+                          vaccine_efficacy_disease <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">17</span><span class="op">)</span>,
+                          vaccine_efficacy_infection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">17</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># Format the output selecting infection and deaths</span>
-<span class="kw">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span>(<span class="kw">infection_blocking</span>, compartments = <span class="kw">NULL</span>, summaries = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"infections"</span>, <span class="st">"deaths"</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(Name = <span class="st">"Infection"</span>)
-</pre></div>
+<span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">infection_blocking</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="st">"Infection blocking"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="anti-disease-vaccine" class="section level3">
 <h3 class="hasAnchor">
-<a href="#anti-disease-vaccine" class="anchor"></a>Anti-disease vaccine</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co"># Run the determinstic model with an example population and anti-disease vaccine</span>
-<span class="kw">disease_blocking</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span>(
-  population = <span class="kw">squire</span>::<span class="fu"><a href="https://rdrr.io/pkg/squire/man/get_population.html">get_population</a></span>(country = <span class="st">"United Kingdom"</span>)<span class="op">$</span><span class="kw">n</span>,
-  contact_matrix_set = <span class="kw">squire</span>::<span class="fu"><a href="https://rdrr.io/pkg/squire/man/get_mixing_matrix.html">get_mixing_matrix</a></span>(country = <span class="st">"United Kingdom"</span>),
-  max_vaccine = <span class="fl">200000</span>,
-  dur_V = <span class="fl">5000</span>,
-  vaccine_efficacy_disease = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.9</span>, <span class="fl">17</span>),
-  vaccine_efficacy_infection = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fl">17</span>)
-)
+<a href="#anti-disease-vaccine" class="anchor" aria-hidden="true"></a>Anti-disease vaccine</h3>
+<p>And finally, a run with a disease-blocking vaccine:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Run the determinstic model with an example population and anti-disease vaccine</span>
+<span class="va">disease_blocking</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"United Kingdom"</span>,  
+                          max_vaccine <span class="op">=</span> <span class="fl">200000</span>,
+                          vaccine_efficacy_disease <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">17</span><span class="op">)</span>,
+                          vaccine_efficacy_infection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">17</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># Format the output selecting infection and deaths</span>
-<span class="kw">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span>(<span class="kw">disease_blocking</span>, compartments = <span class="kw">NULL</span>, summaries = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"infections"</span>, <span class="st">"deaths"</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(Name = <span class="st">"Disease"</span>)
-</pre></div>
+<span class="va">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">disease_blocking</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="st">"Disease  blocking"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="plot" class="section level3">
+<div id="compare" class="section level3">
 <h3 class="hasAnchor">
-<a href="#plot" class="anchor"></a>Plot</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co"># Create plot data.frame</span>
-<span class="kw">pd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="kw">out1</span>, <span class="kw">out2</span>, <span class="kw">out3</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">t</span>, <span class="fl">3</span>) <span class="op">%%</span> <span class="fl">1</span> <span class="op">==</span> <span class="fl">0</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(compartment = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(<span class="kw">compartment</span> <span class="op">==</span> <span class="st">"deaths"</span> <span class="op">~</span> <span class="st">"Mortality"</span>,
-                                 <span class="kw">compartment</span> <span class="op">==</span> <span class="st">"infections"</span> <span class="op">~</span> <span class="st">"Infection"</span>))
+<a href="#compare" class="anchor" aria-hidden="true"></a>Compare</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Create plot data.frame</span>
+<span class="va">pd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">out1</span>, <span class="va">out2</span>, <span class="va">out3</span><span class="op">)</span>
 <span class="co"># Plot outputs</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">pd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">t</span>, y = <span class="kw">value</span>, group = <span class="kw">Name</span>, col = <span class="kw">Name</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(size = <span class="fl">1</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span> <span class="kw">compartment</span>, scale = <span class="st">"free_y"</span>, ncol = <span class="fl">2</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span>(<span class="fl">0</span>, <span class="fl">200</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()
-<span class="co">#&gt; Warning: Removed 498 row(s) containing missing values (geom_path).</span>
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">pd</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">value</span>, group <span class="op">=</span> <span class="va">Name</span>, col <span class="op">=</span> <span class="va">Name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">compartment</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">200</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 498 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="Efficacy_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;"></p>
+</div>
+<div id="multiple-properties" class="section level3">
+<h3 class="hasAnchor">
+<a href="#multiple-properties" class="anchor" aria-hidden="true"></a>Multiple properties</h3>
+<p>It is possible to parameterise the vaccine to be both infection blocking and disease blocking. If doing so, be careful as these efficacies compound (blocking an infection, by definition, also blocks any downstream consequences).</p>
 </div>
   </div>
 
@@ -172,11 +164,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Peter Winskill.</p>
+  <p></p>
+<p>Developed by Peter Winskill, OJ Watson, Alexandra Hogan.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -184,6 +178,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Keep age groups — add_age • nimue</title>
+<title>Prioritisation matrix — strategy_matrix • nimue</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Keep age groups — add_age" />
-<meta property="og:description" content="Keep age groups" />
+<meta property="og:title" content="Prioritisation matrix — strategy_matrix" />
+<meta property="og:description" content="Choose from one of four preset prioritisation matrices." />
 
 
 
@@ -127,29 +127,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Keep age groups</h1>
+    <h1>Prioritisation matrix</h1>
     
-    <div class="hidden name"><code>add_age.Rd</code></div>
+    <div class="hidden name"><code>strategy_matrix.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Keep age groups</p>
+    <p>Choose from one of four preset prioritisation matrices.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_age</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>strategy_matrix</span><span class='op'>(</span><span class='va'>strategy</span>, max_coverage <span class='op'>=</span> <span class='fl'>0.8</span>, risk_proportion <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>age-disaggregated odin output matrix</p></td>
+      <th>strategy</th>
+      <td><p>Prioritisation strategy</p><ul>
+<li><p>"All""Target all age groups"</p></li>
+<li><p>"Elderly""Prioritise by most elderly first, working to younger age groups at each step"</p></li>
+<li><p>"Working Elderly Children""Prioritise working ages followed by elderly followed by children"</p></li>
+<li><p>"Risk Elderly Working Children""Prioritise a sub-population of thoe working age, followed by elderly, followed by remiaining working age followed by children"</p></li>
+<li><p>"Risk Elderly Working Children step""Prioritise a sub-population of thoe working age, followed by elderly and continuing in a stepwise fashion, moving from the oldest age group down"</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>max_coverage</th>
+      <td><p>Maximum coverage in any one age group</p></td>
+    </tr>
+    <tr>
+      <th>risk_proportion</th>
+      <td><p>Proportion of working age individuals to prioritise if "Risk Elderly Working Children" is choosen</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>age-disaggregated output matrix</p>
+    <p>Prioritisation coverage matrix</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
