@@ -4,7 +4,7 @@
 \alias{init}
 \title{Check and set up initial values for vaccine model}
 \usage{
-init(population, seeding_cases, seeding_age_order = NULL)
+init(population, seeding_cases, seeding_age_order = NULL, init = NULL)
 }
 \arguments{
 \item{population}{Population vector (for each age group). Default = NULL,
@@ -16,6 +16,10 @@ which will cause population to be sourced from \code{country}}
 If NULL, seeds are distributed randomly within working ages. If specified, must be a vector
 of length 17 specifying the order seeds are allocated, e.g. 1:17 will allocate first seed
 to the youngest age group, then the second youngest and so on. Default = NULL}
+
+\item{init}{Initial conditions for simulation provided. Allows overriding
+if initial conditions start with an already infected population etc.
+Default = NULL.}
 }
 \value{
 Checked initial values data.frame

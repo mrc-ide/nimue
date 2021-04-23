@@ -7,3 +7,6 @@ inst/doc
 *.o
 nimue.Rproj
 *.dll
+*.so
+/doc/
+/Meta/
