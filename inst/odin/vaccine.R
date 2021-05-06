@@ -451,6 +451,9 @@ dim(prob_severe_death_no_treatment) <- N_age
 rel_infectiousness[] <- user() # Relative infectiousness of age categories relative to maximum infectiousness age category
 dim(rel_infectiousness) <- N_age
 
+rel_infectiousness_vaccinated[,] <- user() # Relative infectiousness of vaccinated age categories relative to maximum infectiousness age category
+dim(rel_infectiousness_vaccinated) <- c(N_age, N_vaccine)
+
 # Infections Requiring Oxygen (a general Hosptial Bed)
 hosp_occ <- sum(IOxGetLive1) + sum(IOxGetLive2) - gamma_get_ox_survive * sum(IOxGetLive2) + sum(IOxGetDie1) + sum(IOxGetDie2) - gamma_get_ox_die * sum(IOxGetDie2) + sum(IRec1) + sum(IRec2) - gamma_rec * sum(IRec2) # Summing number of infections in compartments that use general hospital beds
 number_requiring_Ox[,] <- gamma_ICase * ICase2[i,j] * (1 - prob_severe[i])
@@ -489,8 +492,10 @@ dim(tt_beta) <- user()
 dim(beta_set) <- length(tt_beta)
 
 # Generating Force of Infection
-temp[] <- sum(IMild[i,]) + sum(ICase1[i,]) + sum(ICase2[i,])
-dim(temp) <- N_age
+temp_rel[,] <- (IMild[i,j] * rel_infectiousness_vaccinated[i,j]) + (ICase1[i,j] * rel_infectiousness_vaccinated[i,j]) + (ICase2[i,j] * rel_infectiousness_vaccinated[i,j])
+temp[] <- sum(temp_rel[i,])
+dim(temp_rel) <- c(N_age, N_vaccine)
+dim(temp) <- c(N_age)
 
 s_ij[,] <- m[i, j] * temp[j] * rel_infectiousness[j]
 dim(s_ij) <- c(N_age, N_age)

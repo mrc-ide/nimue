@@ -145,6 +145,7 @@ run <- function(
 
   # onward infectiousness
   rel_infectiousness = probs$rel_infectiousness,
+  rel_infectiousness_vaccinated = probs$rel_infectiousness_vaccinated,
 
   # durations
   dur_E  = durs$dur_E,
@@ -212,6 +213,7 @@ run <- function(
                      prob_severe_death_no_treatment = prob_severe_death_no_treatment,
                      p_dist = p_dist,
                      rel_infectiousness = rel_infectiousness,
+                     rel_infectiousness_vaccinated = rel_infectiousness_vaccinated,
                      dur_E = dur_E,
                      dur_IMild = dur_IMild,
                      dur_ICase = dur_ICase,
