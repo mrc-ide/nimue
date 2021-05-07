@@ -2,7 +2,9 @@
 #' For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
 #' @return list of default probabilities
 default_probs <- function() {
-  c(squire::default_probs(), list(rel_infectiousness = rep(1, 17)))
+  c(squire::default_probs(),
+    list(rel_infectiousness = rep(1, 17),
+         rel_infectiousness_vaccinated = rep(1,17)))
 }
 
 probs <- default_probs()
@@ -68,6 +70,7 @@ parameters <- function(
   p_dist = probs$p_dist,
 
   rel_infectiousness = probs$rel_infectiousness,
+  rel_infectiousness_vaccinated = probs$rel_infectiousness_vaccinated,
 
   # Durations
   dur_E,
@@ -267,6 +270,8 @@ parameters <- function(
   # Format vaccine-specific parameters
   gamma_vaccine <- c(0, gamma_vaccine_delay, gamma_vaccine_delay, gamma_V, gamma_V, 0)
 
+  rel_infectiousness_vaccinated <- format_rel_inf_vacc_for_odin(rel_infectiousness_vaccinated)
+
   # Vaccine efficacies are now time changing (if specified),
   # so we need to convert these to be interpolated by odin
   # These functions also check that efficacies are correct length
@@ -308,6 +313,7 @@ parameters <- function(
                  prob_severe_death_treatment = prob_severe_death_treatment,
                  prob_severe_death_no_treatment = prob_severe_death_no_treatment,
                  rel_infectiousness = rel_infectiousness,
+                 rel_infectiousness_vaccinated = rel_infectiousness_vaccinated,
                  p_dist = p_dist,
                  hosp_beds = hosp_bed_capacity,
                  ICU_beds = ICU_bed_capacity,
@@ -381,6 +387,19 @@ beta_est_infectiousness <- function(dur_IMild,
   relative_R0_by_age <- prob_hosp*dur_ICase + (1-prob_hosp)*dur_IMild
   adjusted_eigen <- Re(eigen(mixing_matrix*relative_R0_by_age*rel_infectiousness)$values[1])
   R0 / adjusted_eigen
+
+}
+
+#' @noRd
+format_rel_inf_vacc_for_odin <- function(rel_inf_vacc) {
+
+  if(length(rel_inf_vacc) == 1){
+    rel_inf_vacc <- rep(rel_inf_vacc, 17)
+  }
+
+  return(matrix(c(rep(1, 17 * 3),
+                  rel_inf_vacc, rel_inf_vacc,
+                  rep(1, 17)), nrow = 17, ncol = 6))
 
 }
 

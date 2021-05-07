@@ -7,7 +7,8 @@ test_that("default parameter list works", {
   expect_type(d1, "list")
   expect_named(d1, c("prob_hosp", "prob_severe", "prob_non_severe_death_treatment",
                      "prob_non_severe_death_no_treatment", "prob_severe_death_treatment",
-                     "prob_severe_death_no_treatment",  "p_dist", "rel_infectiousness"))
+                     "prob_severe_death_no_treatment",  "p_dist",
+                     "rel_infectiousness", "rel_infectiousness_vaccinated"))
   v1 <- default_vaccine_pars()
   expect_type(v1, "list")
   expect_named(v1, c("dur_R", "dur_V",
@@ -24,33 +25,33 @@ test_that("beta_est_infectiousness input checks work", {
   mm_na[1] <- NA
 
   expect_error(beta_est_infectiousness(dur_IMild = 0, dur_ICase = 5,
-                                 prob_hosp = c(0.2,0.1),
-                                 rel_infectiousness = rep(1,2),
-                                 mixing_matrix = mm, R0 = 2),
+                                       prob_hosp = c(0.2,0.1),
+                                       rel_infectiousness = rep(1,2),
+                                       mixing_matrix = mm, R0 = 2),
                "dur_IMild must be greater than zero")
 
   expect_error(beta_est_infectiousness(dur_IMild = 2, dur_ICase = 0,
-                                 prob_hosp = c(0.2,0.1),
-                                 rel_infectiousness = rep(1,2),
-                                 mixing_matrix = mm, R0 = 2),
+                                       prob_hosp = c(0.2,0.1),
+                                       rel_infectiousness = rep(1,2),
+                                       mixing_matrix = mm, R0 = 2),
                "dur_ICase must be greater than zero")
 
   expect_error(beta_est_infectiousness(dur_IMild = c(2,2), dur_ICase = 5,
-                                 prob_hosp = c(0.2,0.1),
-                                 rel_infectiousness = rep(1,2),
-                                 mixing_matrix = mm, R0 = 2),
+                                       prob_hosp = c(0.2,0.1),
+                                       rel_infectiousness = rep(1,2),
+                                       mixing_matrix = mm, R0 = 2),
                "dur_IMild must be of length 1")
 
   expect_error(beta_est_infectiousness(dur_IMild = 2, dur_ICase = 5,
-                                 prob_hosp = c(0.2,NA),
-                                 rel_infectiousness = rep(1,2),
-                                 mixing_matrix = mm, R0 = 2),
+                                       prob_hosp = c(0.2,NA),
+                                       rel_infectiousness = rep(1,2),
+                                       mixing_matrix = mm, R0 = 2),
                "prob_hosp must not contain NAs")
 
   expect_error(beta_est_infectiousness(dur_IMild = 2, dur_ICase = 5,
-                                 prob_hosp = c(0.2,0.2),
-                                 rel_infectiousness = rep(1,2),
-                                 mixing_matrix = mm_na, R0 = 2),
+                                       prob_hosp = c(0.2,0.2),
+                                       rel_infectiousness = rep(1,2),
+                                       mixing_matrix = mm_na, R0 = 2),
                "mixing_matrix must not contain NAs")
 
 
@@ -107,19 +108,19 @@ test_that("beta_est_infectiousness value return checks", {
 
   # same infectiousness
   beta_1 <- beta_est_infectiousness(dur_IMild = 3,
-                                       dur_ICase = 5,
-                                       prob_hosp = c(0.1, 0.5),
-                                       rel_infectiousness = c(1, 1),
-                                       mixing_matrix = mm,
-                                       R0 = 2)
+                                    dur_ICase = 5,
+                                    prob_hosp = c(0.1, 0.5),
+                                    rel_infectiousness = c(1, 1),
+                                    mixing_matrix = mm,
+                                    R0 = 2)
 
   # less in one age group
   beta_2 <- beta_est_infectiousness(dur_IMild = 3,
-                          dur_ICase = 5,
-                          prob_hosp = c(0.1, 0.5),
-                          rel_infectiousness = c(0.5, 1),
-                          mixing_matrix = mm,
-                          R0 = 2)
+                                    dur_ICase = 5,
+                                    prob_hosp = c(0.1, 0.5),
+                                    rel_infectiousness = c(0.5, 1),
+                                    mixing_matrix = mm,
+                                    R0 = 2)
   expect_lt(beta_1, beta_2)
 
   # and test that values make sense in odin runs in homogenous population
@@ -228,14 +229,14 @@ test_that("correct lengths on time varying efficacies", {
 
   # but if we flip the profiles round
   r2 <- run("Iran",
-           R0 = 1.5,
-           vaccine_efficacy_disease = list(rep(0,17),rep(0,17)),
-           tt_vaccine_efficacy_disease = c(0, 200),
-           vaccine_efficacy_infection = list(rep(0,17), rep(1,17)),
-           tt_vaccine_efficacy_infection = c(0, 200),
-           max_vaccine = c(1000000),
-           dur_V = Inf,
-           vaccine_coverage_mat = nimue::strategy_matrix("All", 1)
+            R0 = 1.5,
+            vaccine_efficacy_disease = list(rep(0,17),rep(0,17)),
+            tt_vaccine_efficacy_disease = c(0, 200),
+            vaccine_efficacy_infection = list(rep(0,17), rep(1,17)),
+            tt_vaccine_efficacy_infection = c(0, 200),
+            max_vaccine = c(1000000),
+            dur_V = Inf,
+            vaccine_coverage_mat = nimue::strategy_matrix("All", 1)
   )
 
   # with them flipped deaths will still keep increasing due to the delay till admission etc
@@ -251,3 +252,20 @@ test_that("correct lengths on time varying efficacies", {
 
 
 })
+
+
+
+test_that("rel_infectiousness_vaccine works", {
+
+  r1 <- nimue::run("Iran", max_vaccine = 200000)
+  infs1 <- nimue::format(r1, summaries = "infections")
+  r2 <- nimue::run("Iran", max_vaccine = 200000, rel_infectiousness_vaccinated = 0.2)
+  infs2 <- nimue::format(r2, summaries = "infections")
+
+  expect_gt(
+    max(infs1$value[infs1$compartment == "infections"], na.rm=TRUE),
+    max(infs2$value[infs2$compartment == "infections"], na.rm=TRUE)
+  )
+
+})
+

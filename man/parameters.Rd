@@ -24,6 +24,7 @@ parameters(
   prob_severe_death_no_treatment = probs$prob_severe_death_no_treatment,
   p_dist = probs$p_dist,
   rel_infectiousness = probs$rel_infectiousness,
+  rel_infectiousness_vaccinated = probs$rel_infectiousness_vaccinated,
   dur_E,
   dur_IMild,
   dur_ICase,
@@ -119,6 +120,11 @@ other age groups when demand exceeds healthcare capacity.}
 
 \item{rel_infectiousness}{Relative infectiousness per age category relative
 to maximum infectiousness category. Default = rep(1, 17)}
+
+\item{rel_infectiousness_vaccinated}{Relative infectiousness per age
+category  of vaccinated individuals relative to unvaccinated individuals.
+Default = rep(1, 17), which is no impact of vaccination on onwards
+transmissions}
 
 \item{dur_E}{Mean duration of incubation period (days). Default = 4.6}
 
