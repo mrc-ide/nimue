@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nimue</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.18</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
 <span class="va">no_vaccine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"United Kingdom"</span>, 
                   max_vaccine <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co"># Format the output selecting infection and deaths</span>
-<span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">no_vaccine</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">no_vaccine</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="st">"No vaccine"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="infection-blocking-vaccine" class="section level3">
@@ -115,7 +115,7 @@
                           vaccine_efficacy_disease <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">17</span><span class="op">)</span>,
                           vaccine_efficacy_infection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">17</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># Format the output selecting infection and deaths</span>
-<span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">infection_blocking</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">infection_blocking</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="st">"Infection blocking"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="anti-disease-vaccine" class="section level3">
@@ -129,7 +129,7 @@
                           vaccine_efficacy_disease <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">17</span><span class="op">)</span>,
                           vaccine_efficacy_infection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">17</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># Format the output selecting infection and deaths</span>
-<span class="va">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">disease_blocking</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">out3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format.html">format</a></span><span class="op">(</span><span class="va">disease_blocking</span>, compartments <span class="op">=</span> <span class="cn">NULL</span>, summaries <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"infections"</span>, <span class="st">"deaths"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Name <span class="op">=</span> <span class="st">"Disease  blocking"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="compare" class="section level3">

@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nimue</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.18</span>
       </span>
     </div>
 
@@ -155,6 +155,7 @@
   prob_severe_death_no_treatment <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>prob_severe_death_no_treatment</span>,
   p_dist <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>p_dist</span>,
   rel_infectiousness <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>rel_infectiousness</span>,
+  rel_infectiousness_vaccinated <span class='op'>=</span> <span class='va'>probs</span><span class='op'>$</span><span class='va'>rel_infectiousness_vaccinated</span>,
   dur_E <span class='op'>=</span> <span class='va'>durs</span><span class='op'>$</span><span class='va'>dur_E</span>,
   dur_IMild <span class='op'>=</span> <span class='va'>durs</span><span class='op'>$</span><span class='va'>dur_IMild</span>,
   dur_ICase <span class='op'>=</span> <span class='va'>durs</span><span class='op'>$</span><span class='va'>dur_ICase</span>,
@@ -286,6 +287,13 @@ other age groups when demand exceeds healthcare capacity.</p></td>
       <th>rel_infectiousness</th>
       <td><p>Relative infectiousness per age category relative
 to maximum infectiousness category. Default = rep(1, 17)</p></td>
+    </tr>
+    <tr>
+      <th>rel_infectiousness_vaccinated</th>
+      <td><p>Relative infectiousness per age
+category  of vaccinated individuals relative to unvaccinated individuals.
+Default = rep(1, 17), which is no impact of vaccination on onwards
+transmissions</p></td>
     </tr>
     <tr>
       <th>dur_E</th>
