@@ -43,6 +43,10 @@
 #'   other age groups when demand exceeds healthcare capacity.
 #' @param rel_infectiousness Relative infectiousness per age category relative
 #'   to maximum infectiousness category. Default = rep(1, 17)
+#' @param rel_infectiousness_vaccinated  Relative infectiousness per age
+#'   category  of vaccinated individuals relative to unvaccinated individuals.
+#'   Default = rep(1, 17), which is no impact of vaccination on onwards
+#'   transmissions
 #' @param dur_E Mean duration of incubation period (days). Default = 4.6
 #' @param dur_IMild Mean duration of mild infection (days). Default = 2.1
 #' @param dur_ICase Mean duration from symptom onset to hospitil admission (days).
