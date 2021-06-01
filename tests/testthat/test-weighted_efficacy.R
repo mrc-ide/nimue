@@ -135,17 +135,17 @@ test_that("extract dose number", {
 })
 
 test_that("weighted efficacy", {
-  # Without 2nd dose priority
-  t1 <- weighted_efficacy(iso3c = "GHA",
-                          N = 1000,
-                          maxt = 365,
-                          doses_per_day = rep(15, 365),
-                          dose_period = 12 * 7,
-                          v1v2 = 28,
-                          prioritisation_matrix = nimue::strategy_matrix("Elderly"),
-                          d2_prioritise = rep(FALSE, 17),
-                          infection_efficacy = c(0.1, 0.9),
-                          disease_efficacy = c(0.2, 0.8))
+    # Without 2nd dose priority
+    t1 <- weighted_efficacy(iso3c = "GHA",
+                            N = 1000,
+                            maxt = 365,
+                            doses_per_day = rep(15, 365),
+                            dose_period = 12 * 7,
+                            v1v2 = 28,
+                            prioritisation_matrix = nimue::strategy_matrix("Elderly"),
+                            d2_prioritise = rep(FALSE, 17),
+                            infection_efficacy = c(0.1, 0.9),
+                            disease_efficacy = c(0.2, 0.8))
   # With 2nd dose priority
   t2 <- weighted_efficacy(iso3c = "GHA",
                           N = 1000,
