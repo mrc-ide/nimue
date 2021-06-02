@@ -221,9 +221,13 @@ weighted_efficacy <- function(iso3c,
         current_doses <- current_doses - sum(ad)
       }
 
-      # Any remaining doses can go towards 1st doses in the next prioritisation step
-      if(current_doses > 0){
-        temp_p_step <- p_step + 1
+      # Any remaining doses can go towards 1st doses in the next prioritisation step(s)
+      temp_p_step <- p_step
+      while(current_doses > 0){
+        temp_p_step <- temp_p_step + 1
+        if(temp_p_step > nrow(prioritisation_matrix)){
+          break
+        }
         # Individuals left to target in each age group
         tp <- target_pop(dose_number = 1, dose_times = dose_times, prioritisation = prioritisation_matrix[temp_p_step, ], t = t, dose_period = dose_period, d2_prioritise = d2_prioritise)
         # Assign available doses
