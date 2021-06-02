@@ -3,7 +3,7 @@
 #' @param doses Total available doses
 #' @param target_pop Number of people eligible to be vaccinated
 assign_doses <- function(doses, target_pop){
-  if(sum(target_pop) < doses){
+  if(sum(target_pop) <= doses){
     return(target_pop)
   } else{
     group_weights <- target_pop / sum(target_pop)
@@ -131,11 +131,14 @@ extract_dose_number <- function(dose_times, maxt){
 add_weighted_efficacy <- function(dose_number, infection_efficacy, disease_efficacy, v1v2){
   dose_number  %>%
     dplyr::group_by(.data$age_group) %>%
-    dplyr::mutate(c2 = cumsum(.data$n_2dose),
-                  c1 = cumsum(.data$n_1dose) - .data$c2) %>%
+    # Number vaccinated
+    dplyr::mutate(vx2 = cumsum(.data$n_2dose), # Vaccinated with 2 doses
+                  vx1 = cumsum(.data$n_1dose) - .data$vx2) %>%  # Vaccinated with 1 dose only (received 1 but not yet 2)
     # Number vaccine protected - lag between administration of dose 1 and protection
-    dplyr::mutate(protected1 = dplyr::lag(.data$c1, v1v2, default = 0),
-                  protected2 = .data$c2) %>%
+    dplyr::mutate(protected2 = .data$vx2,
+                  protected1 = pmax(0, dplyr::lag(.data$vx1, v1v2, default = 0) - .data$vx2)) %>%
+    #dplyr::mutate(protected2 = .data$vx2,
+    #              protected1 = pmax(0, dplyr::lag(cumsum(.data$n_1dose), v1v2, default = 0) - vx2)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(weighted_infection_efficacy = purrr::map2_dbl(.data$protected1, .data$protected2, function(x, y, efficacy){
       ifelse(x + y > 0, stats::weighted.mean(efficacy, c(x, y)), efficacy[1])
@@ -143,7 +146,7 @@ add_weighted_efficacy <- function(dose_number, infection_efficacy, disease_effic
     weighted_disease_efficacy = purrr::map2_dbl(.data$protected1, .data$protected2, function(x, y, efficacy){
       ifelse(x + y > 0, stats::weighted.mean(efficacy, c(x, y)), efficacy[1])
     }, efficacy = disease_efficacy)) %>%
-    dplyr::select(-.data$protected1, -.data$protected2, -.data$c1, -.data$c2)
+    dplyr::select(-.data$protected1, -.data$protected2, -.data$vx1, -.data$vx2)
 }
 
 #' Estimate weighted efficacies

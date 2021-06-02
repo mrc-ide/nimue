@@ -96,9 +96,13 @@ test_that("extract dose number", {
   for(age in 1:3){
     dn_temp <- dplyr::filter(dn, age_group == age)
     we_temp <- dplyr::filter(we, age_group == age)
-    protected_dose2 <- cumsum(dn_temp$n_2dose)
-    protected_dose1 <- cumsum(dn_temp$n_1dose) - protected_dose2
-    protected <- cbind(protected_dose1, protected_dose2)
+    # Number vaccinated
+    vx2 = cumsum(dn_temp$n_2dose) # Vaccinated with 2 doses
+    vx1 = cumsum(dn_temp$n_1dose) - vx2# Vaccinated with 1 dose only (received 1 but not yet 2)
+    # Number vaccine protected - lag between administration of dose 1 and protection
+    protected2 = vx2
+    protected1 = pmax(0, dplyr::lag(vx1, 0, default = 0) - vx2)
+    protected <- cbind(protected1, protected2)
     expect_equal(we_temp$weighted_infection_efficacy,
                  apply(protected, 1, function(x){
                    weighted.mean(infection_efficacy, x)
@@ -118,9 +122,13 @@ test_that("extract dose number", {
   for(age in 1:3){
     dn_temp <- dplyr::filter(dn, age_group == age)
     we_temp <- dplyr::filter(we_lag, age_group == age)
-    protected_dose2 <- cumsum(dn_temp$n_2dose)
-    protected_dose1 <- dplyr::lag(cumsum(dn_temp$n_1dose) - protected_dose2, 1, default = 0)
-    protected <- cbind(protected_dose1, protected_dose2)
+    # Number vaccinated
+    vx2 = cumsum(dn_temp$n_2dose) # Vaccinated with 2 doses
+    vx1 = cumsum(dn_temp$n_1dose) - vx2# Vaccinated with 1 dose only (received 1 but not yet 2)
+    # Number vaccine protected - lag between administration of dose 1 and protection
+    protected2 = vx2
+    protected1 = pmax(0, dplyr::lag(vx1, 1, default = 0) - vx2)
+    protected <- cbind(protected1, protected2)
     expect_equal(we_temp$weighted_infection_efficacy,
                  apply(protected, 1, function(x){
                    ifelse(sum(x) == 0, infection_efficacy[1], weighted.mean(infection_efficacy, x))
@@ -135,17 +143,17 @@ test_that("extract dose number", {
 })
 
 test_that("weighted efficacy", {
-    # Without 2nd dose priority
-    t1 <- weighted_efficacy(iso3c = "GHA",
-                            N = 1000,
-                            maxt = 365,
-                            doses_per_day = rep(15, 365),
-                            dose_period = 12 * 7,
-                            v1v2 = 28,
-                            prioritisation_matrix = nimue::strategy_matrix("Elderly"),
-                            d2_prioritise = rep(FALSE, 17),
-                            infection_efficacy = c(0.1, 0.9),
-                            disease_efficacy = c(0.2, 0.8))
+  # Without 2nd dose priority
+  t1 <- weighted_efficacy(iso3c = "GHA",
+                          N = 1000,
+                          maxt = 365,
+                          doses_per_day = rep(15, 365),
+                          dose_period = 12 * 7,
+                          v1v2 = 28,
+                          prioritisation_matrix = nimue::strategy_matrix("Elderly"),
+                          d2_prioritise = rep(FALSE, 17),
+                          infection_efficacy = c(0.1, 0.9),
+                          disease_efficacy = c(0.2, 0.8))
   # With 2nd dose priority
   t2 <- weighted_efficacy(iso3c = "GHA",
                           N = 1000,
