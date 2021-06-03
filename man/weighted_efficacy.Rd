@@ -10,7 +10,8 @@ weighted_efficacy(
   maxt,
   doses_per_day,
   dose_period,
-  v1v2,
+  delay_dose1,
+  delay_dose2,
   prioritisation_matrix,
   d2_prioritise,
   infection_efficacy,
@@ -28,7 +29,9 @@ weighted_efficacy(
 
 \item{dose_period}{Days between dose 1 and dose 2}
 
-\item{v1v2}{Duration in v1v2 (vaccinated but not protected)}
+\item{delay_dose1}{Delay between receipt of first dose and protection from first dose (duration in v1v)..}
+
+\item{delay_dose2}{Delay between receipt of second dose and protection from second dose.}
 
 \item{prioritisation_matrix}{Prioritisation matrix}
 

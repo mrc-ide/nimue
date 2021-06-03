@@ -4,7 +4,13 @@
 \alias{add_weighted_efficacy}
 \title{Extract weighted efficacies}
 \usage{
-add_weighted_efficacy(dose_number, infection_efficacy, disease_efficacy, v1v2)
+add_weighted_efficacy(
+  dose_number,
+  infection_efficacy,
+  disease_efficacy,
+  delay_dose1,
+  delay_dose2
+)
 }
 \arguments{
 \item{dose_number}{Dose number: 1 or 2}
@@ -13,7 +19,9 @@ add_weighted_efficacy(dose_number, infection_efficacy, disease_efficacy, v1v2)
 
 \item{disease_efficacy}{Vector of length 2 of disease efficacy for first and second dose}
 
-\item{v1v2}{Duration in v1v2 (vaccinated but not protected)}
+\item{delay_dose1}{Delay between receipt of first dose and protection from first dose (duration in v1v)..}
+
+\item{delay_dose2}{Delay between receipt of second dose and protection from second dose.}
 }
 \description{
 Extract weighted efficacies

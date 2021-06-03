@@ -128,17 +128,15 @@ extract_dose_number <- function(dose_times, maxt){
 #'
 #' @param dose_number  Dose number: 1 or 2
 #' @inheritParams weighted_efficacy
-add_weighted_efficacy <- function(dose_number, infection_efficacy, disease_efficacy, v1v2){
+add_weighted_efficacy <- function(dose_number, infection_efficacy, disease_efficacy, delay_dose1, delay_dose2){
   dose_number  %>%
     dplyr::group_by(.data$age_group) %>%
     # Number vaccinated
     dplyr::mutate(vx2 = cumsum(.data$n_2dose), # Vaccinated with 2 doses
                   vx1 = cumsum(.data$n_1dose) - .data$vx2) %>%  # Vaccinated with 1 dose only (received 1 but not yet 2)
     # Number vaccine protected - lag between administration of dose 1 and protection
-    dplyr::mutate(protected2 = .data$vx2,
-                  protected1 = pmax(0, dplyr::lag(.data$vx1, v1v2, default = 0) - .data$vx2)) %>%
-    #dplyr::mutate(protected2 = .data$vx2,
-    #              protected1 = pmax(0, dplyr::lag(cumsum(.data$n_1dose), v1v2, default = 0) - vx2)) %>%
+    dplyr::mutate(protected2 = dplyr::lag(.data$vx2, delay_dose2, default = 0),
+                  protected1 = pmax(0, dplyr::lag(.data$vx1, delay_dose1, default = 0) - .data$protected2)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(weighted_infection_efficacy = purrr::map2_dbl(.data$protected1, .data$protected2, function(x, y, efficacy){
       ifelse(x + y > 0, stats::weighted.mean(efficacy, c(x, y)), efficacy[1])
@@ -164,7 +162,8 @@ add_weighted_efficacy <- function(dose_number, infection_efficacy, disease_effic
 #' @param maxt Max time
 #' @param doses_per_day Vector of available doses per day
 #' @param dose_period Days between dose 1 and dose 2
-#' @param v1v2 Duration in v1v2 (vaccinated but not protected)
+#' @param delay_dose1 Delay between receipt of first dose and protection from first dose (duration in v1v)..
+#' @param delay_dose2 Delay between receipt of second dose and protection from second dose.
 #' @param prioritisation_matrix Prioritisation matrix
 #' @param d2_prioritise Boolean vector indicating which age groups are prioritised to receive 2nd dose
 #' @param infection_efficacy Vector of length 2 of infection efficacy for first and second dose
@@ -177,13 +176,14 @@ weighted_efficacy <- function(iso3c,
                               maxt,
                               doses_per_day,
                               dose_period,
-                              v1v2,
+                              delay_dose1,
+                              delay_dose2,
                               prioritisation_matrix,
                               d2_prioritise,
                               infection_efficacy,
                               disease_efficacy){
 
-  stopifnot(v1v2 < dose_period)
+  stopifnot(delay_dose1 < dose_period)
   # Get population
   pop <- squire::get_population(iso3c = iso3c)
   # Rescale population and define age group for each individual
@@ -277,6 +277,6 @@ weighted_efficacy <- function(iso3c,
   }
   # Extract outputs of interest
   output <- extract_dose_number(dose_times, maxt) %>%
-    add_weighted_efficacy(infection_efficacy, disease_efficacy, v1v2)
+    add_weighted_efficacy(infection_efficacy, disease_efficacy, delay_dose1, delay_dose2)
   return(output)
 }

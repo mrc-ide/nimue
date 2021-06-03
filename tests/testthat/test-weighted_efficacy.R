@@ -90,7 +90,7 @@ test_that("extract dose number", {
   expect_equal(dn$n_1dose, c(1, 3, 1, 1, 0, 2, 0, 0, 0))
   expect_equal(dn$n_2dose, c(0, 0, 0, 1, 1, 0, 1, 1, 0))
 
-  we <- add_weighted_efficacy(dn, infection_efficacy, disease_efficacy, 0)
+  we <- add_weighted_efficacy(dn, infection_efficacy, disease_efficacy, 0, 0)
   expect_equal(we$t, rep(1:3, each = 3))
   expect_equal(we$age_group, factor(rep(1:3, 3), levels = 1:3))
   for(age in 1:3){
@@ -116,7 +116,7 @@ test_that("extract dose number", {
   }
 
   # With a lag from first dose to protection
-  we_lag <- add_weighted_efficacy(dn, infection_efficacy, disease_efficacy, 1)
+  we_lag <- add_weighted_efficacy(dn, infection_efficacy, disease_efficacy, 1, 0)
   expect_equal(we$t, rep(1:3, each = 3))
   expect_equal(we$age_group, factor(rep(1:3, 3), levels = 1:3))
   for(age in 1:3){
@@ -140,6 +140,32 @@ test_that("extract dose number", {
                  })
     )
   }
+
+  # With a lag from second dose to protection
+  we_lag <- add_weighted_efficacy(dn, infection_efficacy, disease_efficacy, 0, 1)
+  expect_equal(we$t, rep(1:3, each = 3))
+  expect_equal(we$age_group, factor(rep(1:3, 3), levels = 1:3))
+  for(age in 1:3){
+    dn_temp <- dplyr::filter(dn, age_group == age)
+    we_temp <- dplyr::filter(we_lag, age_group == age)
+    # Number vaccinated
+    vx2 = cumsum(dn_temp$n_2dose) # Vaccinated with 2 doses
+    vx1 = cumsum(dn_temp$n_1dose) - vx2# Vaccinated with 1 dose only (received 1 but not yet 2)
+    # Number vaccine protected - lag between administration of dose 1 and protection
+    protected2 = dplyr::lag(vx2, 1, default = 0)
+    protected1 = pmax(0, dplyr::lag(vx1, 0, default = 0) - protected2)
+    protected <- cbind(protected1, protected2)
+    expect_equal(we_temp$weighted_infection_efficacy,
+                 apply(protected, 1, function(x){
+                   ifelse(sum(x) == 0, infection_efficacy[1], weighted.mean(infection_efficacy, x))
+                 })
+    )
+    expect_equal(we_temp$weighted_disease_efficacy,
+                 apply(protected, 1, function(x){
+                   ifelse(sum(x) == 0, disease_efficacy[1], weighted.mean(disease_efficacy, x))
+                 })
+    )
+  }
 })
 
 test_that("weighted efficacy", {
@@ -149,7 +175,8 @@ test_that("weighted efficacy", {
                           maxt = 365,
                           doses_per_day = rep(15, 365),
                           dose_period = 12 * 7,
-                          v1v2 = 28,
+                          delay_dose1 = 28,
+                          delay_dose2 = 7,
                           prioritisation_matrix = nimue::strategy_matrix("Elderly"),
                           d2_prioritise = rep(FALSE, 17),
                           infection_efficacy = c(0.1, 0.9),
@@ -160,7 +187,8 @@ test_that("weighted efficacy", {
                           maxt = 365,
                           doses_per_day = rep(15, 365),
                           dose_period = 12 * 7,
-                          v1v2 = 28,
+                          delay_dose1 = 28,
+                          delay_dose2 = 7,
                           prioritisation_matrix = nimue::strategy_matrix("Elderly"),
                           d2_prioritise = rep(TRUE, 17),
                           infection_efficacy = c(0.1, 0.9),
