@@ -43,6 +43,10 @@
 #'   other age groups when demand exceeds healthcare capacity.
 #' @param rel_infectiousness Relative infectiousness per age category relative
 #'   to maximum infectiousness category. Default = rep(1, 17)
+#' @param rel_infectiousness_vaccinated  Relative infectiousness per age
+#'   category  of vaccinated individuals relative to unvaccinated individuals.
+#'   Default = rep(1, 17), which is no impact of vaccination on onwards
+#'   transmissions
 #' @param dur_E Mean duration of incubation period (days). Default = 4.6
 #' @param dur_IMild Mean duration of mild infection (days). Default = 2.1
 #' @param dur_ICase Mean duration from symptom onset to hospitil admission (days).
@@ -145,6 +149,7 @@ run <- function(
 
   # onward infectiousness
   rel_infectiousness = probs$rel_infectiousness,
+  rel_infectiousness_vaccinated = probs$rel_infectiousness_vaccinated,
 
   # durations
   dur_E  = durs$dur_E,
@@ -212,6 +217,7 @@ run <- function(
                      prob_severe_death_no_treatment = prob_severe_death_no_treatment,
                      p_dist = p_dist,
                      rel_infectiousness = rel_infectiousness,
+                     rel_infectiousness_vaccinated = rel_infectiousness_vaccinated,
                      dur_E = dur_E,
                      dur_IMild = dur_IMild,
                      dur_ICase = dur_ICase,

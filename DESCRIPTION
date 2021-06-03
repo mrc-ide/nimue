@@ -1,15 +1,13 @@
 Package: nimue
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.17
+Title: COVID-19 Vaccine Modelling
+Version: 0.1.20
 Authors@R: c(
   person("Peter", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre")),
   person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut")),
   person("Alexandra", "Hogan", email = "a.hogan@imperial.ac.uk", role = c("aut"))
   )
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Extension of the squire (https://github.com/mrc-ide/squire) COVID-19 model for simulating vaccine impact.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -21,14 +19,17 @@ RoxygenNote: 7.1.1
 Imports: 
     odin (>= 1.1.0),
     squire (>= 0.6.5),
+    dde (>= 1.0.2),
     dplyr,
     magrittr,
     abind,
     rlang,
     ggplot2,
-    tidyr
+    tidyr,
+    purrr
 Depends: R (>= 3.1.0)
 Remotes:
+    mrc-ide/dde,
     mrc-ide/odin,
     mrc-ide/squire
 VignetteBuilder: knitr
