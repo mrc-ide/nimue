@@ -1,7 +1,7 @@
 Package: nimue
 Type: Package
 Title: COVID-19 Vaccine Modelling
-Version: 0.1.18
+Version: 0.1.20
 Authors@R: c(
   person("Peter", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre")),
   person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut")),
@@ -19,14 +19,17 @@ RoxygenNote: 7.1.1
 Imports: 
     odin (>= 1.1.0),
     squire (>= 0.6.5),
+    dde (>= 1.0.2),
     dplyr,
     magrittr,
     abind,
     rlang,
     ggplot2,
-    tidyr
+    tidyr,
+    purrr
 Depends: R (>= 3.1.0)
 Remotes:
+    mrc-ide/dde,
     mrc-ide/odin,
     mrc-ide/squire
 VignetteBuilder: knitr
