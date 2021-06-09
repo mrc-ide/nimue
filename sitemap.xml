@@ -31,10 +31,25 @@
     <loc>/reference/add_age.html</loc>
   </url>
   <url>
+    <loc>/reference/add_weighted_efficacy.html</loc>
+  </url>
+  <url>
+    <loc>/reference/administer_first_dose.html</loc>
+  </url>
+  <url>
+    <loc>/reference/administer_second_dose.html</loc>
+  </url>
+  <url>
+    <loc>/reference/assign_doses.html</loc>
+  </url>
+  <url>
     <loc>/reference/beta_est_infectiousness.html</loc>
   </url>
   <url>
     <loc>/reference/collapse_age.html</loc>
+  </url>
+  <url>
+    <loc>/reference/coverage.html</loc>
   </url>
   <url>
     <loc>/reference/default_durations.html</loc>
@@ -44,6 +59,12 @@
   </url>
   <url>
     <loc>/reference/default_vaccine_pars.html</loc>
+  </url>
+  <url>
+    <loc>/reference/eligable_for_second.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_dose_number.html</loc>
   </url>
   <url>
     <loc>/reference/format.html</loc>
@@ -86,5 +107,11 @@
   </url>
   <url>
     <loc>/reference/strategy_matrix.html</loc>
+  </url>
+  <url>
+    <loc>/reference/target_pop.html</loc>
+  </url>
+  <url>
+    <loc>/reference/weighted_efficacy.html</loc>
   </url>
 </urlset>

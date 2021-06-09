@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prioritisation matrix — strategy_matrix • nimue</title>
+<title>Estimate weighted efficacies — weighted_efficacy • nimue</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,14 @@
 
 
 
-<meta property="og:title" content="Prioritisation matrix — strategy_matrix" />
-<meta property="og:description" content="Choose from one of four preset prioritisation matrices." />
+<meta property="og:title" content="Estimate weighted efficacies — weighted_efficacy" />
+<meta property="og:description" content="Estimate weighted age-disaggregated efficacies and numbers of doses over time
+to facilitate an approximation of 2 doses with varying 1st and 2nd dose efficacy.
+Current assumptions are that the duration in v1 and v2 (vaccinated but not protected)
+is fixed and that the number individuals that cannot be vaccinated (due to being
+in the hospitalised flow) does not substantivly impact vaccine roll out rates. It is
+recommended to run with reasonably large N to ensure that there are enough
+individuals assigned to each age group to get stable results." />
 
 
 
@@ -126,43 +132,87 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prioritisation matrix</h1>
+    <h1>Estimate weighted efficacies</h1>
     
-    <div class="hidden name"><code>strategy_matrix.Rd</code></div>
+    <div class="hidden name"><code>weighted_efficacy.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Choose from one of four preset prioritisation matrices.</p>
+    <p>Estimate weighted age-disaggregated efficacies and numbers of doses over time
+to facilitate an approximation of 2 doses with varying 1st and 2nd dose efficacy.
+Current assumptions are that the duration in v1 and v2 (vaccinated but not protected)
+is fixed and that the number individuals that cannot be vaccinated (due to being
+in the hospitalised flow) does not substantivly impact vaccine roll out rates. It is
+recommended to run with reasonably large <code>N</code> to ensure that there are enough
+individuals assigned to each age group to get stable results.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>strategy_matrix</span><span class='op'>(</span><span class='va'>strategy</span>, max_coverage <span class='op'>=</span> <span class='fl'>0.8</span>, risk_proportion <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>weighted_efficacy</span><span class='op'>(</span>
+  <span class='va'>iso3c</span>,
+  <span class='va'>N</span>,
+  <span class='va'>maxt</span>,
+  <span class='va'>doses_per_day</span>,
+  <span class='va'>dose_period</span>,
+  <span class='va'>delay_dose1</span>,
+  <span class='va'>delay_dose2</span>,
+  <span class='va'>prioritisation_matrix</span>,
+  <span class='va'>d2_prioritise</span>,
+  <span class='va'>infection_efficacy</span>,
+  <span class='va'>disease_efficacy</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>strategy</th>
-      <td><p>Prioritisation strategy</p><ul>
-<li><p>"All""Target all age groups"</p></li>
-<li><p>"Elderly""Prioritise by most elderly first, working to younger age groups at each step"</p></li>
-<li><p>"Working Elderly Children""Prioritise working ages followed by elderly followed by children"</p></li>
-<li><p>"Risk Elderly Working Children""Prioritise a sub-population of thoe working age, followed by elderly, followed by remiaining working age followed by children"</p></li>
-<li><p>"Risk Elderly Working Children step""Prioritise a sub-population of thoe working age, followed by elderly and continuing in a stepwise fashion, moving from the oldest age group down"</p></li>
-</ul></td>
+      <th>iso3c</th>
+      <td><p>Country iso3c code</p></td>
     </tr>
     <tr>
-      <th>max_coverage</th>
-      <td><p>Maximum coverage in any one age group</p></td>
+      <th>N</th>
+      <td><p>Number to simulate. Country population is rescaled to this number</p></td>
     </tr>
     <tr>
-      <th>risk_proportion</th>
-      <td><p>Proportion of working age individuals to prioritise if "Risk Elderly Working Children" is choosen</p></td>
+      <th>maxt</th>
+      <td><p>Max time</p></td>
+    </tr>
+    <tr>
+      <th>doses_per_day</th>
+      <td><p>Vector of available doses per day</p></td>
+    </tr>
+    <tr>
+      <th>dose_period</th>
+      <td><p>Days between dose 1 and dose 2</p></td>
+    </tr>
+    <tr>
+      <th>delay_dose1</th>
+      <td><p>Delay between receipt of first dose and protection from first dose (duration in v1v)..</p></td>
+    </tr>
+    <tr>
+      <th>delay_dose2</th>
+      <td><p>Delay between receipt of second dose and protection from second dose.</p></td>
+    </tr>
+    <tr>
+      <th>prioritisation_matrix</th>
+      <td><p>Prioritisation matrix</p></td>
+    </tr>
+    <tr>
+      <th>d2_prioritise</th>
+      <td><p>Boolean vector indicating which age groups are prioritised to receive 2nd dose</p></td>
+    </tr>
+    <tr>
+      <th>infection_efficacy</th>
+      <td><p>Vector of length 2 of infection efficacy for first and second dose</p></td>
+    </tr>
+    <tr>
+      <th>disease_efficacy</th>
+      <td><p>Vector of length 2 of disease efficacy for first and second dose</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Prioritisation coverage matrix</p>
+    <p>Age disaggregated dose numbers and efficacies over time.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
