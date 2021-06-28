@@ -140,6 +140,8 @@ run <- function(
   # parameters
   # probabilities
   prob_hosp = probs$prob_hosp,
+  prob_hosp_multiplier = probs$prob_hosp_multiplier,
+  tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
@@ -171,6 +173,7 @@ run <- function(
 
   # vaccine
   dur_R = vaccine_pars$dur_R,
+  tt_dur_R = vaccine_pars$tt_dur_R,
   dur_V = vaccine_pars$dur_V,
   vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
   tt_vaccine_efficacy_infection = vaccine_pars$tt_vaccine_efficacy_infection,
@@ -210,6 +213,8 @@ run <- function(
                      seeding_cases = seeding_cases,
                      seeding_age_order = seeding_age_order,
                      prob_hosp = prob_hosp,
+                     tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
+                     prob_hosp_multiplier = prob_hosp_multiplier,
                      prob_severe = prob_severe,
                      prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                      prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
@@ -231,6 +236,7 @@ run <- function(
                      dur_not_get_mv_die = dur_not_get_mv_die,
                      dur_rec = dur_rec,
                      dur_R = dur_R,
+                     tt_dur_R = tt_dur_R,
                      hosp_bed_capacity = hosp_bed_capacity,
                      ICU_bed_capacity = ICU_bed_capacity,
                      tt_hosp_beds = tt_hosp_beds,

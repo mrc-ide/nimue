@@ -4,7 +4,9 @@
 default_probs <- function() {
   c(squire::default_probs(),
     list(rel_infectiousness = rep(1, 17),
-         rel_infectiousness_vaccinated = rep(1,17)))
+         rel_infectiousness_vaccinated = rep(1,17),
+         prob_hosp_multiplier = 1,
+         tt_prob_hosp_multiplier = 0))
 }
 
 probs <- default_probs()
@@ -22,6 +24,7 @@ durs <- default_durations()
 #' @return list of default vaccine parameters
 default_vaccine_pars <- function() {
   list(dur_R = Inf,
+       tt_dur_R = 0,
        dur_V = 365,
        vaccine_efficacy_infection = rep(0.95, 17),
        tt_vaccine_efficacy_infection = 0,
@@ -62,6 +65,8 @@ parameters <- function(
   # Parameters
   # Probabilities
   prob_hosp = probs$prob_hosp,
+  prob_hosp_multiplier = probs$prob_hosp_multiplier,
+  tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
@@ -89,6 +94,7 @@ parameters <- function(
 
   dur_rec,
   dur_R,
+  tt_dur_R,
 
   # Vaccine
   dur_V,
@@ -175,6 +181,8 @@ parameters <- function(
   stopifnot(length(hosp_bed_capacity) == length(tt_hosp_beds))
   stopifnot(length(ICU_bed_capacity) == length(tt_ICU_beds))
   stopifnot(length(max_vaccine) == length(tt_vaccine))
+  stopifnot(length(prob_hosp_multiplier) == length(tt_prob_hosp_multiplier))
+  stopifnot(length(dur_R) == length(tt_dur_R))
   stopifnot(ncol(vaccine_coverage_mat) == 17)
 
   assert_pos(dur_E)
@@ -195,6 +203,7 @@ parameters <- function(
   assert_pos(ICU_bed_capacity)
   assert_pos(max_vaccine)
   assert_pos(dur_vaccine_delay)
+  assert_pos(prob_hosp_multiplier)
 
   assert_length(prob_hosp, length(population))
   assert_length(prob_severe, length(population))
@@ -306,7 +315,10 @@ parameters <- function(
                  gamma_not_get_mv_die = gamma_not_get_mv_die,
                  gamma_rec = gamma_rec,
                  gamma_R = gamma_R,
+                 tt_dur_R = tt_dur_R,
                  prob_hosp = prob_hosp_odin_array,
+                 prob_hosp_multiplier = prob_hosp_multiplier,
+                 tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
                  prob_severe = prob_severe,
                  prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                  prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,

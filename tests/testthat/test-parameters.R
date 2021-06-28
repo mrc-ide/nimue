@@ -8,10 +8,11 @@ test_that("default parameter list works", {
   expect_named(d1, c("prob_hosp", "prob_severe", "prob_non_severe_death_treatment",
                      "prob_non_severe_death_no_treatment", "prob_severe_death_treatment",
                      "prob_severe_death_no_treatment",  "p_dist",
-                     "rel_infectiousness", "rel_infectiousness_vaccinated"))
+                     "rel_infectiousness", "rel_infectiousness_vaccinated",
+                     'prob_hosp_multiplier', 'tt_prob_hosp_multiplier'))
   v1 <- default_vaccine_pars()
   expect_type(v1, "list")
-  expect_named(v1, c("dur_R", "dur_V",
+  expect_named(v1, c("dur_R", "tt_dur_R", "dur_V",
                      "vaccine_efficacy_infection", "tt_vaccine_efficacy_infection",
                      "vaccine_efficacy_disease", "tt_vaccine_efficacy_disease",
                      "max_vaccine", "tt_vaccine", "dur_vaccine_delay",
