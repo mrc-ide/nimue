@@ -30,6 +30,8 @@ default_vaccine_pars <- function() {
        tt_vaccine_efficacy_infection = 0,
        vaccine_efficacy_disease = rep(0.95, 17),
        tt_vaccine_efficacy_disease = 0,
+       vaccine_efficacy_death = rep(0.95, 17),
+       tt_vaccine_efficacy_death = 0,
        max_vaccine = 1000,
        tt_vaccine = 0,
        dur_vaccine_delay = 14,
@@ -102,6 +104,8 @@ parameters <- function(
   tt_vaccine_efficacy_infection,
   vaccine_efficacy_disease,
   tt_vaccine_efficacy_disease,
+  vaccine_efficacy_death,
+  tt_vaccine_efficacy_death,
   max_vaccine,
   tt_vaccine,
   dur_vaccine_delay,
@@ -299,6 +303,12 @@ parameters <- function(
     prob_hosp = prob_hosp
   )
 
+  # Third vaccine efficacy death
+  prob_death_multiplier <- format_ve_death_for_odin(
+    vaccine_efficacy_death = vaccine_efficacy_death,
+    tt_vaccine_efficacy_death = tt_vaccine_efficacy_death
+  )
+
   # Collate Parameters Into List
   pars <- c(mod_init,
             list(N_age = length(population),
@@ -319,6 +329,8 @@ parameters <- function(
                  prob_hosp = prob_hosp_odin_array,
                  prob_hosp_multiplier = prob_hosp_multiplier,
                  tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
+                 prob_death_multiplier = prob_death_multiplier,
+                 tt_prob_death_multiplier = tt_vaccine_efficacy_death,
                  prob_severe = prob_severe,
                  prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                  prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
@@ -342,6 +354,7 @@ parameters <- function(
                  vaccine_efficacy_infection = vaccine_efficacy_infection_odin_array,
                  tt_vaccine_efficacy_infection = tt_vaccine_efficacy_infection,
                  tt_vaccine_efficacy_disease = tt_vaccine_efficacy_disease,
+                 tt_vaccine_efficacy_death = tt_vaccine_efficacy_death,
                  vaccine_coverage_mat = vaccine_coverage_mat,
                  N_vaccine = 6,
                  N_prioritisation_steps = nrow(vaccine_coverage_mat),
