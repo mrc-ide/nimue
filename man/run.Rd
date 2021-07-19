@@ -156,7 +156,10 @@ death. Default = 1}
 
 \item{dur_rec}{Duration of recovery after coming off ventilation. Default = 2}
 
-\item{dur_R}{Mean duration of naturally acquired immunity (days)}
+\item{dur_R}{Mean duration of naturally acquired immunity (days). Can be
+time varying, with timing of changes given by tt_dur_R.}
+
+\item{tt_dur_R}{Timing of changes in duration of natural immunity.}
 
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
@@ -225,6 +228,12 @@ Default = NULL.}
 \item{use_dde}{Use the dde solver (default is \code{TRUE})}
 
 \item{...}{Additional arguments for solver}
+
+\item{prob_hosp_mutliplier}{Time varying multiplier to probability of
+hospitalisation. Default = 1, which is no change to provided prob_hosp.}
+
+\item{tt_prob_hosp_mutliplier}{Timing of changes to multiplier of probability
+of hospitalisation. Default = 0}
 }
 \value{
 Simulation output

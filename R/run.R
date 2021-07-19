@@ -22,6 +22,10 @@
 #'   0.010289885, 0.016234604, 0.023349169, 0.028944623, 0.038607042,
 #'   0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 #'   0.176634654 ,0.180000000)
+#' @param prob_hosp_mutliplier Time varying multiplier to probability of
+#'   hospitalisation. Default = 1, which is no change to provided prob_hosp.
+#' @param tt_prob_hosp_mutliplier Timing of changes to multiplier of probability
+#'   of hospitalisation. Default = 0
 #' @param prob_severe Probability of developing severe symptoms by age.
 #'   Default = c(0.05022296,	0.05022296,	0.05022296,	0.05022296,	0.05022296,
 #'   0.05022296,	0.05022296,	0.053214942, 0.05974426,	0.074602879,
@@ -77,7 +81,9 @@
 #' @param init Initial conditions for simulation provided. Allows overriding
 #'   if initial conditions start with an already infected population etc.
 #'   Default = NULL.
-#' @param dur_R Mean duration of naturally acquired immunity (days)
+#' @param dur_R Mean duration of naturally acquired immunity (days). Can be
+#'   time varying, with timing of changes given by tt_dur_R.
+#' @param tt_dur_R Timing of changes in duration of natural immunity.
 #' @param dur_V Mean duration of vaccine-derived immunity (days)
 #' @param vaccine_efficacy_infection Efficacy of vaccine against infection.
 #'   This parameter must either be length 1 numeric (a single efficacy for all

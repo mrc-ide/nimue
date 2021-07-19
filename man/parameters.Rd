@@ -159,7 +159,10 @@ death. Default = 1}
 
 \item{dur_rec}{Duration of recovery after coming off ventilation. Default = 2}
 
-\item{dur_R}{Mean duration of naturally acquired immunity (days)}
+\item{dur_R}{Mean duration of naturally acquired immunity (days). Can be
+time varying, with timing of changes given by tt_dur_R.}
+
+\item{tt_dur_R}{Timing of changes in duration of natural immunity.}
 
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
