@@ -2,7 +2,7 @@
 title: "Model equations"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Model_equations}
+  %\VignetteIndexEntry{Model equations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

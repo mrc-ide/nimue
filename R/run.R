@@ -22,6 +22,10 @@
 #'   0.010289885, 0.016234604, 0.023349169, 0.028944623, 0.038607042,
 #'   0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 #'   0.176634654 ,0.180000000)
+#' @param prob_hosp_multiplier Time varying multiplier to probability of
+#'   hospitalisation. Default = 1, which is no change to provided prob_hosp.
+#' @param tt_prob_hosp_multiplier Timing of changes to multiplier of probability
+#'   of hospitalisation. Default = 0
 #' @param prob_severe Probability of developing severe symptoms by age.
 #'   Default = c(0.05022296,	0.05022296,	0.05022296,	0.05022296,	0.05022296,
 #'   0.05022296,	0.05022296,	0.053214942, 0.05974426,	0.074602879,
@@ -77,7 +81,9 @@
 #' @param init Initial conditions for simulation provided. Allows overriding
 #'   if initial conditions start with an already infected population etc.
 #'   Default = NULL.
-#' @param dur_R Mean duration of naturally acquired immunity (days)
+#' @param dur_R Mean duration of naturally acquired immunity (days). Can be
+#'   time varying, with timing of changes given by tt_dur_R.
+#' @param tt_dur_R Timing of changes in duration of natural immunity.
 #' @param dur_V Mean duration of vaccine-derived immunity (days)
 #' @param vaccine_efficacy_infection Efficacy of vaccine against infection.
 #'   This parameter must either be length 1 numeric (a single efficacy for all
@@ -140,6 +146,8 @@ run <- function(
   # parameters
   # probabilities
   prob_hosp = probs$prob_hosp,
+  prob_hosp_multiplier = probs$prob_hosp_multiplier,
+  tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
@@ -171,6 +179,7 @@ run <- function(
 
   # vaccine
   dur_R = vaccine_pars$dur_R,
+  tt_dur_R = vaccine_pars$tt_dur_R,
   dur_V = vaccine_pars$dur_V,
   vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
   tt_vaccine_efficacy_infection = vaccine_pars$tt_vaccine_efficacy_infection,
@@ -210,6 +219,8 @@ run <- function(
                      seeding_cases = seeding_cases,
                      seeding_age_order = seeding_age_order,
                      prob_hosp = prob_hosp,
+                     tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
+                     prob_hosp_multiplier = prob_hosp_multiplier,
                      prob_severe = prob_severe,
                      prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                      prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
@@ -231,6 +242,7 @@ run <- function(
                      dur_not_get_mv_die = dur_not_get_mv_die,
                      dur_rec = dur_rec,
                      dur_R = dur_R,
+                     tt_dur_R = tt_dur_R,
                      hosp_bed_capacity = hosp_bed_capacity,
                      ICU_bed_capacity = ICU_bed_capacity,
                      tt_hosp_beds = tt_hosp_beds,

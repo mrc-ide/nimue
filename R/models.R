@@ -26,6 +26,7 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
 
                               # vaccine defaults that are just empty in parms so declare here
                               dur_R = vaccine_pars$dur_R,
+                              tt_dur_R = vaccine_pars$tt_dur_R,
                               dur_V = vaccine_pars$dur_V,
                               vaccine_efficacy_infection = vaccine_pars$vaccine_efficacy_infection,
                               tt_vaccine_efficacy_infection = vaccine_pars$tt_vaccine_efficacy_infection,
@@ -81,6 +82,7 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                dur_not_get_mv_die = dur_not_get_mv_die,
                dur_rec = dur_rec,
                dur_R = dur_R,
+               tt_dur_R = tt_dur_R,
                dur_V = dur_V,
                vaccine_efficacy_infection = vaccine_efficacy_infection,
                tt_vaccine_efficacy_infection = tt_vaccine_efficacy_infection,

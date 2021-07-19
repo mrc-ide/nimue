@@ -2,7 +2,7 @@
 title: "Coverage and Prioritisation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Coverage_and_Prioritisation}
+  %\VignetteIndexEntry{Coverage and Prioritisation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

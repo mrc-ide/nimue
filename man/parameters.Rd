@@ -17,6 +17,8 @@ parameters(
   seeding_age_order = NULL,
   init = NULL,
   prob_hosp = probs$prob_hosp,
+  prob_hosp_multiplier = probs$prob_hosp_multiplier,
+  tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
@@ -38,6 +40,7 @@ parameters(
   dur_not_get_mv_die,
   dur_rec,
   dur_R,
+  tt_dur_R,
   dur_V,
   vaccine_efficacy_infection,
   tt_vaccine_efficacy_infection,
@@ -92,6 +95,12 @@ Default = c(0.000744192, 0.000634166,0.001171109, 0.002394593, 0.005346437,
 0.010289885, 0.016234604, 0.023349169, 0.028944623, 0.038607042,
 0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 0.176634654 ,0.180000000)}
+
+\item{prob_hosp_multiplier}{Time varying multiplier to probability of
+hospitalisation. Default = 1, which is no change to provided prob_hosp.}
+
+\item{tt_prob_hosp_multiplier}{Timing of changes to multiplier of probability
+of hospitalisation. Default = 0}
 
 \item{prob_severe}{Probability of developing severe symptoms by age.
 Default = c(0.05022296,    0.05022296,    0.05022296,    0.05022296,    0.05022296,
@@ -156,7 +165,10 @@ death. Default = 1}
 
 \item{dur_rec}{Duration of recovery after coming off ventilation. Default = 2}
 
-\item{dur_R}{Mean duration of naturally acquired immunity (days)}
+\item{dur_R}{Mean duration of naturally acquired immunity (days). Can be
+time varying, with timing of changes given by tt_dur_R.}
+
+\item{tt_dur_R}{Timing of changes in duration of natural immunity.}
 
 \item{dur_V}{Mean duration of vaccine-derived immunity (days)}
 
