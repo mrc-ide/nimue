@@ -1,5 +1,10 @@
 
-library(tidyverse); library(nimue); library(squire); library(cowplot)
+library(cowplot)
+library(dplyr)
+library(ggplot2)
+library(nimue)
+library(shiny)
+library(squire)
 
 countries <- sort(unique(squire::population$country))
 iso3cs <- squire::population$iso3c[match(countries, squire::population$country)]
