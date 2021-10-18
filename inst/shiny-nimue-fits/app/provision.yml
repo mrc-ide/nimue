@@ -8,3 +8,7 @@ packages:
   - shiny
   - squire
 
+package_sources:
+  github:
+  - mrc-ide/nimue
+  - mrc-ide/squire
