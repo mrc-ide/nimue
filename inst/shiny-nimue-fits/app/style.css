@@ -1,0 +1,29 @@
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 22px;
+  margin-top: 0;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+.tabbable {
+    margin-top: 10px;
+}
+
+p {
+    font-size: 16px;
+}
+
+hr#a {
+    border-top: 2px solid black;
+}

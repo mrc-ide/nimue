@@ -1,0 +1,10 @@
+self: true
+packages:
+  - cowplot
+  - dplyr
+  - ggplot2
+  - markdown
+  - nimue
+  - shiny
+  - squire
+
