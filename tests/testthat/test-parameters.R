@@ -9,7 +9,8 @@ test_that("default parameter list works", {
                      "prob_non_severe_death_no_treatment", "prob_severe_death_treatment",
                      "prob_severe_death_no_treatment",  "p_dist",
                      "rel_infectiousness", "rel_infectiousness_vaccinated",
-                     'prob_hosp_multiplier', 'tt_prob_hosp_multiplier'))
+                     'prob_hosp_multiplier', 'tt_prob_hosp_multiplier',
+                     'prob_severe_multiplier', 'tt_prob_severe_multiplier'))
   v1 <- default_vaccine_pars()
   expect_type(v1, "list")
   expect_named(v1, c("dur_R", "tt_dur_R", "dur_V",

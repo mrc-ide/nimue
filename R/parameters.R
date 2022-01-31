@@ -6,7 +6,9 @@ default_probs <- function() {
     list(rel_infectiousness = rep(1, 17),
          rel_infectiousness_vaccinated = rep(1,17),
          prob_hosp_multiplier = 1,
-         tt_prob_hosp_multiplier = 0))
+         tt_prob_hosp_multiplier = 0,
+         prob_severe_multiplier = 1,
+         tt_prob_severe_multiplier = 0))
 }
 
 probs <- default_probs()
@@ -68,6 +70,8 @@ parameters <- function(
   prob_hosp_multiplier = probs$prob_hosp_multiplier,
   tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
+  prob_severe_multiplier = probs$prob_severe_multiplier,
+  tt_prob_severe_multiplier = probs$tt_prob_severe_multiplier,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
   prob_severe_death_treatment = probs$prob_severe_death_treatment,
@@ -182,6 +186,7 @@ parameters <- function(
   stopifnot(length(ICU_bed_capacity) == length(tt_ICU_beds))
   stopifnot(length(max_vaccine) == length(tt_vaccine))
   stopifnot(length(prob_hosp_multiplier) == length(tt_prob_hosp_multiplier))
+  stopifnot(length(prob_severe_multiplier) == length(tt_prob_severe_multiplier))
   stopifnot(length(dur_R) == length(tt_dur_R))
   stopifnot(ncol(vaccine_coverage_mat) == 17)
 
@@ -204,6 +209,7 @@ parameters <- function(
   assert_pos(max_vaccine)
   assert_pos(dur_vaccine_delay)
   assert_pos(prob_hosp_multiplier)
+  assert_pos(prob_severe_multiplier)
 
   assert_length(prob_hosp, length(population))
   assert_length(prob_severe, length(population))
@@ -320,6 +326,8 @@ parameters <- function(
                  prob_hosp_multiplier = prob_hosp_multiplier,
                  tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
                  prob_severe = prob_severe,
+                 prob_severe_multiplier = prob_severe_multiplier,
+                 tt_prob_severe_multiplier = tt_prob_severe_multiplier,
                  prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                  prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
                  prob_severe_death_treatment = prob_severe_death_treatment,

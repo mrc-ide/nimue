@@ -22,9 +22,13 @@
 #'   0.010289885, 0.016234604, 0.023349169, 0.028944623, 0.038607042,
 #'   0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 #'   0.176634654 ,0.180000000)
-#' @param prob_hosp_multiplier Time varying multiplier to probability of
+#' @param prob_hosp_multiplier Time varying multiplier to probability of developing 
+#' severe symptoms. Default = 1, which is no change to provided prob_hosp.
+#' @param tt_prob_hosp_multiplier Timing of changes to multiplier of probability of
+#' developing severe symptoms. Default = 0
+#' @param prob_severe_multiplier Time varying multiplier to probability of
 #'   hospitalisation. Default = 1, which is no change to provided prob_hosp.
-#' @param tt_prob_hosp_multiplier Timing of changes to multiplier of probability
+#' @param tt_prob_severe_multiplier Timing of changes to multiplier of probability
 #'   of hospitalisation. Default = 0
 #' @param prob_severe Probability of developing severe symptoms by age.
 #'   Default = c(0.05022296,	0.05022296,	0.05022296,	0.05022296,	0.05022296,
@@ -149,6 +153,8 @@ run <- function(
   prob_hosp_multiplier = probs$prob_hosp_multiplier,
   tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
+  prob_severe_multiplier = probs$prob_severe_multiplier,
+  tt_prob_severe_multiplier = probs$tt_prob_severe_multiplier,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
   prob_severe_death_treatment = probs$prob_severe_death_treatment,
@@ -222,6 +228,8 @@ run <- function(
                      tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
                      prob_hosp_multiplier = prob_hosp_multiplier,
                      prob_severe = prob_severe,
+                     prob_severe_multiplier = prob_severe_multiplier,
+                     tt_prob_severe_multiplier = tt_prob_severe_multiplier,
                      prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                      prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
                      prob_severe_death_treatment = prob_severe_death_treatment,

@@ -19,6 +19,8 @@ run(
   prob_hosp_multiplier = probs$prob_hosp_multiplier,
   tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
+  prob_severe_multiplier = probs$prob_severe_multiplier,
+  tt_prob_severe_multiplier = probs$tt_prob_severe_multiplier,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
   prob_severe_death_treatment = probs$prob_severe_death_treatment,
@@ -93,17 +95,23 @@ Default = c(0.000744192, 0.000634166,0.001171109, 0.002394593, 0.005346437,
 0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 0.176634654 ,0.180000000)}
 
-\item{prob_hosp_multiplier}{Time varying multiplier to probability of
-hospitalisation. Default = 1, which is no change to provided prob_hosp.}
+\item{prob_hosp_multiplier}{Time varying multiplier to probability of developing 
+severe symptoms. Default = 1, which is no change to provided prob_hosp.}
 
-\item{tt_prob_hosp_multiplier}{Timing of changes to multiplier of probability
-of hospitalisation. Default = 0}
+\item{tt_prob_hosp_multiplier}{Timing of changes to multiplier of probability of
+developing severe symptoms. Default = 0}
 
 \item{prob_severe}{Probability of developing severe symptoms by age.
 Default = c(0.05022296,    0.05022296,    0.05022296,    0.05022296,    0.05022296,
 0.05022296,    0.05022296,    0.053214942, 0.05974426,    0.074602879,
 0.103612417, 0.149427991, 0.223777304,    0.306985918,
 0.385779555, 0.461217861, 0.709444444)}
+
+\item{prob_severe_multiplier}{Time varying multiplier to probability of
+hospitalisation. Default = 1, which is no change to provided prob_hosp.}
+
+\item{tt_prob_severe_multiplier}{Timing of changes to multiplier of probability
+of hospitalisation. Default = 0}
 
 \item{prob_non_severe_death_treatment}{Probability of death from non severe
 treated infection.
