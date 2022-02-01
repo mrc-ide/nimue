@@ -18,6 +18,13 @@ test_that("default parameter list works", {
                      "vaccine_efficacy_disease", "tt_vaccine_efficacy_disease",
                      "max_vaccine", "tt_vaccine", "dur_vaccine_delay",
                      "vaccine_coverage_mat"))
+  dur1 <- default_durations()
+  expect_type(dur1, "list")
+  expect_named(dur1, c("tt_dur_get_ox_survive", "tt_dur_get_mv_survive", "tt_dur_get_ox_die",
+                       "tt_dur_get_mv_die", "dur_get_ox_survive", "dur_get_ox_die",
+                       "dur_not_get_ox_survive", "dur_not_get_ox_die", "dur_get_mv_survive",
+                       "dur_get_mv_die", "dur_not_get_mv_survive", "dur_not_get_mv_die",
+                       "dur_rec", "dur_R", "dur_E", "dur_IMild", "dur_ICase"))
 })
 
 

@@ -17,7 +17,13 @@ probs <- default_probs()
 #' For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
 #' @return list of default durations
 default_durations <- function() {
-  squire::default_durations()
+  squire_durs <- squire::default_durations()
+  #add the defaults for the time varying hospitalisaiton times
+  squire_durs$tt_dur_get_ox_survive <- 0
+  squire_durs$tt_dur_get_ox_die <- 0
+  squire_durs$tt_dur_get_mv_survive <- 0
+  squire_durs$tt_dur_get_mv_die <- 0
+  return(squire_durs)
 }
 
 durs <- default_durations()
@@ -87,12 +93,16 @@ parameters <- function(
   dur_ICase,
 
   dur_get_ox_survive,
+  tt_dur_get_ox_survive,
   dur_get_ox_die,
+  tt_dur_get_ox_die,
   dur_not_get_ox_survive,
   dur_not_get_ox_die,
 
   dur_get_mv_survive,
+  tt_dur_get_mv_survive,
   dur_get_mv_die,
+  tt_dur_get_mv_die,
   dur_not_get_mv_survive,
   dur_not_get_mv_die,
 
@@ -188,6 +198,10 @@ parameters <- function(
   stopifnot(length(prob_hosp_multiplier) == length(tt_prob_hosp_multiplier))
   stopifnot(length(prob_severe_multiplier) == length(tt_prob_severe_multiplier))
   stopifnot(length(dur_R) == length(tt_dur_R))
+  stopifnot(length(dur_get_ox_survive) == length(tt_dur_get_ox_survive))
+  stopifnot(length(dur_get_ox_die) == length(tt_dur_get_ox_die))
+  stopifnot(length(dur_get_mv_survive) == length(tt_dur_get_mv_survive))
+  stopifnot(length(dur_get_mv_die) == length(tt_dur_get_mv_die))
   stopifnot(ncol(vaccine_coverage_mat) == 17)
 
   assert_pos(dur_E)
@@ -312,11 +326,15 @@ parameters <- function(
                  gamma_IMild = gamma_IMild,
                  gamma_ICase = gamma_ICase,
                  gamma_get_ox_survive = gamma_get_ox_survive,
+                 tt_dur_get_ox_survive = tt_dur_get_ox_survive,
                  gamma_get_ox_die = gamma_get_ox_die,
+                 tt_dur_get_ox_die = tt_dur_get_ox_die,
                  gamma_not_get_ox_survive = gamma_not_get_ox_survive,
                  gamma_not_get_ox_die = gamma_not_get_ox_die,
                  gamma_get_mv_survive = gamma_get_mv_survive,
+                 tt_dur_get_mv_survive = tt_dur_get_mv_survive,
                  gamma_get_mv_die = gamma_get_mv_die,
+                 tt_dur_get_mv_die = tt_dur_get_mv_die,
                  gamma_not_get_mv_survive = gamma_not_get_mv_survive,
                  gamma_not_get_mv_die = gamma_not_get_mv_die,
                  gamma_rec = gamma_rec,

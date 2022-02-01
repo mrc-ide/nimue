@@ -136,15 +136,19 @@ IOxGetLive2_0[,] <- user()
 dim(IOxGetLive2_0) <- c(N_age, N_vaccine)
 initial(IOxGetLive2[,]) <- IOxGetLive2_0[i,j]
 
-gamma_get_ox_survive <- user() # rate of progression through requiring oxygen compartment conditional on getting oxygen and surviving
+gamma_get_ox_survive[] <- user() # rate of progression through requiring oxygen compartment conditional on getting oxygen and surviving
+dim(gamma_get_ox_survive) <- user()
+tt_dur_get_ox_survive[] <- user()
+dim(tt_dur_get_ox_survive) <- length(gamma_get_ox_survive)
+gamma_get_ox_survive_t <- interpolate(tt_dur_get_ox_survive, gamma_get_ox_survive, "constant")
 
-deriv(IOxGetLive1[,1]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * (1 - prob_non_severe_death_treatment[i])) - (gamma_get_ox_survive * IOxGetLive1[i,j])
-deriv(IOxGetLive1[,2]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * (1 - prob_non_severe_death_treatment[i])) - (gamma_get_ox_survive * IOxGetLive1[i,j]) - (gamma_vaccine[j] * IOxGetLive1[i,j])
-deriv(IOxGetLive1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IOxGetLive1[i,j-1]) + (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * (1 - prob_non_severe_death_treatment[i])) - (gamma_get_ox_survive * IOxGetLive1[i,j]) - (gamma_vaccine[j] * IOxGetLive1[i,j])
+deriv(IOxGetLive1[,1]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * (1 - prob_non_severe_death_treatment[i])) - (gamma_get_ox_survive_t * IOxGetLive1[i,j])
+deriv(IOxGetLive1[,2]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * (1 - prob_non_severe_death_treatment[i])) - (gamma_get_ox_survive_t * IOxGetLive1[i,j]) - (gamma_vaccine[j] * IOxGetLive1[i,j])
+deriv(IOxGetLive1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IOxGetLive1[i,j-1]) + (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * (1 - prob_non_severe_death_treatment[i])) - (gamma_get_ox_survive_t * IOxGetLive1[i,j]) - (gamma_vaccine[j] * IOxGetLive1[i,j])
 
-deriv(IOxGetLive2[,1]) <- (gamma_get_ox_survive * IOxGetLive1[i,j]) - (gamma_get_ox_survive * IOxGetLive2[i,j])
-deriv(IOxGetLive2[,2]) <- (gamma_get_ox_survive * IOxGetLive1[i,j]) - (gamma_get_ox_survive * IOxGetLive2[i,j]) - (gamma_vaccine[j] *  IOxGetLive2[i,j])
-deriv(IOxGetLive2[,3:N_vaccine]) <- (gamma_vaccine[j-1] *  IOxGetLive2[i,j-1]) + (gamma_get_ox_survive * IOxGetLive1[i,j]) -  (gamma_get_ox_survive * IOxGetLive2[i,j]) - (gamma_vaccine[j] *  IOxGetLive2[i,j])
+deriv(IOxGetLive2[,1]) <- (gamma_get_ox_survive_t * IOxGetLive1[i,j]) - (gamma_get_ox_survive_t * IOxGetLive2[i,j])
+deriv(IOxGetLive2[,2]) <- (gamma_get_ox_survive_t * IOxGetLive1[i,j]) - (gamma_get_ox_survive_t * IOxGetLive2[i,j]) - (gamma_vaccine[j] *  IOxGetLive2[i,j])
+deriv(IOxGetLive2[,3:N_vaccine]) <- (gamma_vaccine[j-1] *  IOxGetLive2[i,j-1]) + (gamma_get_ox_survive_t * IOxGetLive1[i,j]) -  (gamma_get_ox_survive_t * IOxGetLive2[i,j]) - (gamma_vaccine[j] *  IOxGetLive2[i,j])
 ################################################################################
 
 ### IOxGetDie (IOxGetDie1 & IOxGetDie2): Get oxygen go on to die ###############
@@ -159,15 +163,19 @@ IOxGetDie2_0[,] <- user()
 dim(IOxGetDie2_0) <- c(N_age, N_vaccine)
 initial(IOxGetDie2[,]) <- IOxGetDie2_0[i,j]
 
-gamma_get_ox_die <- user() # rate of progression through requiring oxygen compartment conditional on getting oxygen and dying
+gamma_get_ox_die[] <- user() # rate of progression through requiring oxygen compartment conditional on getting oxygen and dying
+dim(gamma_get_ox_die) <- user()
+tt_dur_get_ox_die[] <- user()
+dim(tt_dur_get_ox_die) <- length(gamma_get_ox_die)
+gamma_get_ox_die_t <- interpolate(tt_dur_get_ox_die, gamma_get_ox_die, "constant")
 
-deriv(IOxGetDie1[,1]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * prob_non_severe_death_treatment[i]) - gamma_get_ox_die * IOxGetDie1[i,j]
-deriv(IOxGetDie1[,2]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * prob_non_severe_death_treatment[i])- gamma_get_ox_die * IOxGetDie1[i,j] - (gamma_vaccine[j] * IOxGetDie1[i,j])
-deriv(IOxGetDie1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IOxGetDie1[i,j-1]) + (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * prob_non_severe_death_treatment[i]) - gamma_get_ox_die * IOxGetDie1[i,j] - (gamma_vaccine[j] * IOxGetDie1[i,j])
+deriv(IOxGetDie1[,1]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * prob_non_severe_death_treatment[i]) - gamma_get_ox_die_t * IOxGetDie1[i,j]
+deriv(IOxGetDie1[,2]) <- (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * prob_non_severe_death_treatment[i])- gamma_get_ox_die_t * IOxGetDie1[i,j] - (gamma_vaccine[j] * IOxGetDie1[i,j])
+deriv(IOxGetDie1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IOxGetDie1[i,j-1]) + (gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i]) * p_oxygen * prob_non_severe_death_treatment[i]) - gamma_get_ox_die_t * IOxGetDie1[i,j] - (gamma_vaccine[j] * IOxGetDie1[i,j])
 
-deriv(IOxGetDie2[,]) <- (gamma_get_ox_die * IOxGetDie1[i,j]) - (gamma_get_ox_die * IOxGetDie2[i,j])
-deriv(IOxGetDie2[,2]) <- (gamma_get_ox_die * IOxGetDie1[i,j]) - (gamma_get_ox_die * IOxGetDie2[i,j]) - (gamma_vaccine[j] * IOxGetDie2[i,j])
-deriv(IOxGetDie2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IOxGetDie2[i,j-1]) + (gamma_get_ox_die * IOxGetDie1[i,j]) - (gamma_get_ox_die * IOxGetDie2[i,j]) - (gamma_vaccine[j] * IOxGetDie2[i,j])
+deriv(IOxGetDie2[,]) <- (gamma_get_ox_die_t * IOxGetDie1[i,j]) - (gamma_get_ox_die_t * IOxGetDie2[i,j])
+deriv(IOxGetDie2[,2]) <- (gamma_get_ox_die_t * IOxGetDie1[i,j]) - (gamma_get_ox_die_t * IOxGetDie2[i,j]) - (gamma_vaccine[j] * IOxGetDie2[i,j])
+deriv(IOxGetDie2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IOxGetDie2[i,j-1]) + (gamma_get_ox_die_t * IOxGetDie1[i,j]) - (gamma_get_ox_die_t * IOxGetDie2[i,j]) - (gamma_vaccine[j] * IOxGetDie2[i,j])
 ################################################################################
 
 ### IOxNotGetLive (IOxNotGetLive1 & IOxNotGetLive2): Do not get oxygen, go on to survive #######
@@ -229,14 +237,18 @@ dim(IMVGetLive2_0) <- c(N_age, N_vaccine)
 initial(IMVGetLive2[,]) <- IMVGetLive2_0[i,j]
 
 gamma_get_mv_survive <- user() # rate of progression through requiring mechanical ventilation compartment conditional on getting ventilation and surviving
+dim(gamma_get_mv_survive) <- user()
+tt_dur_get_mv_survive[] <- user()
+dim(tt_dur_get_mv_survive) <- length(gamma_get_mv_survive)
+gamma_get_mv_survive_t <- interpolate(tt_dur_get_mv_survive, gamma_get_mv_survive, "constant")
 
-deriv(IMVGetLive1[,1]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * (1 - prob_severe_death_treatment[i])) - (gamma_get_mv_survive * IMVGetLive1[i,j])
-deriv(IMVGetLive1[,2]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * (1 - prob_severe_death_treatment[i])) - (gamma_get_mv_survive * IMVGetLive1[i,j]) - (gamma_vaccine[j] * IMVGetLive1[i,j])
-deriv(IMVGetLive1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetLive1[i,j-1]) + (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * (1 - prob_severe_death_treatment[i])) - (gamma_get_mv_survive * IMVGetLive1[i,j]) - (gamma_vaccine[j] * IMVGetLive1[i,j])
+deriv(IMVGetLive1[,1]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * (1 - prob_severe_death_treatment[i])) - (gamma_get_mv_survive_t * IMVGetLive1[i,j])
+deriv(IMVGetLive1[,2]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * (1 - prob_severe_death_treatment[i])) - (gamma_get_mv_survive_t * IMVGetLive1[i,j]) - (gamma_vaccine[j] * IMVGetLive1[i,j])
+deriv(IMVGetLive1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetLive1[i,j-1]) + (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * (1 - prob_severe_death_treatment[i])) - (gamma_get_mv_survive_t * IMVGetLive1[i,j]) - (gamma_vaccine[j] * IMVGetLive1[i,j])
 
-deriv(IMVGetLive2[,1]) <- (gamma_get_mv_survive * IMVGetLive1[i,j]) - (gamma_get_mv_survive * IMVGetLive2[i,j])
-deriv(IMVGetLive2[,2]) <- (gamma_get_mv_survive * IMVGetLive1[i,j]) - (gamma_get_mv_survive * IMVGetLive2[i,j]) - (gamma_vaccine[j] * IMVGetLive2[i,j])
-deriv(IMVGetLive2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetLive2[i,j-1]) + (gamma_get_mv_survive * IMVGetLive1[i,j]) - (gamma_get_mv_survive * IMVGetLive2[i,j]) - (gamma_vaccine[j] * IMVGetLive2[i,j])
+deriv(IMVGetLive2[,1]) <- (gamma_get_mv_survive_t * IMVGetLive1[i,j]) - (gamma_get_mv_survive_t * IMVGetLive2[i,j])
+deriv(IMVGetLive2[,2]) <- (gamma_get_mv_survive_t * IMVGetLive1[i,j]) - (gamma_get_mv_survive_t * IMVGetLive2[i,j]) - (gamma_vaccine[j] * IMVGetLive2[i,j])
+deriv(IMVGetLive2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetLive2[i,j-1]) + (gamma_get_mv_survive_t * IMVGetLive1[i,j]) - (gamma_get_mv_survive_t * IMVGetLive2[i,j]) - (gamma_vaccine[j] * IMVGetLive2[i,j])
 ################################################################################
 
 ### IMVGetDie (IMVGetDie1 & IMVGetDie2): Get mechanical ventilation, go on to die ########
@@ -252,14 +264,18 @@ dim(IMVGetDie2_0) <- c(N_age, N_vaccine)
 initial(IMVGetDie2[,]) <- IMVGetDie2_0[i,j]
 
 gamma_get_mv_die <- user() # rate of progression through requiring mechanical ventilation compartment conditional on getting ventilation and dying
+dim(gamma_get_mv_die) <- user()
+tt_dur_get_mv_die[] <- user()
+dim(tt_dur_get_mv_die) <- length(gamma_get_mv_die)
+gamma_get_mv_die_t <- interpolate(tt_dur_get_mv_die, gamma_get_mv_die, "constant")
 
-deriv(IMVGetDie1[,1]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * prob_severe_death_treatment[i]) - (gamma_get_mv_die * IMVGetDie1[i,j])
-deriv(IMVGetDie1[,2]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * prob_severe_death_treatment[i]) - (gamma_get_mv_die * IMVGetDie1[i,j]) - (gamma_vaccine[j] * IMVGetDie1[i,j])
-deriv(IMVGetDie1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetDie1[i,j-1]) + (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * prob_severe_death_treatment[i]) - (gamma_get_mv_die * IMVGetDie1[i,j]) - (gamma_vaccine[j] * IMVGetDie1[i,j])
+deriv(IMVGetDie1[,1]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * prob_severe_death_treatment[i]) - (gamma_get_mv_die_t * IMVGetDie1[i,j])
+deriv(IMVGetDie1[,2]) <- (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * prob_severe_death_treatment[i]) - (gamma_get_mv_die_t * IMVGetDie1[i,j]) - (gamma_vaccine[j] * IMVGetDie1[i,j])
+deriv(IMVGetDie1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetDie1[i,j-1]) + (gamma_ICase * ICase2[i,j] * prob_severe_multi[i] * p_ventilation * prob_severe_death_treatment[i]) - (gamma_get_mv_die_t * IMVGetDie1[i,j]) - (gamma_vaccine[j] * IMVGetDie1[i,j])
 
-deriv(IMVGetDie2[,1]) <- (gamma_get_mv_die * IMVGetDie1[i,j]) - (gamma_get_mv_die * IMVGetDie2[i,j])
-deriv(IMVGetDie2[,2]) <- (gamma_get_mv_die * IMVGetDie1[i,j]) - (gamma_get_mv_die * IMVGetDie2[i,j]) - (gamma_vaccine[j] * IMVGetDie2[i,j])
-deriv(IMVGetDie2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetDie2[i,j-1]) + (gamma_get_mv_die * IMVGetDie1[i,j]) - (gamma_get_mv_die * IMVGetDie2[i,j]) - (gamma_vaccine[j] * IMVGetDie2[i,j])
+deriv(IMVGetDie2[,1]) <- (gamma_get_mv_die_t * IMVGetDie1[i,j]) - (gamma_get_mv_die_t * IMVGetDie2[i,j])
+deriv(IMVGetDie2[,2]) <- (gamma_get_mv_die_t * IMVGetDie1[i,j]) - (gamma_get_mv_die_t * IMVGetDie2[i,j]) - (gamma_vaccine[j] * IMVGetDie2[i,j])
+deriv(IMVGetDie2[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IMVGetDie2[i,j-1]) + (gamma_get_mv_die_t * IMVGetDie1[i,j]) - (gamma_get_mv_die_t * IMVGetDie2[i,j]) - (gamma_vaccine[j] * IMVGetDie2[i,j])
 ################################################################################
 
 ### IMVNotGetLive (IMVNotGetLive1 & IMVNotGetLive2): Do no get mechanical ventilation, go on to live ########
@@ -323,9 +339,9 @@ initial(IRec2[,]) <- IRec2_0[i,j]
 
 gamma_rec <- user() # rate of progression through post-ICU recovery compartment
 
-deriv(IRec1[,1]) <- (gamma_get_mv_survive * IMVGetLive2[i,j]) - (gamma_rec * IRec1[i,j])
-deriv(IRec1[,2]) <- (gamma_get_mv_survive * IMVGetLive2[i,j]) - (gamma_rec * IRec1[i,j]) - (gamma_vaccine[j] * IRec1[i,j])
-deriv(IRec1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IRec1[i,j-1]) + (gamma_get_mv_survive * IMVGetLive2[i,j]) - (gamma_rec * IRec1[i,j]) - (gamma_vaccine[j] * IRec1[i,j])
+deriv(IRec1[,1]) <- (gamma_get_mv_survive_t * IMVGetLive2[i,j]) - (gamma_rec * IRec1[i,j])
+deriv(IRec1[,2]) <- (gamma_get_mv_survive_t * IMVGetLive2[i,j]) - (gamma_rec * IRec1[i,j]) - (gamma_vaccine[j] * IRec1[i,j])
+deriv(IRec1[,3:N_vaccine]) <- (gamma_vaccine[j-1] * IRec1[i,j-1]) + (gamma_get_mv_survive_t * IMVGetLive2[i,j]) - (gamma_rec * IRec1[i,j]) - (gamma_vaccine[j] * IRec1[i,j])
 
 deriv(IRec2[,1]) <- (gamma_rec * IRec1[i,j]) - (gamma_rec * IRec2[i,j])
 deriv(IRec2[,2]) <- (gamma_rec * IRec1[i,j]) - (gamma_rec * IRec2[i,j]) - (gamma_vaccine[j] * IRec2[i,j])
@@ -341,9 +357,9 @@ D_0[,] <- user()
 dim(D_0) <- c(N_age, N_vaccine)
 initial(D[,]) <- D_0[i,j]
 
-deriv(D[,1]) <- (gamma_get_ox_die * IOxGetDie2[i,j]) + (gamma_not_get_ox_die * IOxNotGetDie2[i,j]) + (gamma_get_mv_die * IMVGetDie2[i,j]) + (gamma_not_get_mv_die * IMVNotGetDie2[i,j])
-deriv(D[,2]) <- (gamma_get_ox_die * IOxGetDie2[i,j]) + (gamma_not_get_ox_die * IOxNotGetDie2[i,j]) + (gamma_get_mv_die * IMVGetDie2[i,j]) + (gamma_not_get_mv_die * IMVNotGetDie2[i,j]) - (gamma_vaccine[j] * D[i,j])
-deriv(D[,3:N_vaccine]) <- (gamma_vaccine[j-1] * D[i,j-1]) + (gamma_get_ox_die * IOxGetDie2[i,j]) + (gamma_not_get_ox_die * IOxNotGetDie2[i,j]) + (gamma_get_mv_die * IMVGetDie2[i,j]) + (gamma_not_get_mv_die * IMVNotGetDie2[i,j]) - (gamma_vaccine[j] * D[i,j])
+deriv(D[,1]) <- (gamma_get_ox_die_t * IOxGetDie2[i,j]) + (gamma_not_get_ox_die * IOxNotGetDie2[i,j]) + (gamma_get_mv_die_t * IMVGetDie2[i,j]) + (gamma_not_get_mv_die * IMVNotGetDie2[i,j])
+deriv(D[,2]) <- (gamma_get_ox_die_t * IOxGetDie2[i,j]) + (gamma_not_get_ox_die * IOxNotGetDie2[i,j]) + (gamma_get_mv_die_t * IMVGetDie2[i,j]) + (gamma_not_get_mv_die * IMVNotGetDie2[i,j]) - (gamma_vaccine[j] * D[i,j])
+deriv(D[,3:N_vaccine]) <- (gamma_vaccine[j-1] * D[i,j-1]) + (gamma_get_ox_die_t * IOxGetDie2[i,j]) + (gamma_not_get_ox_die * IOxNotGetDie2[i,j]) + (gamma_get_mv_die_t * IMVGetDie2[i,j]) + (gamma_not_get_mv_die * IMVNotGetDie2[i,j]) - (gamma_vaccine[j] * D[i,j])
 ################################################################################
 
 ################################################################################
@@ -481,7 +497,7 @@ rel_infectiousness_vaccinated[,] <- user() # Relative infectiousness of vaccinat
 dim(rel_infectiousness_vaccinated) <- c(N_age, N_vaccine)
 
 # Infections Requiring Oxygen (a general Hosptial Bed)
-hosp_occ <- sum(IOxGetLive1) + sum(IOxGetLive2) - gamma_get_ox_survive * sum(IOxGetLive2) + sum(IOxGetDie1) + sum(IOxGetDie2) - gamma_get_ox_die * sum(IOxGetDie2) + sum(IRec1) + sum(IRec2) - gamma_rec * sum(IRec2) # Summing number of infections in compartments that use general hospital beds
+hosp_occ <- sum(IOxGetLive1) + sum(IOxGetLive2) - gamma_get_ox_survive_t * sum(IOxGetLive2) + sum(IOxGetDie1) + sum(IOxGetDie2) - gamma_get_ox_die_t * sum(IOxGetDie2) + sum(IRec1) + sum(IRec2) - gamma_rec * sum(IRec2) # Summing number of infections in compartments that use general hospital beds
 number_requiring_Ox[,] <- gamma_ICase * ICase2[i,j] * (1 - prob_severe_multi[i])
 dim(number_requiring_Ox) <- c(N_age, N_vaccine)
 total_number_requiring_ox <- sum(number_requiring_Ox)
@@ -489,7 +505,7 @@ total_number_requiring_ox <- sum(number_requiring_Ox)
 p_oxygen <-  if ((total_number_requiring_ox <= (hosp_bed_capacity - hosp_occ)) || total_number_requiring_ox <= 0) 1 else (hosp_bed_capacity - hosp_occ) / total_number_requiring_ox
 
 # Infections Requiring Mechanical Ventilation (an ICU Bed)
-ICU_occ <- sum(IMVGetLive1) + sum(IMVGetLive2) - gamma_get_mv_survive * sum(IMVGetLive2) + sum(IMVGetDie1) + sum(IMVGetDie2) - gamma_get_mv_die * sum(IMVGetDie2) # Summing number of infections in compartments that use ICU beds
+ICU_occ <- sum(IMVGetLive1) + sum(IMVGetLive2) - gamma_get_mv_survive_t * sum(IMVGetLive2) + sum(IMVGetDie1) + sum(IMVGetDie2) - gamma_get_mv_die_t * sum(IMVGetDie2) # Summing number of infections in compartments that use ICU beds
 number_requiring_IMV[,] <- gamma_ICase * ICase2[i,j] * prob_severe_multi[i]
 dim(number_requiring_IMV) <- c(N_age, N_vaccine)
 total_number_requiring_IMV <- sum(number_requiring_IMV)
