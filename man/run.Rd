@@ -19,6 +19,8 @@ run(
   prob_hosp_multiplier = probs$prob_hosp_multiplier,
   tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
+  prob_severe_multiplier = probs$prob_severe_multiplier,
+  tt_prob_severe_multiplier = probs$tt_prob_severe_multiplier,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
   prob_severe_death_treatment = probs$prob_severe_death_treatment,
@@ -30,11 +32,15 @@ run(
   dur_IMild = durs$dur_IMild,
   dur_ICase = durs$dur_ICase,
   dur_get_ox_survive = durs$dur_get_ox_survive,
+  tt_dur_get_ox_survive = durs$tt_dur_get_ox_survive,
   dur_get_ox_die = durs$dur_get_ox_die,
+  tt_dur_get_ox_die = durs$tt_dur_get_ox_die,
   dur_not_get_ox_survive = durs$dur_not_get_ox_survive,
   dur_not_get_ox_die = durs$dur_not_get_ox_die,
   dur_get_mv_survive = durs$dur_get_mv_survive,
+  tt_dur_get_mv_survive = durs$tt_dur_get_mv_survive,
   dur_get_mv_die = durs$dur_get_mv_die,
+  tt_dur_get_mv_die = durs$tt_dur_get_mv_die,
   dur_not_get_mv_survive = durs$dur_not_get_mv_survive,
   dur_not_get_mv_die = durs$dur_not_get_mv_die,
   dur_rec = durs$dur_rec,
@@ -93,17 +99,23 @@ Default = c(0.000744192, 0.000634166,0.001171109, 0.002394593, 0.005346437,
 0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 0.176634654 ,0.180000000)}
 
-\item{prob_hosp_multiplier}{Time varying multiplier to probability of
-hospitalisation. Default = 1, which is no change to provided prob_hosp.}
+\item{prob_hosp_multiplier}{Time varying multiplier to probability of developing 
+severe symptoms. Default = 1, which is no change to provided prob_hosp.}
 
-\item{tt_prob_hosp_multiplier}{Timing of changes to multiplier of probability
-of hospitalisation. Default = 0}
+\item{tt_prob_hosp_multiplier}{Timing of changes to multiplier of probability of
+developing severe symptoms. Default = 0}
 
 \item{prob_severe}{Probability of developing severe symptoms by age.
 Default = c(0.05022296,    0.05022296,    0.05022296,    0.05022296,    0.05022296,
 0.05022296,    0.05022296,    0.053214942, 0.05974426,    0.074602879,
 0.103612417, 0.149427991, 0.223777304,    0.306985918,
 0.385779555, 0.461217861, 0.709444444)}
+
+\item{prob_severe_multiplier}{Time varying multiplier to probability of
+hospitalisation. Default = 1, which is no change to provided prob_hosp.}
+
+\item{tt_prob_severe_multiplier}{Timing of changes to multiplier of probability
+of hospitalisation. Default = 0}
 
 \item{prob_non_severe_death_treatment}{Probability of death from non severe
 treated infection.
@@ -139,9 +151,15 @@ transmissions}
 \item{dur_ICase}{Mean duration from symptom onset to hospitil admission (days).
 Default = 4.5}
 
-\item{dur_get_ox_survive}{Mean duration of oxygen given survive. Default = 5}
+\item{dur_get_ox_survive}{Mean duration of oxygen given survive. Default = 5. Can be
+time varying, with timing of changes given by tt_dur_get_ox_survive.}
 
-\item{dur_get_ox_die}{Mean duration of oxygen given death. Default = 5}
+\item{tt_dur_get_ox_survive}{Timing of changes in duration of  oxygen given survive.}
+
+\item{dur_get_ox_die}{Mean duration of oxygen given death. Default = 5. Can be
+time varying, with timing of changes given by tt_dur_get_ox_die.}
+
+\item{tt_dur_get_ox_die}{Timing of changes in duration of  oxygen given death.}
 
 \item{dur_not_get_ox_survive}{Mean duration without oxygen given survive.
 Default = 5}
@@ -150,9 +168,14 @@ Default = 5}
 Default = 5}
 
 \item{dur_get_mv_survive}{Mean duration of ventilation given survive.
-Default = 7.3}
+Default = 7.3. Can be time varying, with timing of changes given by tt_dur_get_mv_survive.}
 
-\item{dur_get_mv_die}{Mean duration of ventilation given death. Default = 6}
+\item{tt_dur_get_mv_survive}{Timing of changes in duration of ventilation given survive.}
+
+\item{dur_get_mv_die}{Mean duration of ventilation given death. Default = 6. Can be
+time varying, with timing of changes given by tt_dur_get_mv_die.}
+
+\item{tt_dur_get_mv_die}{Timing of changes in duration of ventilation given death.}
 
 \item{dur_not_get_mv_survive}{Mean duration without ventilation given
 survive. Default = 7.3}

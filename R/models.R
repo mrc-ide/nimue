@@ -44,12 +44,16 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
 
                               # hospital durations
                               dur_get_ox_survive = durs$dur_get_ox_survive,
+                              tt_dur_get_ox_survive = durs$tt_dur_get_ox_survive,
                               dur_get_ox_die = durs$dur_get_ox_die,
+                              tt_dur_get_ox_die = durs$tt_dur_get_ox_die,
                               dur_not_get_ox_survive = durs$dur_not_get_ox_survive,
                               dur_not_get_ox_die = durs$dur_not_get_ox_die,
 
                               dur_get_mv_survive = durs$dur_get_mv_survive,
+                              tt_dur_get_mv_survive = durs$tt_dur_get_mv_survive,
                               dur_get_mv_die = durs$dur_get_mv_die,
+                              tt_dur_get_mv_die = durs$tt_dur_get_mv_die,
                               dur_not_get_mv_survive = durs$dur_not_get_mv_survive,
                               dur_not_get_mv_die = durs$dur_not_get_mv_die,
 
@@ -73,11 +77,15 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
                dur_IMild = dur_IMild,
                dur_ICase = dur_ICase,
                dur_get_ox_survive = dur_get_ox_survive,
+               tt_dur_get_ox_survive = tt_dur_get_ox_survive,
                dur_get_ox_die = dur_get_ox_die,
+               tt_dur_get_ox_die = tt_dur_get_ox_die,
                dur_not_get_ox_survive = dur_not_get_ox_survive,
                dur_not_get_ox_die = dur_not_get_ox_die,
                dur_get_mv_survive = dur_get_mv_survive,
+               tt_dur_get_mv_survive = tt_dur_get_mv_survive,
                dur_get_mv_die = dur_get_mv_die,
+               tt_dur_get_mv_die = tt_dur_get_mv_die,
                dur_not_get_mv_survive = dur_not_get_mv_survive,
                dur_not_get_mv_die = dur_not_get_mv_die,
                dur_rec = dur_rec,

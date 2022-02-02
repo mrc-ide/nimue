@@ -15,7 +15,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     odin (>= 1.1.0),
     squire (>= 0.6.5),

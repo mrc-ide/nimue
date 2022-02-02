@@ -6,7 +6,9 @@ default_probs <- function() {
     list(rel_infectiousness = rep(1, 17),
          rel_infectiousness_vaccinated = rep(1,17),
          prob_hosp_multiplier = 1,
-         tt_prob_hosp_multiplier = 0))
+         tt_prob_hosp_multiplier = 0,
+         prob_severe_multiplier = 1,
+         tt_prob_severe_multiplier = 0))
 }
 
 probs <- default_probs()
@@ -15,7 +17,13 @@ probs <- default_probs()
 #' For more info see \href{squire parameters vignette}{https://mrc-ide.github.io/squire/articles/parameters.html}
 #' @return list of default durations
 default_durations <- function() {
-  squire::default_durations()
+  squire_durs <- squire::default_durations()
+  #add the defaults for the time varying hospitalisaiton times
+  squire_durs$tt_dur_get_ox_survive <- 0
+  squire_durs$tt_dur_get_ox_die <- 0
+  squire_durs$tt_dur_get_mv_survive <- 0
+  squire_durs$tt_dur_get_mv_die <- 0
+  return(squire_durs)
 }
 
 durs <- default_durations()
@@ -68,6 +76,8 @@ parameters <- function(
   prob_hosp_multiplier = probs$prob_hosp_multiplier,
   tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
+  prob_severe_multiplier = probs$prob_severe_multiplier,
+  tt_prob_severe_multiplier = probs$tt_prob_severe_multiplier,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
   prob_severe_death_treatment = probs$prob_severe_death_treatment,
@@ -83,12 +93,16 @@ parameters <- function(
   dur_ICase,
 
   dur_get_ox_survive,
+  tt_dur_get_ox_survive,
   dur_get_ox_die,
+  tt_dur_get_ox_die,
   dur_not_get_ox_survive,
   dur_not_get_ox_die,
 
   dur_get_mv_survive,
+  tt_dur_get_mv_survive,
   dur_get_mv_die,
+  tt_dur_get_mv_die,
   dur_not_get_mv_survive,
   dur_not_get_mv_die,
 
@@ -182,7 +196,12 @@ parameters <- function(
   stopifnot(length(ICU_bed_capacity) == length(tt_ICU_beds))
   stopifnot(length(max_vaccine) == length(tt_vaccine))
   stopifnot(length(prob_hosp_multiplier) == length(tt_prob_hosp_multiplier))
+  stopifnot(length(prob_severe_multiplier) == length(tt_prob_severe_multiplier))
   stopifnot(length(dur_R) == length(tt_dur_R))
+  stopifnot(length(dur_get_ox_survive) == length(tt_dur_get_ox_survive))
+  stopifnot(length(dur_get_ox_die) == length(tt_dur_get_ox_die))
+  stopifnot(length(dur_get_mv_survive) == length(tt_dur_get_mv_survive))
+  stopifnot(length(dur_get_mv_die) == length(tt_dur_get_mv_die))
   stopifnot(ncol(vaccine_coverage_mat) == 17)
 
   assert_pos(dur_E)
@@ -204,6 +223,7 @@ parameters <- function(
   assert_pos(max_vaccine)
   assert_pos(dur_vaccine_delay)
   assert_pos(prob_hosp_multiplier)
+  assert_pos(prob_severe_multiplier)
 
   assert_length(prob_hosp, length(population))
   assert_length(prob_severe, length(population))
@@ -306,11 +326,15 @@ parameters <- function(
                  gamma_IMild = gamma_IMild,
                  gamma_ICase = gamma_ICase,
                  gamma_get_ox_survive = gamma_get_ox_survive,
+                 tt_dur_get_ox_survive = tt_dur_get_ox_survive,
                  gamma_get_ox_die = gamma_get_ox_die,
+                 tt_dur_get_ox_die = tt_dur_get_ox_die,
                  gamma_not_get_ox_survive = gamma_not_get_ox_survive,
                  gamma_not_get_ox_die = gamma_not_get_ox_die,
                  gamma_get_mv_survive = gamma_get_mv_survive,
+                 tt_dur_get_mv_survive = tt_dur_get_mv_survive,
                  gamma_get_mv_die = gamma_get_mv_die,
+                 tt_dur_get_mv_die = tt_dur_get_mv_die,
                  gamma_not_get_mv_survive = gamma_not_get_mv_survive,
                  gamma_not_get_mv_die = gamma_not_get_mv_die,
                  gamma_rec = gamma_rec,
@@ -320,6 +344,8 @@ parameters <- function(
                  prob_hosp_multiplier = prob_hosp_multiplier,
                  tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
                  prob_severe = prob_severe,
+                 prob_severe_multiplier = prob_severe_multiplier,
+                 tt_prob_severe_multiplier = tt_prob_severe_multiplier,
                  prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                  prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
                  prob_severe_death_treatment = prob_severe_death_treatment,

@@ -22,9 +22,13 @@
 #'   0.010289885, 0.016234604, 0.023349169, 0.028944623, 0.038607042,
 #'   0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 #'   0.176634654 ,0.180000000)
-#' @param prob_hosp_multiplier Time varying multiplier to probability of
+#' @param prob_hosp_multiplier Time varying multiplier to probability of developing 
+#' severe symptoms. Default = 1, which is no change to provided prob_hosp.
+#' @param tt_prob_hosp_multiplier Timing of changes to multiplier of probability of
+#' developing severe symptoms. Default = 0
+#' @param prob_severe_multiplier Time varying multiplier to probability of
 #'   hospitalisation. Default = 1, which is no change to provided prob_hosp.
-#' @param tt_prob_hosp_multiplier Timing of changes to multiplier of probability
+#' @param tt_prob_severe_multiplier Timing of changes to multiplier of probability
 #'   of hospitalisation. Default = 0
 #' @param prob_severe Probability of developing severe symptoms by age.
 #'   Default = c(0.05022296,	0.05022296,	0.05022296,	0.05022296,	0.05022296,
@@ -55,15 +59,22 @@
 #' @param dur_IMild Mean duration of mild infection (days). Default = 2.1
 #' @param dur_ICase Mean duration from symptom onset to hospitil admission (days).
 #'   Default = 4.5
-#' @param dur_get_ox_survive Mean duration of oxygen given survive. Default = 5
-#' @param dur_get_ox_die Mean duration of oxygen given death. Default = 5
+#' @param dur_get_ox_survive Mean duration of oxygen given survive. Default = 5. Can be
+#'   time varying, with timing of changes given by tt_dur_get_ox_survive.
+#' @param tt_dur_get_ox_survive Timing of changes in duration of  oxygen given survive.
+#' @param dur_get_ox_die Mean duration of oxygen given death. Default = 5. Can be
+#'   time varying, with timing of changes given by tt_dur_get_ox_die.
+#' @param tt_dur_get_ox_die Timing of changes in duration of  oxygen given death.
 #' @param dur_not_get_ox_survive Mean duration without oxygen given survive.
 #'   Default = 5
 #' @param dur_not_get_ox_die Mean duration without  oxygen given death.
 #'  Default = 5
 #' @param dur_get_mv_survive Mean duration of ventilation given survive.
-#'   Default = 7.3
-#' @param dur_get_mv_die Mean duration of ventilation given death. Default = 6
+#'   Default = 7.3. Can be time varying, with timing of changes given by tt_dur_get_mv_survive.
+#' @param tt_dur_get_mv_survive Timing of changes in duration of ventilation given survive.
+#' @param dur_get_mv_die Mean duration of ventilation given death. Default = 6. Can be
+#'   time varying, with timing of changes given by tt_dur_get_mv_die.
+#' @param tt_dur_get_mv_die Timing of changes in duration of ventilation given death.
 #' @param dur_not_get_mv_survive Mean duration without ventilation given
 #'   survive. Default = 7.3
 #' @param dur_not_get_mv_die Mean duration without ventilation given
@@ -149,6 +160,8 @@ run <- function(
   prob_hosp_multiplier = probs$prob_hosp_multiplier,
   tt_prob_hosp_multiplier = probs$tt_prob_hosp_multiplier,
   prob_severe = probs$prob_severe,
+  prob_severe_multiplier = probs$prob_severe_multiplier,
+  tt_prob_severe_multiplier = probs$tt_prob_severe_multiplier,
   prob_non_severe_death_treatment = probs$prob_non_severe_death_treatment,
   prob_non_severe_death_no_treatment = probs$prob_non_severe_death_no_treatment,
   prob_severe_death_treatment = probs$prob_severe_death_treatment,
@@ -166,12 +179,16 @@ run <- function(
 
   # hospital durations
   dur_get_ox_survive = durs$dur_get_ox_survive,
+  tt_dur_get_ox_survive = durs$tt_dur_get_ox_survive,
   dur_get_ox_die = durs$dur_get_ox_die,
+  tt_dur_get_ox_die = durs$tt_dur_get_ox_die,
   dur_not_get_ox_survive = durs$dur_not_get_ox_survive,
   dur_not_get_ox_die = durs$dur_not_get_ox_die,
 
   dur_get_mv_survive = durs$dur_get_mv_survive,
+  tt_dur_get_mv_survive = durs$tt_dur_get_mv_survive,
   dur_get_mv_die = durs$dur_get_mv_die,
+  tt_dur_get_mv_die = durs$tt_dur_get_mv_die,
   dur_not_get_mv_survive = durs$dur_not_get_mv_survive,
   dur_not_get_mv_die = durs$dur_not_get_mv_die,
 
@@ -222,6 +239,8 @@ run <- function(
                      tt_prob_hosp_multiplier = tt_prob_hosp_multiplier,
                      prob_hosp_multiplier = prob_hosp_multiplier,
                      prob_severe = prob_severe,
+                     prob_severe_multiplier = prob_severe_multiplier,
+                     tt_prob_severe_multiplier = tt_prob_severe_multiplier,
                      prob_non_severe_death_treatment = prob_non_severe_death_treatment,
                      prob_non_severe_death_no_treatment = prob_non_severe_death_no_treatment,
                      prob_severe_death_treatment = prob_severe_death_treatment,
@@ -233,11 +252,15 @@ run <- function(
                      dur_IMild = dur_IMild,
                      dur_ICase = dur_ICase,
                      dur_get_ox_survive = dur_get_ox_survive,
+                     tt_dur_get_ox_survive = tt_dur_get_ox_survive,
                      dur_get_ox_die = dur_get_ox_die,
+                     tt_dur_get_ox_die = tt_dur_get_ox_die,
                      dur_not_get_ox_survive = dur_not_get_ox_survive,
                      dur_not_get_ox_die = dur_not_get_ox_die,
                      dur_get_mv_survive = dur_get_mv_survive,
+                     tt_dur_get_mv_survive = tt_dur_get_mv_survive,
                      dur_get_mv_die = dur_get_mv_die,
+                     tt_dur_get_mv_die = tt_dur_get_mv_die,
                      dur_not_get_mv_survive = dur_not_get_mv_survive,
                      dur_not_get_mv_die = dur_not_get_mv_die,
                      dur_rec = dur_rec,

@@ -9,7 +9,8 @@ test_that("default parameter list works", {
                      "prob_non_severe_death_no_treatment", "prob_severe_death_treatment",
                      "prob_severe_death_no_treatment",  "p_dist",
                      "rel_infectiousness", "rel_infectiousness_vaccinated",
-                     'prob_hosp_multiplier', 'tt_prob_hosp_multiplier'))
+                     'prob_hosp_multiplier', 'tt_prob_hosp_multiplier',
+                     'prob_severe_multiplier', 'tt_prob_severe_multiplier'))
   v1 <- default_vaccine_pars()
   expect_type(v1, "list")
   expect_named(v1, c("dur_R", "tt_dur_R", "dur_V",
@@ -17,6 +18,13 @@ test_that("default parameter list works", {
                      "vaccine_efficacy_disease", "tt_vaccine_efficacy_disease",
                      "max_vaccine", "tt_vaccine", "dur_vaccine_delay",
                      "vaccine_coverage_mat"))
+  dur1 <- default_durations()
+  expect_type(dur1, "list")
+  expect_named(dur1, c("tt_dur_get_ox_survive", "tt_dur_get_mv_survive", "tt_dur_get_ox_die",
+                       "tt_dur_get_mv_die", "dur_get_ox_survive", "dur_get_ox_die",
+                       "dur_not_get_ox_survive", "dur_not_get_ox_die", "dur_get_mv_survive",
+                       "dur_get_mv_die", "dur_not_get_mv_survive", "dur_not_get_mv_die",
+                       "dur_rec", "dur_R", "dur_E", "dur_IMild", "dur_ICase"))
 })
 
 
