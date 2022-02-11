@@ -102,7 +102,7 @@ Default = c(0.000744192, 0.000634166,0.001171109, 0.002394593, 0.005346437,
 0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 0.176634654 ,0.180000000)}
 
-\item{prob_hosp_multiplier}{Time varying multiplier to probability of developing 
+\item{prob_hosp_multiplier}{Time varying multiplier to probability of developing
 severe symptoms. Default = 1, which is no change to provided prob_hosp.}
 
 \item{tt_prob_hosp_multiplier}{Timing of changes to multiplier of probability of
