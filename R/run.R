@@ -22,7 +22,7 @@
 #'   0.010289885, 0.016234604, 0.023349169, 0.028944623, 0.038607042,
 #'   0.057734879, 0.072422135, 0.101602458, 0.116979814, 0.146099064,
 #'   0.176634654 ,0.180000000)
-#' @param prob_hosp_multiplier Time varying multiplier to probability of developing 
+#' @param prob_hosp_multiplier Time varying multiplier to probability of developing
 #' severe symptoms. Default = 1, which is no change to provided prob_hosp.
 #' @param tt_prob_hosp_multiplier Timing of changes to multiplier of probability of
 #' developing severe symptoms. Default = 0
@@ -286,7 +286,7 @@ run <- function(
   mod_gen = vaccine
 
   # Running the Model
-  mod <- mod_gen(user = pars, unused_user_action = "ignore",
+  mod <- mod_gen$new(user = pars, unused_user_action = "ignore",
                  use_dde = use_dde)
 
   # Daily output by default

@@ -141,7 +141,7 @@ nimue_deterministic_model <- function(use_dde = TRUE) {
   }
 
   odin_model <- function(user, unused_user_action) {
-    vaccine(user = user, use_dde = use_dde, unused_user_action = "ignore")
+    vaccine$new(user = user, use_dde = use_dde, unused_user_action = "ignore")
   }
 
   model <- list(odin_model = odin_model,
