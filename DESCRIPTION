@@ -1,7 +1,7 @@
 Package: nimue
 Type: Package
 Title: COVID-19 Vaccine Modelling
-Version: 0.1.22
+Version: 0.1.23
 Authors@R: c(
   person("Peter", "Winskill", email = "p.winskill@imperial.ac.uk", role = c("aut", "cre")),
   person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut")),
@@ -15,7 +15,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
 Imports: 
     odin (>= 1.1.0),
     squire (>= 0.6.5),
