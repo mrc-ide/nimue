@@ -1,10 +1,9 @@
-pandoc: 2.7.3
-pkgdown: 1.6.1.9001
-pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
+pandoc: 3.1.11
+pkgdown: 2.2.0
+pkgdown_sha: ~
 articles:
   Coverage_and_Prioritisation: Coverage_and_Prioritisation.html
   Efficacy: Efficacy.html
   Model_equations: Model_equations.html
   Supply: Supply.html
-last_built: 2021-07-19T13:56Z
-
+last_built: 2025-12-16T07:45Z
