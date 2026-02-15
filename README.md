@@ -54,15 +54,15 @@ webpage](https://mrc-ide.github.io/squire/).
 
 Nimue adds an additional dimension to the squire model, allowing us to
 track the vaccination status across the modelled population. This allows
-us to caetgorise people into 4 groups:
+us to categorise people into 4 groups:
 
-1.  Unvaccinated - those who have not yet received a vaccinate course.
+1.  Unvaccinated - those who have not yet received a vaccine course.
 2.  Vaccinated but not protected - those who have received a vaccine
-    course, but are not yet protected buy the vaccine.
+    course, but are not yet protected by the vaccine.
 3.  Vaccinated and protected - those who have received a vaccine course
     and are protected.
 4.  Previously vaccinated - those who were previously protected by the
-    vaccinate but are no longer so.
+    vaccine but are no longer so.
 
 #### Schematic of the vaccination model structure
 
